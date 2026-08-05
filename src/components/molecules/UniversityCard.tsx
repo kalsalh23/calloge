@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { FaHeart, FaMapMarkerAlt, FaRegHeart, FaBuilding, FaArrowLeft } from 'react-icons/fa'
+import { FaHeart, FaMapMarkerAlt, FaRegHeart, FaArrowLeft } from 'react-icons/fa'
 import { Card } from '@/components/atoms/Card'
 import { Badge } from '@/components/atoms/Badge'
 import { SmartImage } from '@/components/atoms/SmartImage'
@@ -34,7 +34,13 @@ export function UniversityCard({
             className="h-full w-full"
             fallback="linear-gradient(135deg, rgb(var(--color-primary)) 0%, rgb(var(--color-primary-dark)) 50%, rgb(var(--color-primary-deep)) 100%)"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-primary-deep/70 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-primary-deep/80 via-primary-deep/20 to-transparent" />
+          <div className="absolute bottom-3 right-4 left-4 flex items-end justify-between">
+            <div>
+              <h3 className="text-lg font-extrabold text-white drop-shadow">{university.name_ar}</h3>
+              <p className="text-xs font-medium text-white/80">{university.name_en ?? 'University'}</p>
+            </div>
+          </div>
           {onToggleFavorite && (
             <button
               onClick={(e) => {
@@ -50,25 +56,6 @@ export function UniversityCard({
         </div>
 
         <div className="p-5">
-          <div className="mb-3 flex items-center gap-3">
-            {university.logo_url ? (
-              <SmartImage
-                src={university.logo_url}
-                alt={`شعار ${university.name_ar}`}
-                className="h-12 w-12 shrink-0 rounded-xl"
-                fallback="rgb(var(--color-bg-alt))"
-              />
-            ) : (
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                <FaBuilding className="h-5 w-5" />
-              </span>
-            )}
-            <div className="min-w-0">
-              <h3 className="truncate text-lg font-extrabold text-ink-dark">{university.name_ar}</h3>
-              <p className="text-xs text-text-muted">{university.name_en ?? 'University'}</p>
-            </div>
-          </div>
-
           <div className="mb-3 flex flex-wrap items-center gap-2">
             <Badge tone={university.type === 'government' ? 'primary' : 'gold'}>
               {university.type === 'government' ? 'حكومية' : 'خاصة'}
