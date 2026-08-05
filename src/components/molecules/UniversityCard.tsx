@@ -1,0 +1,103 @@
+import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
+import { FaHeart, FaMapMarkerAlt, FaRegHeart, FaBuilding } from 'react-icons/fa'
+import { Card } from '@/components/atoms/Card'
+import { Badge } from '@/components/atoms/Badge'
+import { SmartImage } from '@/components/atoms/SmartImage'
+import type { University } from '@/types'
+
+interface UniversityCardProps {
+  university: University
+  isFavorite?: boolean
+  onToggleFavorite?: () => void
+  index?: number
+}
+
+export function UniversityCard({
+  university,
+  isFavorite,
+  onToggleFavorite,
+  index = 0,
+}: UniversityCardProps) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.3) }}
+    >
+      <Card hover className="group relative overflow-hidden">
+        <div className="relative h-36">
+          <SmartImage
+            src={university.cover_url}
+            alt={university.name_ar}
+            className="h-full w-full"
+            fallback="linear-gradient(135deg, rgb(var(--color-accent-deep)) 0%, rgb(var(--color-primary-deep)) 100%)"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-primary-deep/80 via-transparent to-transparent" />
+          {onToggleFavorite && (
+            <button
+              onClick={(e) => {
+                e.preventDefault()
+                onToggleFavorite()
+              }}
+              aria-label={isFavorite ? 'إزالة من المفضلة' : 'إضافة إلى المفضلة'}
+              className="absolute left-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur transition-colors hover:bg-accent-burgundy"
+            >
+              {isFavorite ? <FaHeart className="text-accent-gold" /> : <FaRegHeart />}
+            </button>
+          )}
+        </div>
+
+        <div className="p-5">
+          <div className="mb-3 flex items-center gap-3">
+            {university.logo_url ? (
+              <SmartImage
+                src={university.logo_url}
+                alt={`شعار ${university.name_ar}`}
+                className="h-12 w-12 shrink-0 rounded-xl"
+                fallback="rgb(var(--color-bg-alt))"
+              />
+            ) : (
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <FaBuilding className="h-5 w-5" />
+              </span>
+            )}
+            <div className="min-w-0">
+              <h3 className="truncate text-base font-extrabold text-ink-dark">{university.name_ar}</h3>
+              <p className="text-xs text-text-muted">{university.name_en ?? 'University'}</p>
+            </div>
+          </div>
+
+          <div className="mb-3 flex flex-wrap items-center gap-2">
+            <Badge tone={university.type === 'government' ? 'primary' : 'gold'}>
+              {university.type === 'government' ? 'حكومية' : 'خاصة'}
+            </Badge>
+            {university.founding_year && <Badge tone="neutral">تأسست {university.founding_year}</Badge>}
+            {university.housing_available && <Badge tone="success">سكن جامعي</Badge>}
+          </div>
+
+          {university.address && (
+            <p className="mb-4 flex items-center gap-1.5 text-xs text-text-muted">
+              <FaMapMarkerAlt className="text-accent-gold" />
+              {university.address}
+            </p>
+          )}
+
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-medium text-text-muted">
+              {university.rating > 0 ? `${university.rating} تقييم` : 'جديد'}
+            </span>
+            <Link
+              to={`/university/${university.slug}`}
+              className="inline-flex items-center gap-1.5 text-sm font-bold text-primary transition-colors hover:text-accent-dark-brown"
+            >
+              استكشف الجامعة
+              <span className="transition-transform group-hover:-translate-x-1">←</span>
+            </Link>
+          </div>
+        </div>
+      </Card>
+    </motion.div>
+  )
+}
