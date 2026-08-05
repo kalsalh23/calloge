@@ -4,11 +4,11 @@ import { cn } from '@/lib/utils'
 export type BadgeTone = 'success' | 'danger' | 'warning' | 'info' | 'gold' | 'neutral' | 'primary'
 
 const tones: Record<BadgeTone, string> = {
-  success: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-  danger: 'bg-red-50 text-red-700 border-red-200',
-  warning: 'bg-amber-50 text-amber-700 border-amber-200',
-  info: 'bg-sky-50 text-sky-700 border-sky-200',
-  gold: 'bg-accent-gold/15 text-accent-dark-brown border-accent-gold/40',
+  success: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
+  danger: 'bg-red-500/15 text-red-300 border-red-500/30',
+  warning: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
+  info: 'bg-sky-500/15 text-sky-300 border-sky-500/30',
+  gold: 'bg-accent-gold/15 text-accent-gold border-accent-gold/40',
   neutral: 'bg-surface-alt text-text-muted border-surface-border',
   primary: 'bg-primary/10 text-primary border-primary/20',
 }

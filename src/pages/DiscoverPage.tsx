@@ -47,7 +47,7 @@ export default function DiscoverPage() {
   } = useForm<DiscoverForm>({
     defaultValues: {
       certificateId: 1,
-      score: 190,
+      score: 1900,
       year: defaultYear,
       governorateId: null,
       universityType: 'all',
@@ -124,7 +124,7 @@ export default function DiscoverPage() {
     <>
       <Seo
         title="اكتشف تخصصك"
-        description="أدخل نوع شهادتك ومعدلك لاكتشاف التخصصات والجامعات التي يحق لك التقديم إليها وفق بيانات المفاضلات الرسمية."
+        description="أدخل نوع شهادتك ومجموع علاماتك لاكتشاف التخصصات والجامعات التي يحق لك التقديم إليها وفق بيانات المفاضلات الرسمية."
       />
 
       {/* Header */}
@@ -193,16 +193,16 @@ export default function DiscoverPage() {
               </div>
 
               <Input
-                label="معدلك"
+                label="مجموع علاماتك"
                 type="number"
                 step="0.01"
                 inputMode="decimal"
-                placeholder="مثال: 225.5"
+                placeholder="مثال: 1800"
                 error={errors.score?.message}
                 {...register('score', {
-                  required: 'أدخل معدلك',
-                  min: { value: 0, message: 'المعدل يجب أن يكون 0 فأكثر' },
-                  max: { value: 2500, message: 'المعدل غير منطقي' },
+                  required: 'أدخل مجموع علاماتك',
+                  min: { value: 0, message: 'المجموع يجب أن يكون 0 فأكثر' },
+                  max: { value: 2200, message: 'المجموع يتجاوز الحد الأقصى (2200)' },
                 })}
               />
 
@@ -288,7 +288,7 @@ export default function DiscoverPage() {
                   </div>
                   <div className="flex items-center gap-2 text-xs font-semibold text-text-muted">
                     <FaChartLine className="text-accent-gold" />
-                    معدلك: <span className="font-black text-ink-dark">{Number(score).toFixed(2)}</span>
+                    مجموعك: <span className="font-black text-ink-dark">{Number(score).toFixed(2)}</span>
                   </div>
                 </div>
 
@@ -314,7 +314,7 @@ export default function DiscoverPage() {
 
                 {results.eligible.length > 0 && (
                   <>
-                    <h3 className="mb-4 flex items-center gap-2 text-lg font-extrabold text-emerald-700">
+                    <h3 className="mb-4 flex items-center gap-2 text-lg font-extrabold text-emerald-400">
                       <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
                       التخصصات المتاحة لك ({results.eligible.length})
                     </h3>
@@ -324,7 +324,7 @@ export default function DiscoverPage() {
 
                 {results.near.length > 0 && (
                   <>
-                    <h3 className="mb-4 mt-12 flex items-center gap-2 text-lg font-extrabold text-amber-700">
+                    <h3 className="mb-4 mt-12 flex items-center gap-2 text-lg font-extrabold text-amber-400">
                       <span className="h-2.5 w-2.5 rounded-full bg-amber-500" />
                       قريبة من الحد الأدنى ({results.near.length})
                     </h3>

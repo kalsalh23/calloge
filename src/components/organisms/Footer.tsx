@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Logo } from '@/components/atoms/Logo'
-import { FaFacebookF, FaInstagram, FaYoutube, FaTelegramPlane, FaEnvelope, FaPhoneAlt } from 'react-icons/fa'
+import { FaFacebookF, FaInstagram, FaYoutube, FaTelegramPlane, FaPhoneAlt, FaCode } from 'react-icons/fa'
 import { useSettings } from '@/lib/api'
 
 export function Footer() {
@@ -98,8 +98,8 @@ export function Footer() {
             © {new Date().getFullYear()} حلمك الجامعي — جميع الحقوق محفوظة
           </p>
           <p className="flex items-center gap-4 text-xs text-white/50">
-            <span className="flex items-center gap-1.5"><FaEnvelope /> info@hilmek.com</span>
-            <span className="flex items-center gap-1.5"><FaPhoneAlt /> +963 11 000 0000</span>
+            <span className="flex items-center gap-1.5"><FaCode /> تطوير: قصي مهند الصالح</span>
+            <span className="flex items-center gap-1.5"><FaPhoneAlt /> 0952639157</span>
           </p>
         </div>
       </div>

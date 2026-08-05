@@ -28,6 +28,9 @@ const UNIVERSITIES = [
   ['الجامعة الدولية للعلوم والتكنولوجيا', 'International University for Science and Technology', 'iust', 'private', GOV.damascus, 2005, 'https://www.iust.edu.sy'],
   ['جامعة الحواش الخاصة', 'Al-Hawash Private University', 'hawash-private', 'private', GOV.homs, 2011, 'https://www.uhp-sy.com'],
   ['جامعة الاتحاد الخاصة', 'Al-Ittihad Private University', 'ittihad-private', 'private', GOV.aleppo, 2006, 'https://www.itu-sy.org'],
+  ['الجامعة الافتراضية السورية', 'Syrian Virtual University', 'svu', 'government', GOV.damascus, 2002, 'https://www.svuonline.org'],
+  ['جامعة حلب الحرة', 'Free University of Aleppo', 'free-aleppo', 'government', GOV.aleppo, 2015, 'https://uoaleppo.net'],
+  ['فروع جامعة غازي عنتاب في الشمال السوري', 'Gaziantep University - North Syria Branches', 'gaziantep-north', 'government', GOV.aleppo, 2019, 'https://www.gantep.edu.tr'],
 ];
 
 // major name -> (english, slug part, degree, duration, difficulty)
@@ -42,6 +45,8 @@ const MAJOR_META = {
   'الهندسة الميكانيكية': ['Mechanical Engineering', 'mechanical', 'بكالوريوس هندسة', 5, 4],
   'الهندسة النفطية': ['Petroleum Engineering', 'petroleum', 'بكالوريوس هندسة', 5, 4],
   'هندسة تقانة المعلومات': ['Information Technology', 'information-technology', 'بكالوريوس هندسة', 4, 3],
+  'تقانة المعلومات': ['Information Technology', 'information-technology', 'بكالوريوس تقانة المعلومات', 4, 3],
+  'تقانة الاتصالات': ['Communication Technology', 'communication-technology', 'بكالوريوس تقانة الاتصالات', 4, 3],
   'هندسة الميكاترونكس': ['Mechatronics Engineering', 'mechatronics', 'بكالوريوس هندسة', 5, 4],
   'الرياضيات': ['Mathematics', 'mathematics', 'بكالوريوس علوم', 4, 3],
   'الفيزياء': ['Physics', 'physics', 'بكالوريوس علوم', 4, 3],
@@ -284,6 +289,49 @@ const COLLEGE_MAJORS = {
     ['الهندسة', 'Engineering', [['هندسة تقانة المعلومات', 'scientific', 1430, null]]],
     ['إدارة الأعمال', 'Business Administration', [['إدارة الأعمال', 'scientific', 1210, null]]],
   ],
+  svu: [
+    ['كلية المعلوماتية والاتصالات', 'Faculty of Informatics and Communications', [
+      ['الهندسة المعلوماتية', 'scientific', 2050, null],
+      ['تقانة المعلومات', 'scientific', 2000, null],
+      ['تقانة الاتصالات', 'scientific', 1980, null],
+    ]],
+    ['كلية العلوم الإدارية', 'Faculty of Administrative Sciences', [
+      ['إدارة الأعمال', 'scientific', 1850, null],
+      ['المحاسبة', 'scientific', 1840, null],
+    ]],
+    ['كلية العلوم الإنسانية', 'Faculty of Humanities', [
+      ['الحقوق', 'literary', 1250, null],
+      ['الإعلام والاتصال', 'literary', 1280, null],
+    ]],
+  ],
+  'free-aleppo': [
+    ['الطب البشري', 'Human Medicine', [['الطب البشري', 'scientific', 1750, null]]],
+    ['طب الأسنان', 'Dentistry', [['طب الأسنان', 'scientific', 1600, null]]],
+    ['الصيدلة', 'Pharmacy', [['الصيدلة', 'scientific', 1650, null]]],
+    ['الهندسة', 'Engineering', [
+      ['الهندسة المعلوماتية', 'scientific', 1500, null],
+      ['الهندسة المدنية', 'scientific', 1450, null],
+      ['هندسة الميكاترونكس', 'scientific', 1450, null],
+    ]],
+    ['الهندسة الزراعية', 'Agricultural Engineering', [['الهندسة الزراعية', 'scientific', 1350, null]]],
+    ['الحقوق', 'Law', [['الحقوق', 'literary', 1000, null]]],
+    ['الاقتصاد', 'Economics', [
+      ['إدارة الأعمال', 'scientific', 1200, null],
+      ['المحاسبة', 'scientific', 1180, null],
+    ]],
+    ['الإعلام', 'Media', [['الإعلام والاتصال', 'literary', 1050, null]]],
+    ['الشريعة', 'Sharia', [['الشريعة الإسلامية', 'literary', 950, null]]],
+    ['التربية', 'Education', [['معلم صف', 'literary', 900, null]]],
+  ],
+  'gaziantep-north': [
+    ['كلية العلوم الإدارية والاقتصادية', 'Faculty of Administrative and Economic Sciences', [
+      ['إدارة الأعمال', 'scientific', 1250, null],
+      ['المحاسبة', 'scientific', 1230, null],
+      ['الاقتصاد', 'literary', 1150, null],
+    ]],
+    ['كلية التربية', 'Faculty of Education', [['معلم صف', 'literary', 1050, null]]],
+    ['كلية العلوم الإسلامية', 'Faculty of Islamic Sciences', [['الشريعة الإسلامية', 'literary', 1000, null]]],
+  ],
 };
 
 function esc(s) {
@@ -384,6 +432,13 @@ function slugifyCollege(s) {
     'الحقوق': 'law', 'الآداب والعلوم الإنسانية': 'arts-humanities', 'الآداب': 'arts',
     'التربية': 'education', 'الشريعة': 'sharia', 'العلوم السياسية': 'political-science',
     'الإعلام': 'media', 'الزراعة': 'agriculture', 'إدارة الأعمال': 'business-administration',
+    'الهندسة الزراعية': 'agricultural-engineering',
+    'كلية المعلوماتية والاتصالات': 'informatics-communications',
+    'كلية العلوم الإدارية': 'administrative-sciences',
+    'كلية العلوم الإنسانية': 'humanities',
+    'كلية العلوم الإدارية والاقتصادية': 'administrative-economic-sciences',
+    'كلية التربية': 'education',
+    'كلية العلوم الإسلامية': 'islamic-sciences',
   };
   return map[s] || ('college-' + s.length);
 }

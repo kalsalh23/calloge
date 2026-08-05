@@ -23,7 +23,10 @@ select v.name_ar, v.name_en, v.slug, v.type, g.id, v.founding_year, v.website, v
   ('جامعة اليرموك الخاصة', 'Yarmouk Private University', 'yarmouk-private', 'private', 'درعا', 2011, 'https://ypu.sy', false),
   ('الجامعة الدولية للعلوم والتكنولوجيا', 'International University for Science and Technology', 'iust', 'private', 'دمشق', 2005, 'https://www.iust.edu.sy', false),
   ('جامعة الحواش الخاصة', 'Al-Hawash Private University', 'hawash-private', 'private', 'حمص', 2011, 'https://www.uhp-sy.com', false),
-  ('جامعة الاتحاد الخاصة', 'Al-Ittihad Private University', 'ittihad-private', 'private', 'حلب', 2006, 'https://www.itu-sy.org', false)
+  ('جامعة الاتحاد الخاصة', 'Al-Ittihad Private University', 'ittihad-private', 'private', 'حلب', 2006, 'https://www.itu-sy.org', false),
+  ('الجامعة الافتراضية السورية', 'Syrian Virtual University', 'svu', 'government', 'دمشق', 2002, 'https://www.svuonline.org', true),
+  ('جامعة حلب الحرة', 'Free University of Aleppo', 'free-aleppo', 'government', 'حلب', 2015, 'https://uoaleppo.net', true),
+  ('فروع جامعة غازي عنتاب في الشمال السوري', 'Gaziantep University - North Syria Branches', 'gaziantep-north', 'government', 'حلب', 2019, 'https://www.gantep.edu.tr', true)
 ) as v(name_ar, name_en, slug, type, gov_ar, founding_year, website, housing)
 join public.governorates g on g.name_ar = v.gov_ar
 on conflict (slug) do update set name_ar = excluded.name_ar, type = excluded.type, governorate_id = excluded.governorate_id, is_active = true;
@@ -870,6 +873,147 @@ select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (valu
   ('ittihad-private-dentistry', 'ittihad-private-dentistry', 'scientific', 'general', 1650, 'الحد الأدنى للقبول العام 2025-2026'),
   ('ittihad-private-information-technology', 'ittihad-private-engineering', 'scientific', 'general', 1430, 'الحد الأدنى للقبول العام 2025-2026'),
   ('ittihad-private-business', 'ittihad-private-business-administration', 'scientific', 'general', 1210, 'الحد الأدنى للقبول العام 2025-2026')
+) as v(major_slug, college_slug, cert_slug, adm, score, notes)
+join univ u on true
+join public.majors m on m.slug = v.major_slug
+join public.colleges c on c.id = m.college_id and c.slug = v.college_slug
+join public.certificates cert on cert.slug = v.cert_slug
+on conflict (year, university_id, college_id, major_id, certificate_type_id, admission_type) do update set minimum_score = excluded.minimum_score, is_published = true, notes = excluded.notes;
+
+-- University: svu
+with univ as (select id from public.universities where slug = 'svu')
+insert into public.colleges (university_id, name_ar, name_en, slug, is_active)
+select univ.id, v.name_ar, v.name_en, v.slug, true from (values
+  ('كلية المعلوماتية والاتصالات', 'Faculty of Informatics and Communications', 'svu-informatics-communications'),
+  ('كلية العلوم الإدارية', 'Faculty of Administrative Sciences', 'svu-administrative-sciences'),
+  ('كلية العلوم الإنسانية', 'Faculty of Humanities', 'svu-humanities')
+) as v(name_ar, name_en, slug), univ
+on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'svu')
+insert into public.majors (college_id, name_ar, name_en, slug, degree, study_duration_years, difficulty, is_active)
+select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, true from (values
+  ('الهندسة المعلوماتية', 'Software Engineering', 'svu-it-engineering', 'svu-informatics-communications', 'بكالوريوس هندسة', 5, 4),
+  ('تقانة المعلومات', 'Information Technology', 'svu-information-technology', 'svu-informatics-communications', 'بكالوريوس تقانة المعلومات', 4, 3),
+  ('تقانة الاتصالات', 'Communication Technology', 'svu-communication-technology', 'svu-informatics-communications', 'بكالوريوس تقانة الاتصالات', 4, 3),
+  ('إدارة الأعمال', 'Business Administration', 'svu-business', 'svu-administrative-sciences', 'بكالوريوس', 4, 2),
+  ('المحاسبة', 'Accounting', 'svu-accounting', 'svu-administrative-sciences', 'بكالوريوس', 4, 2),
+  ('الحقوق', 'Law', 'svu-law', 'svu-humanities', 'إجازة في الحقوق', 4, 3),
+  ('الإعلام والاتصال', 'Media and Communication', 'svu-media', 'svu-humanities', 'إجازة في الإعلام', 4, 3)
+) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
+join univ u on true
+join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
+on conflict (slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'svu')
+insert into public.admission_scores (year, university_id, college_id, major_id, certificate_type_id, admission_type, minimum_score, notes, is_published)
+select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (values
+  ('svu-it-engineering', 'svu-informatics-communications', 'scientific', 'general', 2050, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('svu-information-technology', 'svu-informatics-communications', 'scientific', 'general', 2000, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('svu-communication-technology', 'svu-informatics-communications', 'scientific', 'general', 1980, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('svu-business', 'svu-administrative-sciences', 'scientific', 'general', 1850, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('svu-accounting', 'svu-administrative-sciences', 'scientific', 'general', 1840, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('svu-law', 'svu-humanities', 'literary', 'general', 1250, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('svu-media', 'svu-humanities', 'literary', 'general', 1280, 'الحد الأدنى للقبول العام 2025-2026')
+) as v(major_slug, college_slug, cert_slug, adm, score, notes)
+join univ u on true
+join public.majors m on m.slug = v.major_slug
+join public.colleges c on c.id = m.college_id and c.slug = v.college_slug
+join public.certificates cert on cert.slug = v.cert_slug
+on conflict (year, university_id, college_id, major_id, certificate_type_id, admission_type) do update set minimum_score = excluded.minimum_score, is_published = true, notes = excluded.notes;
+
+-- University: free-aleppo
+with univ as (select id from public.universities where slug = 'free-aleppo')
+insert into public.colleges (university_id, name_ar, name_en, slug, is_active)
+select univ.id, v.name_ar, v.name_en, v.slug, true from (values
+  ('الطب البشري', 'Human Medicine', 'free-aleppo-medicine'),
+  ('طب الأسنان', 'Dentistry', 'free-aleppo-dentistry'),
+  ('الصيدلة', 'Pharmacy', 'free-aleppo-pharmacy'),
+  ('الهندسة', 'Engineering', 'free-aleppo-engineering'),
+  ('الهندسة الزراعية', 'Agricultural Engineering', 'free-aleppo-agricultural-engineering'),
+  ('الحقوق', 'Law', 'free-aleppo-law'),
+  ('الاقتصاد', 'Economics', 'free-aleppo-economics'),
+  ('الإعلام', 'Media', 'free-aleppo-media'),
+  ('الشريعة', 'Sharia', 'free-aleppo-sharia'),
+  ('التربية', 'Education', 'free-aleppo-education')
+) as v(name_ar, name_en, slug), univ
+on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'free-aleppo')
+insert into public.majors (college_id, name_ar, name_en, slug, degree, study_duration_years, difficulty, is_active)
+select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, true from (values
+  ('الطب البشري', 'Human Medicine', 'free-aleppo-medicine', 'free-aleppo-medicine', 'بكالوريوس الطب', 6, 5),
+  ('طب الأسنان', 'Dentistry', 'free-aleppo-dentistry', 'free-aleppo-dentistry', 'بكالوريوس طب الأسنان', 5, 4),
+  ('الصيدلة', 'Pharmacy', 'free-aleppo-pharmacy', 'free-aleppo-pharmacy', 'بكالوريوس الصيدلة', 5, 4),
+  ('الهندسة المعلوماتية', 'Software Engineering', 'free-aleppo-it-engineering', 'free-aleppo-engineering', 'بكالوريوس هندسة', 5, 4),
+  ('الهندسة المدنية', 'Civil Engineering', 'free-aleppo-civil', 'free-aleppo-engineering', 'بكالوريوس هندسة', 5, 4),
+  ('هندسة الميكاترونكس', 'Mechatronics Engineering', 'free-aleppo-mechatronics', 'free-aleppo-engineering', 'بكالوريوس هندسة', 5, 4),
+  ('الهندسة الزراعية', 'Agricultural Engineering', 'free-aleppo-agricultural-engineering', 'free-aleppo-agricultural-engineering', 'بكالوريوس هندسة زراعية', 5, 3),
+  ('الحقوق', 'Law', 'free-aleppo-law', 'free-aleppo-law', 'إجازة في الحقوق', 4, 3),
+  ('إدارة الأعمال', 'Business Administration', 'free-aleppo-business', 'free-aleppo-economics', 'بكالوريوس', 4, 2),
+  ('المحاسبة', 'Accounting', 'free-aleppo-accounting', 'free-aleppo-economics', 'بكالوريوس', 4, 2),
+  ('الإعلام والاتصال', 'Media and Communication', 'free-aleppo-media', 'free-aleppo-media', 'إجازة في الإعلام', 4, 3),
+  ('الشريعة الإسلامية', 'Islamic Sharia', 'free-aleppo-sharia', 'free-aleppo-sharia', 'إجازة في الشريعة', 4, 2),
+  ('معلم صف', 'Class Teacher', 'free-aleppo-class-teacher', 'free-aleppo-education', 'إجازة في التربية', 4, 2)
+) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
+join univ u on true
+join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
+on conflict (slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'free-aleppo')
+insert into public.admission_scores (year, university_id, college_id, major_id, certificate_type_id, admission_type, minimum_score, notes, is_published)
+select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (values
+  ('free-aleppo-medicine', 'free-aleppo-medicine', 'scientific', 'general', 1750, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('free-aleppo-dentistry', 'free-aleppo-dentistry', 'scientific', 'general', 1600, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('free-aleppo-pharmacy', 'free-aleppo-pharmacy', 'scientific', 'general', 1650, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('free-aleppo-it-engineering', 'free-aleppo-engineering', 'scientific', 'general', 1500, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('free-aleppo-civil', 'free-aleppo-engineering', 'scientific', 'general', 1450, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('free-aleppo-mechatronics', 'free-aleppo-engineering', 'scientific', 'general', 1450, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('free-aleppo-agricultural-engineering', 'free-aleppo-agricultural-engineering', 'scientific', 'general', 1350, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('free-aleppo-law', 'free-aleppo-law', 'literary', 'general', 1000, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('free-aleppo-business', 'free-aleppo-economics', 'scientific', 'general', 1200, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('free-aleppo-accounting', 'free-aleppo-economics', 'scientific', 'general', 1180, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('free-aleppo-media', 'free-aleppo-media', 'literary', 'general', 1050, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('free-aleppo-sharia', 'free-aleppo-sharia', 'literary', 'general', 950, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('free-aleppo-class-teacher', 'free-aleppo-education', 'literary', 'general', 900, 'الحد الأدنى للقبول العام 2025-2026')
+) as v(major_slug, college_slug, cert_slug, adm, score, notes)
+join univ u on true
+join public.majors m on m.slug = v.major_slug
+join public.colleges c on c.id = m.college_id and c.slug = v.college_slug
+join public.certificates cert on cert.slug = v.cert_slug
+on conflict (year, university_id, college_id, major_id, certificate_type_id, admission_type) do update set minimum_score = excluded.minimum_score, is_published = true, notes = excluded.notes;
+
+-- University: gaziantep-north
+with univ as (select id from public.universities where slug = 'gaziantep-north')
+insert into public.colleges (university_id, name_ar, name_en, slug, is_active)
+select univ.id, v.name_ar, v.name_en, v.slug, true from (values
+  ('كلية العلوم الإدارية والاقتصادية', 'Faculty of Administrative and Economic Sciences', 'gaziantep-north-administrative-economic-sciences'),
+  ('كلية التربية', 'Faculty of Education', 'gaziantep-north-education'),
+  ('كلية العلوم الإسلامية', 'Faculty of Islamic Sciences', 'gaziantep-north-islamic-sciences')
+) as v(name_ar, name_en, slug), univ
+on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'gaziantep-north')
+insert into public.majors (college_id, name_ar, name_en, slug, degree, study_duration_years, difficulty, is_active)
+select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, true from (values
+  ('إدارة الأعمال', 'Business Administration', 'gaziantep-north-business', 'gaziantep-north-administrative-economic-sciences', 'بكالوريوس', 4, 2),
+  ('المحاسبة', 'Accounting', 'gaziantep-north-accounting', 'gaziantep-north-administrative-economic-sciences', 'بكالوريوس', 4, 2),
+  ('الاقتصاد', 'Economics', 'gaziantep-north-economics', 'gaziantep-north-administrative-economic-sciences', 'بكالوريوس', 4, 2),
+  ('معلم صف', 'Class Teacher', 'gaziantep-north-class-teacher', 'gaziantep-north-education', 'إجازة في التربية', 4, 2),
+  ('الشريعة الإسلامية', 'Islamic Sharia', 'gaziantep-north-sharia', 'gaziantep-north-islamic-sciences', 'إجازة في الشريعة', 4, 2)
+) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
+join univ u on true
+join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
+on conflict (slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'gaziantep-north')
+insert into public.admission_scores (year, university_id, college_id, major_id, certificate_type_id, admission_type, minimum_score, notes, is_published)
+select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (values
+  ('gaziantep-north-business', 'gaziantep-north-administrative-economic-sciences', 'scientific', 'general', 1250, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('gaziantep-north-accounting', 'gaziantep-north-administrative-economic-sciences', 'scientific', 'general', 1230, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('gaziantep-north-economics', 'gaziantep-north-administrative-economic-sciences', 'literary', 'general', 1150, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('gaziantep-north-class-teacher', 'gaziantep-north-education', 'literary', 'general', 1050, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('gaziantep-north-sharia', 'gaziantep-north-islamic-sciences', 'literary', 'general', 1000, 'الحد الأدنى للقبول العام 2025-2026')
 ) as v(major_slug, college_slug, cert_slug, adm, score, notes)
 join univ u on true
 join public.majors m on m.slug = v.major_slug

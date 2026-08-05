@@ -21,15 +21,15 @@
     --color-accent-burgundy: 74 21 30;
     --color-accent-deep: 38 15 20;
 
-    --color-bg: 255 255 255;
-    --color-bg-alt: 246 248 248;
-    --color-glass: 255 255 255;
-    --color-border: 230 234 233;
+    --color-bg: 8 28 30;
+    --color-bg-alt: 12 36 38;
+    --color-glass: 15 42 44;
+    --color-border: 42 70 70;
 
-    --color-text: 61 58 59;
-    --color-text-dark: 22 22 22;
-    --color-text-light: 117 118 118;
-    --color-text-muted: 150 152 152;
+    --color-text: 226 233 231;
+    --color-text-dark: 255 255 255;
+    --color-text-light: 172 187 184;
+    --color-text-muted: 136 156 153;
 
     --gradient-hero: linear-gradient(135deg, #054239 0%, #002623 55%, #001214 100%);
     --gradient-gold: linear-gradient(135deg, #b9a779 0%, #988561 100%);
@@ -37,14 +37,14 @@
   }
 
   .dark {
-    --color-bg: 22 24 26;
-    --color-bg-alt: 28 31 34;
-    --color-glass: 34 38 41;
-    --color-border: 48 52 56;
-    --color-text: 235 235 235;
+    --color-bg: 8 28 30;
+    --color-bg-alt: 12 36 38;
+    --color-glass: 15 42 44;
+    --color-border: 42 70 70;
+    --color-text: 226 233 231;
     --color-text-dark: 255 255 255;
-    --color-text-light: 180 184 187;
-    --color-text-muted: 130 134 137;
+    --color-text-light: 172 187 184;
+    --color-text-muted: 136 156 153;
   }
 
   html {
@@ -53,7 +53,12 @@
   }
 
   body {
-    @apply bg-surface text-ink font-sans antialiased;
+    @apply text-ink font-sans antialiased;
+    background-color: rgb(var(--color-primary-deep));
+    background-image:
+      radial-gradient(circle at 85% -5%, rgba(185, 167, 121, 0.1), transparent 40%),
+      radial-gradient(circle at 5% 110%, rgba(13, 102, 88, 0.22), transparent 45%);
+    background-attachment: fixed;
     text-rendering: optimizeLegibility;
     overflow-x: hidden;
   }
@@ -208,4 +213,25 @@
       scroll-behavior: auto !important;
     }
   }
+}
+
+/* =============================================================
+   Dark theme (default): the platform renders on the homepage's
+   dark-green gradient. Brand-green accents are remapped to gold
+   for contrast on the dark surfaces, and dark error tones are
+   lightened to stay readable.
+   ============================================================= */
+.text-primary,
+.hover\:text-primary:hover,
+.group-hover\:text-primary,
+.group:hover .group-hover\:text-primary {
+  color: rgb(var(--color-accent-gold));
+}
+.text-accent-dark-brown,
+.hover\:text-accent-dark-brown:hover {
+  color: rgb(var(--color-accent-brown));
+}
+.text-accent-burgundy,
+.hover\:text-accent-burgundy:hover {
+  color: #f87171;
 }

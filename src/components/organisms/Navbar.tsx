@@ -101,10 +101,13 @@ export function Navbar() {
             </>
           ) : (
             <>
-              <Link to="/auth?mode=login" className="btn-outline-gold">
+              <Link
+                to="/auth?mode=login"
+                className={scrolled ? 'btn-outline-gold px-6 py-2.5' : 'btn-ghost-light px-6 py-2.5'}
+              >
                 تسجيل الدخول
               </Link>
-              <Link to="/auth?mode=signup" className="btn-gold">
+              <Link to="/auth?mode=signup" className="btn-gold px-6 py-2.5">
                 <FaUser />
                 إنشاء حساب
               </Link>
@@ -176,10 +179,10 @@ export function Navbar() {
                   </>
                 ) : (
                   <>
-                    <Link to="/auth?mode=signup" onClick={() => setOpen(false)} className="btn-gold">
+                    <Link to="/auth?mode=signup" onClick={() => setOpen(false)} className="btn-gold px-6 py-3">
                       إنشاء حساب
                     </Link>
-                    <Link to="/auth?mode=login" onClick={() => setOpen(false)} className="btn-outline-gold">
+                    <Link to="/auth?mode=login" onClick={() => setOpen(false)} className="btn-outline-gold px-6 py-3">
                       تسجيل الدخول
                     </Link>
                   </>
