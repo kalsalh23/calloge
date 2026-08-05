@@ -11,7 +11,7 @@ import {
   FaBolt,
   FaArrowLeft,
 } from 'react-icons/fa'
-import { FaMagnifyingGlass, FaPlus } from 'react-icons/fa6'
+import { FaPlus } from 'react-icons/fa6'
 import { Seo } from '@/components/Seo'
 import { Badge } from '@/components/atoms/Badge'
 import { Skeleton } from '@/components/atoms/Skeleton'
@@ -19,7 +19,6 @@ import { SectionHeading } from '@/components/molecules/SectionHeading'
 import { UniversityCard } from '@/components/molecules/UniversityCard'
 import { MajorCard } from '@/components/molecules/MajorCard'
 import { useUniversities, useMajors, useTestimonials, useFaqs, useStats } from '@/lib/api'
-import { useDebounce } from '@/hooks/useDebounce'
 import { useDocumentTitle } from '@/hooks/useSeo'
 
 const steps = [
@@ -65,8 +64,6 @@ const features = [
 
 export default function HomePage() {
   useDocumentTitle()
-  const [q, setQ] = useState('')
-  const debounced = useDebounce(q, 250)
   const { data: universities, isLoading: loadingUnis } = useUniversities()
   const { data: majors, isLoading: loadingMajors } = useMajors()
   const { data: testimonials } = useTestimonials()
@@ -84,9 +81,15 @@ export default function HomePage() {
 
       {/* ===================== HERO ===================== */}
       <section className="relative overflow-hidden bg-primary-deep text-white">
-        <div className="absolute inset-0 opacity-25" style={{ background: 'radial-gradient(circle at 80% 20%, rgba(185,167,121,0.5), transparent 40%), radial-gradient(circle at 10% 80%, rgba(5,66,57,0.8), transparent 50%)' }} />
-        <div className="pointer-events-none absolute -left-32 top-24 h-72 w-72 rounded-full bg-accent-gold/10 blur-3xl" />
-        <div className="pointer-events-none absolute -right-24 bottom-0 h-96 w-96 rounded-full bg-primary-light/20 blur-3xl" />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(circle at 70% 15%, rgba(185,167,121,0.35), transparent 45%), radial-gradient(circle at 10% 85%, rgba(13,102,88,0.35), transparent 50%), linear-gradient(160deg, rgba(5,66,57,0.9), rgba(0,18,20,1) 60%)',
+          }}
+        />
+        <div className="pointer-events-none absolute -left-32 top-24 h-72 w-72 rounded-full bg-accent-gold/15 blur-3xl" />
+        <div className="pointer-events-none absolute -right-24 bottom-0 h-96 w-96 rounded-full bg-primary-light/15 blur-3xl" />
 
         <div className="container-app relative py-20 sm:py-28 lg:py-36">
           <div className="mx-auto max-w-3xl text-center">
@@ -114,37 +117,16 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/70 sm:text-lg"
+              className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/75 sm:text-lg"
             >
               أدخل نوع شهادتك ومعدلك، وسنعرض لك التخصصات والجامعات التي يحق لك التقديم إليها وفق
               بيانات المفاضلات الرسمية — مرتبة من أعلى فرصة قبول إلى أدناها.
             </motion.p>
 
-            {/* Search bar */}
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="glass-dark mx-auto mt-10 flex max-w-xl items-center gap-2 rounded-2xl p-2"
-            >
-              <FaMagnifyingGlass className="mr-3 h-5 w-5 shrink-0 text-accent-gold" />
-              <input
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-                placeholder="ابحث عن تخصص أو جامعة..."
-                className="w-full bg-transparent text-white placeholder:text-white/40 focus:outline-none"
-                aria-label="البحث عن تخصص أو جامعة"
-              />
-              <Link to={debounced ? `/search?q=${encodeURIComponent(debounced)}` : '/search'} className="btn-gold shrink-0">
-                <FaMagnifyingGlass className="text-xs" />
-                بحث
-              </Link>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
               className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row"
             >
               <Link to="/discover" className="btn-gold w-full sm:w-auto" style={{ paddingInline: '2rem', paddingBlock: '0.9rem' }}>
@@ -161,7 +143,7 @@ export default function HomePage() {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.5 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
                 className="mx-auto mt-14 grid max-w-lg grid-cols-3 gap-4"
               >
                 {[

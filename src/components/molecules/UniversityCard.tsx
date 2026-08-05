@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { FaHeart, FaMapMarkerAlt, FaRegHeart, FaBuilding } from 'react-icons/fa'
+import { FaHeart, FaMapMarkerAlt, FaRegHeart, FaBuilding, FaArrowLeft } from 'react-icons/fa'
 import { Card } from '@/components/atoms/Card'
 import { Badge } from '@/components/atoms/Badge'
 import { SmartImage } from '@/components/atoms/SmartImage'
@@ -27,14 +27,14 @@ export function UniversityCard({
       transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.3) }}
     >
       <Card hover className="group relative overflow-hidden">
-        <div className="relative h-36">
+        <div className="relative h-40">
           <SmartImage
             src={university.cover_url}
             alt={university.name_ar}
             className="h-full w-full"
-            fallback="linear-gradient(135deg, rgb(var(--color-accent-deep)) 0%, rgb(var(--color-primary-deep)) 100%)"
+            fallback="linear-gradient(135deg, rgb(var(--color-primary)) 0%, rgb(var(--color-primary-dark)) 50%, rgb(var(--color-primary-deep)) 100%)"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-primary-deep/80 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-primary-deep/70 via-transparent to-transparent" />
           {onToggleFavorite && (
             <button
               onClick={(e) => {
@@ -64,7 +64,7 @@ export function UniversityCard({
               </span>
             )}
             <div className="min-w-0">
-              <h3 className="truncate text-base font-extrabold text-ink-dark">{university.name_ar}</h3>
+              <h3 className="truncate text-lg font-extrabold text-ink-dark">{university.name_ar}</h3>
               <p className="text-xs text-text-muted">{university.name_en ?? 'University'}</p>
             </div>
           </div>
@@ -93,7 +93,7 @@ export function UniversityCard({
               className="inline-flex items-center gap-1.5 text-sm font-bold text-primary transition-colors hover:text-accent-dark-brown"
             >
               استكشف الجامعة
-              <span className="transition-transform group-hover:-translate-x-1">←</span>
+              <FaArrowLeft className="text-xs transition-transform group-hover:-translate-x-1" />
             </Link>
           </div>
         </div>

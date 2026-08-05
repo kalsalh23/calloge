@@ -101,10 +101,10 @@ export function Navbar() {
             </>
           ) : (
             <>
-              <Link to="/auth?mode=login" className="btn-ghost">
+              <Link to="/auth?mode=login" className="btn-outline-gold">
                 تسجيل الدخول
               </Link>
-              <Link to="/auth?mode=signup" className="btn-primary">
+              <Link to="/auth?mode=signup" className="btn-gold">
                 <FaUser />
                 إنشاء حساب
               </Link>
@@ -176,10 +176,10 @@ export function Navbar() {
                   </>
                 ) : (
                   <>
-                    <Link to="/auth?mode=signup" onClick={() => setOpen(false)} className="btn-primary">
+                    <Link to="/auth?mode=signup" onClick={() => setOpen(false)} className="btn-gold">
                       إنشاء حساب
                     </Link>
-                    <Link to="/auth?mode=login" onClick={() => setOpen(false)} className="btn-ghost">
+                    <Link to="/auth?mode=login" onClick={() => setOpen(false)} className="btn-outline-gold">
                       تسجيل الدخول
                     </Link>
                   </>
