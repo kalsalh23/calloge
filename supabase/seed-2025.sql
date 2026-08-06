@@ -5,9 +5,15 @@
 
 insert into public.certificates (name_ar, name_en, slug, description, sort_order, is_active) values
   ('الثانوية العامة - الفرع العلمي', 'General Secondary - Scientific', 'scientific', 'شهادة الثانوية العامة - الفرع العلمي (المنهاج السوري)', 1, true),
-  ('الثانوية العامة - الفرع الأدبي', 'General Secondary - Literary', 'literary', 'شهادة الثانوية العامة - الفرع الأدبي (المنهاج السوري)', 2, true)
-on conflict (slug) do update set name_ar = excluded.name_ar, is_active = true;
-update public.certificates set is_active = false where slug not in ('scientific', 'literary');
+  ('الثانوية العامة - الفرع الأدبي', 'General Secondary - Literary', 'literary', 'شهادة الثانوية العامة - الفرع الأدبي (المنهاج السوري)', 2, true),
+  ('الثانوية الشرعية', 'Religious Secondary', 'sharia', 'شهادة التعليم الثانوي الشرعي', 3, true),
+  ('الثانوية الصناعية', 'Industrial Secondary', 'industrial', 'شهادة التعليم الثانوي الصناعي (التعليم المهني)', 4, true),
+  ('الثانوية التجارية', 'Commercial Secondary', 'commercial', 'شهادة التعليم الثانوي التجاري (التعليم المهني)', 5, true),
+  ('الثانوية الزراعية', 'Agricultural Secondary', 'agricultural', 'شهادة التعليم الثانوي الزراعي (التعليم المهني)', 6, true),
+  ('الثانوية النسوية (الاقتصاد المنزلي)', 'Female / Home Economics Secondary', 'female', 'شهادة التعليم الثانوي النسوي (التعليم المهني)', 7, true),
+  ('التعليم المهني - تقنيات الحاسوب والمعلوماتية', 'Vocational Secondary - IT', 'vocational-it', 'شهادة التعليم المهني - فرع تقنيات الحاسوب والمعلوماتية', 8, true)
+on conflict (slug) do update set name_ar = excluded.name_ar, name_en = excluded.name_en, description = excluded.description, sort_order = excluded.sort_order, is_active = true;
+update public.certificates set is_active = false where slug not in ('scientific', 'literary', 'sharia', 'industrial', 'commercial', 'agricultural', 'female', 'vocational-it');
 
 insert into public.universities (name_ar, name_en, slug, type, governorate_id, founding_year, website, housing_available, is_active)
 select v.name_ar, v.name_en, v.slug, v.type, g.id, v.founding_year, v.website, v.housing, true from (values

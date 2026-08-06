@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FaGraduationCap, FaUniversity, FaFilter, FaChartLine } from 'react-icons/fa'
@@ -19,6 +19,21 @@ interface DiscoverForm {
   universityType: UniversityType | 'all'
   admissionType: AdmissionType | 'all'
 }
+
+// Maximum total score per secondary certificate (2025 scale).
+const CERT_MAX_SCORE: Record<string, number> = {
+  scientific: 2200,
+  literary: 1600,
+  sharia: 1600,
+  industrial: 1600,
+  commercial: 1600,
+  agricultural: 1600,
+  female: 1600,
+  'vocational-it': 1600,
+}
+
+// Certificates that currently have published admission-score data.
+const CERTS_WITH_DATA = ['scientific', 'literary']
 
 export default function DiscoverPage() {
   const { data: certificates } = useCertificates()
@@ -60,6 +75,8 @@ export default function DiscoverPage() {
     register,
     handleSubmit,
     watch,
+    getValues,
+    setValue,
     formState: { errors },
   } = useForm<DiscoverForm>({
     values: formValues,
@@ -67,6 +84,21 @@ export default function DiscoverPage() {
 
   const watchCertificate = watch('certificateId')
   const watchAdmissionType = watch('admissionType')
+
+  const selectedCertificate = useMemo(
+    () => (certificates ?? []).find((c) => c.id === Number(watchCertificate)),
+    [certificates, watchCertificate]
+  )
+
+  const maxScore = selectedCertificate ? (CERT_MAX_SCORE[selectedCertificate.slug] ?? 2200) : 2200
+  const certHasData = selectedCertificate ? CERTS_WITH_DATA.includes(selectedCertificate.slug) : true
+
+  // Clamp the score when switching to a certificate with a smaller maximum.
+  useEffect(() => {
+    const current = Number(getValues('score'))
+    if (current > maxScore) setValue('score', maxScore)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [watchCertificate, maxScore])
 
   const { data: allScores, isLoading } = useDiscoverScores({
     certificateId: params?.certificateId ?? 0,
@@ -168,39 +200,13 @@ export default function DiscoverPage() {
             noValidate
           >
             <div className="grid gap-6 sm:grid-cols-2">
-              <div className="sm:col-span-2">
-                <span className="input-label">نوع الشهادة *</span>
-                <div className="grid gap-2 sm:grid-cols-2">
-                  {(certificates ?? []).map((cert) => (
-                    <label
-                      key={cert.id}
-                      className={`flex cursor-pointer items-center gap-3 rounded-2xl border-2 px-4 py-3 transition-all ${
-                        Number(watchCertificate) === cert.id
-                          ? 'border-accent-gold bg-accent-gold/10'
-                          : 'border-surface-border hover:border-primary/30'
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        value={cert.id}
-                        {...register('certificateId', { required: 'اختر نوع الشهادة' })}
-                        className="sr-only"
-                      />
-                      <span
-                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${
-                          Number(watchCertificate) === cert.id ? 'bg-accent-gold text-primary-deep' : 'bg-surface-alt text-text-muted'
-                        }`}
-                      >
-                        <FaGraduationCap className="text-sm" />
-                      </span>
-                      <span className="text-sm font-semibold text-ink-dark">{cert.name_ar}</span>
-                    </label>
-                  ))}
-                </div>
-                {errors.certificateId && (
-                  <p className="mt-1.5 text-xs font-medium text-accent-burgundy">{errors.certificateId.message}</p>
-                )}
-              </div>
+              <Select
+                label="نوع الشهادة *"
+                placeholder="اختر نوع الشهادة"
+                options={(certificates ?? []).map((cert) => ({ value: cert.id, label: cert.name_ar }))}
+                error={errors.certificateId?.message}
+                {...register('certificateId', { required: 'اختر نوع الشهادة' })}
+              />
 
               <Input
                 label="مجموع علاماتك"
@@ -208,11 +214,12 @@ export default function DiscoverPage() {
                 step="0.01"
                 inputMode="decimal"
                 placeholder="مثال: 1800"
+                hint={`الحد الأقصى للمجموع: ${maxScore}`}
                 error={errors.score?.message}
                 {...register('score', {
                   required: 'أدخل مجموع علاماتك',
                   min: { value: 0, message: 'المجموع يجب أن يكون 0 فأكثر' },
-                  max: { value: 2200, message: 'المجموع يتجاوز الحد الأقصى (2200)' },
+                  max: { value: maxScore, message: `المجموع يتجاوز الحد الأقصى (${maxScore})` },
                 })}
               />
 
@@ -307,10 +314,13 @@ export default function DiscoverPage() {
                     <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-accent-burgundy/10 text-3xl text-accent-burgundy">
                       <FaUniversity />
                     </span>
-                    <h3 className="mt-5 text-xl font-extrabold text-ink-dark">لا توجد نتائج مطابقة</h3>
+                    <h3 className="mt-5 text-xl font-extrabold text-ink-dark">
+                      {certHasData ? 'لا توجد نتائج مطابقة' : 'لا توجد بيانات لهذه الشهادة بعد'}
+                    </h3>
                     <p className="mt-2 text-sm leading-relaxed text-text-muted">
-                      لم نجد تخصصات تناسب معدلك لهذه الشهادة في هذه السنة. جرّب تغيير نوع الجامعة أو
-                      الاطلاع على مفاضلات أخرى.
+                      {certHasData
+                        ? 'لم نجد تخصصات تناسب معدلك لهذه الشهادة في هذه السنة. جرّب تغيير نوع الجامعة أو الاطلاع على مفاضلات أخرى.'
+                        : 'بيانات المفاضلة المتوفرة حالياً تغطي الفرعين العلمي والأدبي فقط. ستُضاف باقي أنواع الشهادات عند نشر الحدود الدنيا الرسمية.'}
                     </p>
                     <Button
                       variant="ghost"
