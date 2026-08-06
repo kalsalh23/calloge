@@ -36,7 +36,7 @@ export function MajorCard({
       transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.3) }}
     >
       <Card hover className="group relative overflow-hidden">
-        <div className="relative h-40 overflow-hidden">
+        <div className="relative h-36 overflow-hidden sm:h-44">
           <SmartImage
             src={major.cover_url}
             alt={major.name_ar}
@@ -67,9 +67,9 @@ export function MajorCard({
           )}
         </div>
 
-        <div className="p-5">
+        <div className="p-4 sm:p-5">
           {university && (
-            <div className="mb-3 flex flex-wrap items-center gap-2">
+            <div className="mb-3 flex flex-wrap items-center gap-1.5 sm:gap-2">
               <Badge tone={university.type === 'government' ? 'primary' : 'gold'}>
                 {university.type === 'government' ? 'حكومية' : 'خاصة'}
               </Badge>
@@ -81,18 +81,18 @@ export function MajorCard({
           )}
 
           {studentScore !== undefined && minimumScore !== undefined && (
-            <div className="mb-4 grid grid-cols-3 gap-2 rounded-2xl bg-surface-alt p-3 text-center">
+            <div className="mb-4 grid grid-cols-3 gap-1.5 rounded-2xl bg-surface-alt p-2.5 text-center sm:gap-2 sm:p-3">
               <div>
-                <p className="text-[11px] font-medium text-text-muted">معدل الطالب</p>
-                <p className="text-sm font-bold text-ink-dark">{formatNumber(studentScore, 2)}</p>
+                <p className="text-[10px] font-medium text-text-muted sm:text-[11px]">معدل الطالب</p>
+                <p className="text-xs font-bold text-ink-dark sm:text-sm">{formatNumber(studentScore, 2)}</p>
               </div>
               <div>
-                <p className="text-[11px] font-medium text-text-muted">الحد الأدنى</p>
-                <p className="text-sm font-bold text-ink-dark">{formatNumber(minimumScore, 2)}</p>
+                <p className="text-[10px] font-medium text-text-muted sm:text-[11px]">الحد الأدنى</p>
+                <p className="text-xs font-bold text-ink-dark sm:text-sm">{formatNumber(minimumScore, 2)}</p>
               </div>
               <div>
-                <p className="text-[11px] font-medium text-text-muted">الفرق</p>
-                <p className={`text-sm font-bold ${eligible ? 'text-emerald-400' : 'text-red-400'}`}>
+                <p className="text-[10px] font-medium text-text-muted sm:text-[11px]">الفرق</p>
+                <p className={`text-xs font-bold sm:text-sm ${eligible ? 'text-emerald-400' : 'text-red-400'}`}>
                   {diff !== null && diff >= 0 ? `+${formatNumber(diff, 2)}` : formatNumber(diff, 2)}
                 </p>
               </div>

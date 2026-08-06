@@ -27,7 +27,7 @@ export function UniversityCard({
       transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.3) }}
     >
       <Card hover className="group relative overflow-hidden">
-        <div className="relative h-40">
+        <div className="relative h-36 sm:h-44">
           <SmartImage
             src={university.cover_url}
             alt={university.name_ar}
@@ -55,8 +55,8 @@ export function UniversityCard({
           )}
         </div>
 
-        <div className="p-5">
-          <div className="mb-3 flex flex-wrap items-center gap-2">
+        <div className="p-4 sm:p-5">
+          <div className="mb-3 flex flex-wrap items-center gap-1.5 sm:gap-2">
             <Badge tone={university.type === 'government' ? 'primary' : 'gold'}>
               {university.type === 'government' ? 'حكومية' : 'خاصة'}
             </Badge>
@@ -65,7 +65,7 @@ export function UniversityCard({
           </div>
 
           {university.address && (
-            <p className="mb-4 flex items-center gap-1.5 text-xs text-text-muted">
+            <p className="mb-3 flex items-center gap-1.5 text-xs text-text-muted sm:mb-4">
               <FaMapMarkerAlt className="text-accent-gold" />
               {university.address}
             </p>
