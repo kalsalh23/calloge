@@ -162,18 +162,21 @@ export function Navbar() {
               <div className="mt-3 flex flex-col gap-2 border-t border-surface-border pt-4">
                 {user ? (
                   <>
-                    <Link to="/favorites" onClick={() => setOpen(false)} className="btn-ghost">
+                    <Link to="/favorites" onClick={() => setOpen(false)} className="btn-ghost justify-start px-4 py-3">
                       <FaHeart /> المفضلة
                     </Link>
                     {isStaff && (
-                      <Link to="/admin" onClick={() => setOpen(false)} className="btn-ghost">
+                      <Link to="/admin" onClick={() => setOpen(false)} className="btn-ghost justify-start px-4 py-3">
                         لوحة التحكم
                       </Link>
                     )}
-                    <Link to="/profile" onClick={() => setOpen(false)} className="btn-ghost">
+                    <Link to="/profile" onClick={() => setOpen(false)} className="btn-ghost justify-start px-4 py-3">
                       الملف الشخصي
                     </Link>
-                    <button onClick={handleSignOut} className="btn-ghost text-accent-burgundy">
+                    <button
+                      onClick={handleSignOut}
+                      className="btn-ghost justify-start px-4 py-3 text-accent-burgundy"
+                    >
                       <FaSignOutAlt /> تسجيل الخروج
                     </button>
                   </>

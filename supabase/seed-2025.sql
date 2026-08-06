@@ -33,7 +33,28 @@ select v.name_ar, v.name_en, v.slug, v.type, g.id, v.founding_year, v.website, v
   ('جامعة الاتحاد الخاصة', 'Al-Ittihad Private University', 'ittihad-private', 'private', 'حلب', 2006, 'https://www.itu-sy.org', false),
   ('الجامعة الافتراضية السورية', 'Syrian Virtual University', 'svu', 'government', 'دمشق', 2002, 'https://www.svuonline.org', true),
   ('جامعة حلب الحرة', 'Free University of Aleppo', 'free-aleppo', 'government', 'حلب', 2015, 'https://uoaleppo.net', true),
-  ('فروع جامعة غازي عنتاب في الشمال السوري', 'Gaziantep University - North Syria Branches', 'gaziantep-north', 'government', 'حلب', 2019, 'https://www.gantep.edu.tr', true)
+  ('فروع جامعة غازي عنتاب في الشمال السوري', 'Gaziantep University - North Syria Branches', 'gaziantep-north', 'government', 'حلب', 2019, 'https://www.gantep.edu.tr', true),
+  ('جامعة الرشيد الدولية الخاصة', 'Al-Rashid International Private University for Science and Technology', 'rashid-private', 'private', 'درعا', 2009, 'https://www.aru.edu.sy', false),
+  ('جامعة الوادي الدولية الخاصة', 'Wadi International University', 'wadi-private', 'private', 'حمص', 2012, 'https://www.wiu.edu.sy', false),
+  ('جامعة الأندلس الخاصة للعلوم الطبية', 'Al-Andalus University for Medical Sciences', 'andalus-private', 'private', 'طرطوس', 2009, 'https://www.au.edu.sy', false),
+  ('جامعة الجزيرة الخاصة', 'Al-Jazeera Private University', 'jazeera-private', 'private', 'دير الزور', 2010, 'https://www.ju.edu.sy', false),
+  ('الجامعة الوطنية الخاصة', 'Al-Wataniya Private University', 'wataniya-private', 'private', 'حماة', 2011, 'https://www.wpu.edu.sy', false),
+  ('جامعة المنارة الخاصة', 'Manara Private University', 'manara-private', 'private', 'اللاذقية', 2010, 'https://www.manara.edu.sy', false),
+  ('الجامعة السورية الخاصة', 'Syrian Private University', 'syrian-private', 'private', 'ريف دمشق', 2012, 'https://www.spu.edu.sy', false),
+  ('جامعة قرطبة الخاصة', 'Cordoba Private University', 'cordoba-private', 'private', 'حلب', 2006, 'https://www.cpu.edu.sy', false),
+  ('جامعة الشهباء الخاصة', 'Al-Shahbaa Private University', 'shahbaa-private', 'private', 'حلب', 2018, 'https://www.shahbaa.edu.sy', false),
+  ('جامعة بلاد الشام للعلوم الشرعية', 'University of the Levant for Sharia Sciences', 'bilad-sham-private', 'private', 'دمشق', 2005, 'https://www.levant-univ.com', false),
+  ('الجامعة العربية الدولية', 'Arab International University', 'arab-international-private', 'private', 'درعا', 2015, 'https://www.aiu.edu.sy', false),
+  ('الجامعة العربية الخاصة للعلوم والتكنولوجيا', 'Arab University for Science and Technology', 'arab-science-private', 'private', 'حماة', 2016, 'https://www.aust.edu.sy', false),
+  ('الأكاديمية العربية للعلوم والتكنولوجيا والنقل البحري', 'Arab Academy for Science and Technology and Maritime Transport', 'aastmt-syria', 'private', 'اللاذقية', 2021, 'https://www.aast.edu.sy', false),
+  ('جامعة أنطاكية السورية الخاصة', 'Antakya Private University', 'antakya-private', 'private', 'ريف دمشق', 2020, 'https://www.antakyasu.edu.sy', false),
+  ('المعهد العالي للعلوم التطبيقية والتكنولوجيا', 'Higher Institute for Applied Sciences and Technology', 'hiast', 'government', 'دمشق', 1983, 'https://hiast.edu.sy', true),
+  ('المعهد الوطني للإدارة العامة', 'National Institute of Public Administration', 'ina', 'government', 'ريف دمشق', 2002, 'http://www.ina.edu.sy', true),
+  ('المعهد العالي لإدارة الأعمال', 'Higher Institute of Business Administration', 'hiba', 'government', 'دمشق', 2002, 'https://www.hiba.edu.sy', true),
+  ('المعهد العالي للفنون المسرحية', 'Higher Institute of Dramatic Arts', 'dramatic-arts', 'government', 'دمشق', 1977, 'https://www.hida.edu.sy', true),
+  ('المعهد العالي للفنون السينمائية', 'Higher Institute of Cinematic Arts', 'cinema', 'government', 'دمشق', 2012, 'https://www.hicina.edu.sy', true),
+  ('المعهد العالي للدراسات والبحوث السكانية', 'Higher Institute for Demographic Studies and Research', 'population', 'government', 'دمشق', 1979, 'https://www.hidsr.edu.sy', true),
+  ('المعهد العالي للبحوث البحرية', 'Higher Institute of Marine Research', 'marine-research', 'government', 'طرطوس', 1995, 'https://www.himr.edu.sy', true)
 ) as v(name_ar, name_en, slug, type, gov_ar, founding_year, website, housing)
 join public.governorates g on g.name_ar = v.gov_ar
 on conflict (slug) do update set name_ar = excluded.name_ar, type = excluded.type, governorate_id = excluded.governorate_id, is_active = true;
@@ -54,7 +75,21 @@ select univ.id, v.name_ar, v.name_en, v.slug, true from (values
   ('الشريعة', 'Sharia', 'damascus-sharia'),
   ('العلوم السياسية', 'Political Science', 'damascus-political-science'),
   ('الإعلام', 'Media', 'damascus-media'),
-  ('الزراعة', 'Agriculture', 'damascus-agriculture')
+  ('الزراعة', 'Agriculture', 'damascus-agriculture'),
+  ('الطب البيطري', 'Veterinary Medicine', 'damascus-veterinary'),
+  ('التمريض', 'Nursing', 'damascus-nursing'),
+  ('التربية الرياضية', 'Physical Education', 'damascus-physical-education'),
+  ('كلية اللغات', 'Faculty of Languages', 'damascus-languages'),
+  ('المعهد التقاني الهندسي', 'Technical Engineering Institute', 'damascus-tech-engineering'),
+  ('المعهد التقاني للهندسة الميكانيكية والكهربائية', 'Mechanical and Electrical Engineering Technical Institute', 'damascus-tech-mechanical-electrical'),
+  ('المعهد التقاني الطبي', 'Medical Technical Institute', 'damascus-tech-medical'),
+  ('المعهد التقاني لطب الأسنان', 'Dental Technical Institute', 'damascus-tech-dentistry'),
+  ('المعهد التقاني الزراعي', 'Agricultural Technical Institute', 'damascus-tech-agriculture'),
+  ('المعهد التقاني للحاسوب', 'Computer Technical Institute', 'damascus-tech-computer'),
+  ('المعهد التقاني للعلوم المالية والمصرفية', 'Finance and Banking Technical Institute', 'damascus-tech-finance'),
+  ('المعهد التقاني لإدارة الأعمال والتسويق', 'Business Administration and Marketing Technical Institute', 'damascus-tech-business'),
+  ('المعهد التقاني الإحصائي', 'Statistical Technical Institute', 'damascus-tech-statistics'),
+  ('المعهد التقاني للصناعات الكيميائية', 'Chemical Industries Technical Institute', 'damascus-tech-chemistry')
 ) as v(name_ar, name_en, slug), univ
 on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
 
@@ -85,7 +120,36 @@ select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, t
   ('الشريعة الإسلامية', 'Islamic Sharia', 'damascus-sharia', 'damascus-sharia', 'إجازة في الشريعة', 4, 2),
   ('العلوم السياسية', 'Political Science', 'damascus-political-science', 'damascus-political-science', 'إجازة في العلوم السياسية', 4, 3),
   ('الإعلام والاتصال', 'Media and Communication', 'damascus-media', 'damascus-media', 'إجازة في الإعلام', 4, 3),
-  ('الهندسة الزراعية', 'Agricultural Engineering', 'damascus-agricultural-engineering', 'damascus-agriculture', 'بكالوريوس هندسة زراعية', 5, 3)
+  ('الهندسة الزراعية', 'Agricultural Engineering', 'damascus-agricultural-engineering', 'damascus-agriculture', 'بكالوريوس هندسة زراعية', 5, 3),
+  ('الطب البيطري', 'Veterinary Medicine', 'damascus-veterinary', 'damascus-veterinary', 'بكالوريوس الطب البيطري', 5, 4),
+  ('التمريض', 'Nursing', 'damascus-nursing', 'damascus-nursing', 'بكالوريوس التمريض', 4, 3),
+  ('التربية الرياضية', 'Physical Education', 'damascus-physical-education', 'damascus-physical-education', 'إجازة في التربية', 4, 3),
+  ('الترجمة', 'Translation', 'damascus-translation', 'damascus-languages', 'بكالوريوس', 4, 2),
+  ('اللغة الفرنسية', 'French Language', 'damascus-french', 'damascus-languages', 'إجازة في الآداب', 4, 2),
+  ('طوبوغرافيا', 'Topography', 'damascus-topography', 'damascus-tech-engineering', 'دبلوم تقاني', 2, 2),
+  ('تقنيات الميكانيك', 'Mechanical Technology', 'damascus-mechanical-tech', 'damascus-tech-mechanical-electrical', 'دبلوم تقاني', 2, 2),
+  ('تقنيات الكهرباء', 'Electrical Technology', 'damascus-electrical-tech', 'damascus-tech-mechanical-electrical', 'دبلوم تقاني', 2, 2),
+  ('هندسة الإلكترون', 'Electronics Engineering', 'damascus-electronics', 'damascus-tech-mechanical-electrical', 'دبلوم تقاني', 2, 2),
+  ('مخابر طبية', 'Medical Laboratories', 'damascus-medical-labs', 'damascus-tech-medical', 'دبلوم تقاني', 2, 2),
+  ('تخدير وإنعاش', 'Anesthesia and Resuscitation', 'damascus-anesthesia', 'damascus-tech-medical', 'دبلوم تقاني', 2, 2),
+  ('أشعة طبية', 'Medical Radiology', 'damascus-radiology', 'damascus-tech-medical', 'دبلوم تقاني', 2, 2),
+  ('إسعاف وطوارئ', 'Emergency and Paramedic', 'damascus-emergency', 'damascus-tech-medical', 'دبلوم تقاني', 2, 2),
+  ('علاج فيزيائي', 'Physiotherapy', 'damascus-physiotherapy', 'damascus-tech-medical', 'دبلوم تقاني', 2, 2),
+  ('بصريات', 'Optics and Optics Technology', 'damascus-optics', 'damascus-tech-medical', 'دبلوم تقاني', 2, 2),
+  ('التمريض', 'Nursing', 'damascus-nursing-tech', 'damascus-tech-medical', 'بكالوريوس التمريض', 4, 3),
+  ('فني طب الأسنان', 'Dental Prosthetics', 'damascus-dental-technician', 'damascus-tech-dentistry', 'دبلوم تقاني', 2, 2),
+  ('زراعة عامة', 'General Agriculture', 'damascus-general-agriculture', 'damascus-tech-agriculture', 'دبلوم تقاني', 2, 2),
+  ('وقاية نباتات', 'Plant Protection', 'damascus-plant-protection', 'damascus-tech-agriculture', 'دبلوم تقاني', 2, 2),
+  ('إنتاج حيواني', 'Animal Production', 'damascus-animal-production', 'damascus-tech-agriculture', 'دبلوم تقاني', 2, 2),
+  ('هندسة برمجيات', 'Software Engineering', 'damascus-software', 'damascus-tech-computer', 'دبلوم تقاني', 2, 2),
+  ('هندسة شبكات', 'Network Engineering', 'damascus-networks', 'damascus-tech-computer', 'دبلوم تقاني', 2, 2),
+  ('هندسة حاسوب', 'Computer Engineering', 'damascus-computer', 'damascus-tech-computer', 'دبلوم تقاني', 2, 2),
+  ('مالية ومصرفية', 'Finance and Banking', 'damascus-finance-banking', 'damascus-tech-finance', 'دبلوم تقاني', 2, 2),
+  ('المحاسبة', 'Accounting', 'damascus-accounting-tech', 'damascus-tech-finance', 'بكالوريوس', 4, 2),
+  ('إدارة الأعمال', 'Business Administration', 'damascus-business-tech', 'damascus-tech-business', 'بكالوريوس', 4, 2),
+  ('تسويق', 'Marketing', 'damascus-marketing', 'damascus-tech-business', 'دبلوم تقاني', 2, 2),
+  ('إحصاء تطبيقي', 'Applied Statistics', 'damascus-applied-statistics', 'damascus-tech-statistics', 'دبلوم تقاني', 2, 2),
+  ('كيمياء صناعية', 'Industrial Chemistry', 'damascus-industrial-chemistry', 'damascus-tech-chemistry', 'دبلوم تقاني', 2, 2)
 ) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
 join univ u on true
 join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
@@ -191,7 +255,107 @@ select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (valu
   ('damascus-agricultural-engineering', 'damascus-agriculture', 'scientific', 'general', 1780, 'الحد الأدنى للقبول العام 2025-2026'),
   ('damascus-agricultural-engineering', 'damascus-agriculture', 'scientific', 'parallel', 1730, 'الحد الأدنى للقبول الموازي 2025-2026'),
   ('damascus-agricultural-engineering', 'damascus-agriculture', 'agricultural', 'general', 1246, 'الحد الأدنى للقبول العام 2025-2026'),
-  ('damascus-agricultural-engineering', 'damascus-agriculture', 'agricultural', 'parallel', 1211, 'الحد الأدنى للقبول الموازي 2025-2026')
+  ('damascus-agricultural-engineering', 'damascus-agriculture', 'agricultural', 'parallel', 1211, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-veterinary', 'damascus-veterinary', 'scientific', 'general', 1900, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-veterinary', 'damascus-veterinary', 'scientific', 'parallel', 1850, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-nursing', 'damascus-nursing', 'scientific', 'general', 1950, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-nursing', 'damascus-nursing', 'scientific', 'parallel', 1900, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-nursing', 'damascus-nursing', 'female', 'general', 1365, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-nursing', 'damascus-nursing', 'female', 'parallel', 1330, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-physical-education', 'damascus-physical-education', 'literary', 'general', 1200, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-physical-education', 'damascus-physical-education', 'literary', 'parallel', 1150, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-translation', 'damascus-languages', 'literary', 'general', 1220, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-translation', 'damascus-languages', 'literary', 'parallel', 1170, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-french', 'damascus-languages', 'literary', 'general', 1180, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-french', 'damascus-languages', 'literary', 'parallel', 1130, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-topography', 'damascus-tech-engineering', 'scientific', 'general', 1640, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-topography', 'damascus-tech-engineering', 'scientific', 'parallel', 1590, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-topography', 'damascus-tech-engineering', 'industrial', 'general', 1181, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-topography', 'damascus-tech-engineering', 'industrial', 'parallel', 1145, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-mechanical-tech', 'damascus-tech-mechanical-electrical', 'scientific', 'general', 1595, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-mechanical-tech', 'damascus-tech-mechanical-electrical', 'scientific', 'parallel', 1545, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-mechanical-tech', 'damascus-tech-mechanical-electrical', 'industrial', 'general', 1148, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-mechanical-tech', 'damascus-tech-mechanical-electrical', 'industrial', 'parallel', 1112, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-electrical-tech', 'damascus-tech-mechanical-electrical', 'scientific', 'general', 1610, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-electrical-tech', 'damascus-tech-mechanical-electrical', 'scientific', 'parallel', 1560, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-electrical-tech', 'damascus-tech-mechanical-electrical', 'industrial', 'general', 1159, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-electrical-tech', 'damascus-tech-mechanical-electrical', 'industrial', 'parallel', 1123, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-electronics', 'damascus-tech-mechanical-electrical', 'scientific', 'general', 1625, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-electronics', 'damascus-tech-mechanical-electrical', 'scientific', 'parallel', 1575, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-electronics', 'damascus-tech-mechanical-electrical', 'industrial', 'general', 1170, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-electronics', 'damascus-tech-mechanical-electrical', 'industrial', 'parallel', 1134, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-medical-labs', 'damascus-tech-medical', 'scientific', 'general', 2127, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-medical-labs', 'damascus-tech-medical', 'scientific', 'parallel', 2077, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-medical-labs', 'damascus-tech-medical', 'female', 'general', 1489, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-medical-labs', 'damascus-tech-medical', 'female', 'parallel', 1454, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-anesthesia', 'damascus-tech-medical', 'scientific', 'general', 2095, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-anesthesia', 'damascus-tech-medical', 'scientific', 'parallel', 2045, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-radiology', 'damascus-tech-medical', 'scientific', 'general', 2100, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-radiology', 'damascus-tech-medical', 'scientific', 'parallel', 2050, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-emergency', 'damascus-tech-medical', 'scientific', 'general', 2070, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-emergency', 'damascus-tech-medical', 'scientific', 'parallel', 2020, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-physiotherapy', 'damascus-tech-medical', 'scientific', 'general', 2085, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-physiotherapy', 'damascus-tech-medical', 'scientific', 'parallel', 2035, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-optics', 'damascus-tech-medical', 'scientific', 'general', 2060, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-optics', 'damascus-tech-medical', 'scientific', 'parallel', 2010, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-nursing-tech', 'damascus-tech-medical', 'scientific', 'general', 2040, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-nursing-tech', 'damascus-tech-medical', 'scientific', 'parallel', 1990, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-nursing-tech', 'damascus-tech-medical', 'female', 'general', 1428, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-nursing-tech', 'damascus-tech-medical', 'female', 'parallel', 1393, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-dental-technician', 'damascus-tech-dentistry', 'scientific', 'general', 1720, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-dental-technician', 'damascus-tech-dentistry', 'scientific', 'parallel', 1670, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-general-agriculture', 'damascus-tech-agriculture', 'scientific', 'general', 1500, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-general-agriculture', 'damascus-tech-agriculture', 'scientific', 'parallel', 1450, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-general-agriculture', 'damascus-tech-agriculture', 'agricultural', 'general', 1125, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-general-agriculture', 'damascus-tech-agriculture', 'agricultural', 'parallel', 1088, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-plant-protection', 'damascus-tech-agriculture', 'scientific', 'general', 1470, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-plant-protection', 'damascus-tech-agriculture', 'scientific', 'parallel', 1420, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-plant-protection', 'damascus-tech-agriculture', 'agricultural', 'general', 1103, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-plant-protection', 'damascus-tech-agriculture', 'agricultural', 'parallel', 1065, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-animal-production', 'damascus-tech-agriculture', 'scientific', 'general', 1460, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-animal-production', 'damascus-tech-agriculture', 'scientific', 'parallel', 1410, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-animal-production', 'damascus-tech-agriculture', 'agricultural', 'general', 1095, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-animal-production', 'damascus-tech-agriculture', 'agricultural', 'parallel', 1058, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-software', 'damascus-tech-computer', 'scientific', 'general', 1763, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-software', 'damascus-tech-computer', 'scientific', 'parallel', 1713, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-software', 'damascus-tech-computer', 'industrial', 'general', 1269, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-software', 'damascus-tech-computer', 'industrial', 'parallel', 1233, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-software', 'damascus-tech-computer', 'vocational-it', 'general', 1234, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-software', 'damascus-tech-computer', 'vocational-it', 'parallel', 1199, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-networks', 'damascus-tech-computer', 'scientific', 'general', 1745, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-networks', 'damascus-tech-computer', 'scientific', 'parallel', 1695, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-networks', 'damascus-tech-computer', 'industrial', 'general', 1256, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-networks', 'damascus-tech-computer', 'industrial', 'parallel', 1220, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-networks', 'damascus-tech-computer', 'vocational-it', 'general', 1222, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-networks', 'damascus-tech-computer', 'vocational-it', 'parallel', 1187, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-computer', 'damascus-tech-computer', 'scientific', 'general', 1750, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-computer', 'damascus-tech-computer', 'scientific', 'parallel', 1700, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-computer', 'damascus-tech-computer', 'industrial', 'general', 1260, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-computer', 'damascus-tech-computer', 'industrial', 'parallel', 1224, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-computer', 'damascus-tech-computer', 'vocational-it', 'general', 1225, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-computer', 'damascus-tech-computer', 'vocational-it', 'parallel', 1190, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-finance-banking', 'damascus-tech-finance', 'literary', 'general', 1210, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-finance-banking', 'damascus-tech-finance', 'literary', 'parallel', 1160, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-finance-banking', 'damascus-tech-finance', 'commercial', 'general', 847, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-finance-banking', 'damascus-tech-finance', 'commercial', 'parallel', 812, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-accounting-tech', 'damascus-tech-finance', 'literary', 'general', 1190, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-accounting-tech', 'damascus-tech-finance', 'literary', 'parallel', 1140, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-accounting-tech', 'damascus-tech-finance', 'commercial', 'general', 833, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-accounting-tech', 'damascus-tech-finance', 'commercial', 'parallel', 798, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-business-tech', 'damascus-tech-business', 'literary', 'general', 1180, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-business-tech', 'damascus-tech-business', 'literary', 'parallel', 1130, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-business-tech', 'damascus-tech-business', 'commercial', 'general', 826, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-business-tech', 'damascus-tech-business', 'commercial', 'parallel', 791, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-marketing', 'damascus-tech-business', 'literary', 'general', 1160, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-marketing', 'damascus-tech-business', 'literary', 'parallel', 1110, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-marketing', 'damascus-tech-business', 'commercial', 'general', 812, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-marketing', 'damascus-tech-business', 'commercial', 'parallel', 777, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-applied-statistics', 'damascus-tech-statistics', 'literary', 'general', 1150, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-applied-statistics', 'damascus-tech-statistics', 'literary', 'parallel', 1100, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-industrial-chemistry', 'damascus-tech-chemistry', 'scientific', 'general', 1642, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-industrial-chemistry', 'damascus-tech-chemistry', 'scientific', 'parallel', 1592, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('damascus-industrial-chemistry', 'damascus-tech-chemistry', 'industrial', 'general', 1182, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('damascus-industrial-chemistry', 'damascus-tech-chemistry', 'industrial', 'parallel', 1146, 'الحد الأدنى للقبول الموازي 2025-2026')
 ) as v(major_slug, college_slug, cert_slug, adm, score, notes)
 join univ u on true
 join public.majors m on m.slug = v.major_slug
@@ -213,7 +377,18 @@ select univ.id, v.name_ar, v.name_en, v.slug, true from (values
   ('الآداب والعلوم الإنسانية', 'Arts and Humanities', 'aleppo-arts-humanities'),
   ('التربية', 'Education', 'aleppo-education'),
   ('الشريعة', 'Sharia', 'aleppo-sharia'),
-  ('الزراعة', 'Agriculture', 'aleppo-agriculture')
+  ('الزراعة', 'Agriculture', 'aleppo-agriculture'),
+  ('الطب البيطري', 'Veterinary Medicine', 'aleppo-veterinary'),
+  ('التمريض', 'Nursing', 'aleppo-nursing'),
+  ('كلية اللغات', 'Faculty of Languages', 'aleppo-languages'),
+  ('المعهد التقاني الهندسي', 'Technical Engineering Institute', 'aleppo-tech-engineering'),
+  ('المعهد التقاني للهندسة الميكانيكية والكهربائية', 'Mechanical and Electrical Engineering Technical Institute', 'aleppo-tech-mechanical-electrical'),
+  ('المعهد التقاني الطبي', 'Medical Technical Institute', 'aleppo-tech-medical'),
+  ('المعهد التقاني الزراعي', 'Agricultural Technical Institute', 'aleppo-tech-agriculture'),
+  ('المعهد التقاني للحاسوب', 'Computer Technical Institute', 'aleppo-tech-computer'),
+  ('المعهد التقاني للعلوم المالية والمصرفية', 'Finance and Banking Technical Institute', 'aleppo-tech-finance'),
+  ('المعهد التقاني لإدارة الأعمال والتسويق', 'Business Administration and Marketing Technical Institute', 'aleppo-tech-business'),
+  ('المعهد التقاني لطب الأسنان', 'Dental Technical Institute', 'aleppo-tech-dentistry')
 ) as v(name_ar, name_en, slug), univ
 on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
 
@@ -241,7 +416,30 @@ select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, t
   ('التاريخ', 'History', 'aleppo-history', 'aleppo-arts-humanities', 'إجازة في الآداب', 4, 2),
   ('معلم صف', 'Class Teacher', 'aleppo-class-teacher', 'aleppo-education', 'إجازة في التربية', 4, 2),
   ('الشريعة الإسلامية', 'Islamic Sharia', 'aleppo-sharia', 'aleppo-sharia', 'إجازة في الشريعة', 4, 2),
-  ('الهندسة الزراعية', 'Agricultural Engineering', 'aleppo-agricultural-engineering', 'aleppo-agriculture', 'بكالوريوس هندسة زراعية', 5, 3)
+  ('الهندسة الزراعية', 'Agricultural Engineering', 'aleppo-agricultural-engineering', 'aleppo-agriculture', 'بكالوريوس هندسة زراعية', 5, 3),
+  ('الطب البيطري', 'Veterinary Medicine', 'aleppo-veterinary', 'aleppo-veterinary', 'بكالوريوس الطب البيطري', 5, 4),
+  ('التمريض', 'Nursing', 'aleppo-nursing', 'aleppo-nursing', 'بكالوريوس التمريض', 4, 3),
+  ('الترجمة', 'Translation', 'aleppo-translation', 'aleppo-languages', 'بكالوريوس', 4, 2),
+  ('اللغة الفرنسية', 'French Language', 'aleppo-french', 'aleppo-languages', 'إجازة في الآداب', 4, 2),
+  ('طوبوغرافيا', 'Topography', 'aleppo-topography', 'aleppo-tech-engineering', 'دبلوم تقاني', 2, 2),
+  ('تقنيات الميكانيك', 'Mechanical Technology', 'aleppo-mechanical-tech', 'aleppo-tech-mechanical-electrical', 'دبلوم تقاني', 2, 2),
+  ('تقنيات الكهرباء', 'Electrical Technology', 'aleppo-electrical-tech', 'aleppo-tech-mechanical-electrical', 'دبلوم تقاني', 2, 2),
+  ('هندسة الإلكترون', 'Electronics Engineering', 'aleppo-electronics', 'aleppo-tech-mechanical-electrical', 'دبلوم تقاني', 2, 2),
+  ('مخابر طبية', 'Medical Laboratories', 'aleppo-medical-labs', 'aleppo-tech-medical', 'دبلوم تقاني', 2, 2),
+  ('تخدير وإنعاش', 'Anesthesia and Resuscitation', 'aleppo-anesthesia', 'aleppo-tech-medical', 'دبلوم تقاني', 2, 2),
+  ('أشعة طبية', 'Medical Radiology', 'aleppo-radiology', 'aleppo-tech-medical', 'دبلوم تقاني', 2, 2),
+  ('التمريض', 'Nursing', 'aleppo-nursing-tech', 'aleppo-tech-medical', 'بكالوريوس التمريض', 4, 3),
+  ('زراعة عامة', 'General Agriculture', 'aleppo-general-agriculture', 'aleppo-tech-agriculture', 'دبلوم تقاني', 2, 2),
+  ('وقاية نباتات', 'Plant Protection', 'aleppo-plant-protection', 'aleppo-tech-agriculture', 'دبلوم تقاني', 2, 2),
+  ('إنتاج حيواني', 'Animal Production', 'aleppo-animal-production', 'aleppo-tech-agriculture', 'دبلوم تقاني', 2, 2),
+  ('هندسة برمجيات', 'Software Engineering', 'aleppo-software', 'aleppo-tech-computer', 'دبلوم تقاني', 2, 2),
+  ('هندسة شبكات', 'Network Engineering', 'aleppo-networks', 'aleppo-tech-computer', 'دبلوم تقاني', 2, 2),
+  ('هندسة حاسوب', 'Computer Engineering', 'aleppo-computer', 'aleppo-tech-computer', 'دبلوم تقاني', 2, 2),
+  ('مالية ومصرفية', 'Finance and Banking', 'aleppo-finance-banking', 'aleppo-tech-finance', 'دبلوم تقاني', 2, 2),
+  ('المحاسبة', 'Accounting', 'aleppo-accounting-tech', 'aleppo-tech-finance', 'بكالوريوس', 4, 2),
+  ('إدارة الأعمال', 'Business Administration', 'aleppo-business-tech', 'aleppo-tech-business', 'بكالوريوس', 4, 2),
+  ('تسويق', 'Marketing', 'aleppo-marketing', 'aleppo-tech-business', 'دبلوم تقاني', 2, 2),
+  ('فني طب الأسنان', 'Dental Prosthetics', 'aleppo-dental-technician', 'aleppo-tech-dentistry', 'دبلوم تقاني', 2, 2)
 ) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
 join univ u on true
 join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
@@ -333,7 +531,93 @@ select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (valu
   ('aleppo-agricultural-engineering', 'aleppo-agriculture', 'scientific', 'general', 1750, 'الحد الأدنى للقبول العام 2025-2026'),
   ('aleppo-agricultural-engineering', 'aleppo-agriculture', 'scientific', 'parallel', 1700, 'الحد الأدنى للقبول الموازي 2025-2026'),
   ('aleppo-agricultural-engineering', 'aleppo-agriculture', 'agricultural', 'general', 1225, 'الحد الأدنى للقبول العام 2025-2026'),
-  ('aleppo-agricultural-engineering', 'aleppo-agriculture', 'agricultural', 'parallel', 1190, 'الحد الأدنى للقبول الموازي 2025-2026')
+  ('aleppo-agricultural-engineering', 'aleppo-agriculture', 'agricultural', 'parallel', 1190, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-veterinary', 'aleppo-veterinary', 'scientific', 'general', 1870, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-veterinary', 'aleppo-veterinary', 'scientific', 'parallel', 1820, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-nursing', 'aleppo-nursing', 'scientific', 'general', 1920, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-nursing', 'aleppo-nursing', 'scientific', 'parallel', 1870, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-nursing', 'aleppo-nursing', 'female', 'general', 1344, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-nursing', 'aleppo-nursing', 'female', 'parallel', 1309, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-translation', 'aleppo-languages', 'literary', 'general', 1190, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-translation', 'aleppo-languages', 'literary', 'parallel', 1140, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-french', 'aleppo-languages', 'literary', 'general', 1150, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-french', 'aleppo-languages', 'literary', 'parallel', 1100, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-topography', 'aleppo-tech-engineering', 'scientific', 'general', 1410, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-topography', 'aleppo-tech-engineering', 'scientific', 'parallel', 1360, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-topography', 'aleppo-tech-engineering', 'industrial', 'general', 1015, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-topography', 'aleppo-tech-engineering', 'industrial', 'parallel', 979, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-mechanical-tech', 'aleppo-tech-mechanical-electrical', 'scientific', 'general', 1324, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-mechanical-tech', 'aleppo-tech-mechanical-electrical', 'scientific', 'parallel', 1274, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-mechanical-tech', 'aleppo-tech-mechanical-electrical', 'industrial', 'general', 953, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-mechanical-tech', 'aleppo-tech-mechanical-electrical', 'industrial', 'parallel', 917, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-electrical-tech', 'aleppo-tech-mechanical-electrical', 'scientific', 'general', 1340, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-electrical-tech', 'aleppo-tech-mechanical-electrical', 'scientific', 'parallel', 1290, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-electrical-tech', 'aleppo-tech-mechanical-electrical', 'industrial', 'general', 965, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-electrical-tech', 'aleppo-tech-mechanical-electrical', 'industrial', 'parallel', 929, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-electronics', 'aleppo-tech-mechanical-electrical', 'scientific', 'general', 1355, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-electronics', 'aleppo-tech-mechanical-electrical', 'scientific', 'parallel', 1305, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-electronics', 'aleppo-tech-mechanical-electrical', 'industrial', 'general', 976, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-electronics', 'aleppo-tech-mechanical-electrical', 'industrial', 'parallel', 940, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-medical-labs', 'aleppo-tech-medical', 'scientific', 'general', 1989, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-medical-labs', 'aleppo-tech-medical', 'scientific', 'parallel', 1939, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-medical-labs', 'aleppo-tech-medical', 'female', 'general', 1392, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-medical-labs', 'aleppo-tech-medical', 'female', 'parallel', 1357, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-anesthesia', 'aleppo-tech-medical', 'scientific', 'general', 1955, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-anesthesia', 'aleppo-tech-medical', 'scientific', 'parallel', 1905, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-radiology', 'aleppo-tech-medical', 'scientific', 'general', 1960, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-radiology', 'aleppo-tech-medical', 'scientific', 'parallel', 1910, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-nursing-tech', 'aleppo-tech-medical', 'scientific', 'general', 1900, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-nursing-tech', 'aleppo-tech-medical', 'scientific', 'parallel', 1850, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-nursing-tech', 'aleppo-tech-medical', 'female', 'general', 1330, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-nursing-tech', 'aleppo-tech-medical', 'female', 'parallel', 1295, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-general-agriculture', 'aleppo-tech-agriculture', 'scientific', 'general', 1230, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-general-agriculture', 'aleppo-tech-agriculture', 'scientific', 'parallel', 1180, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-general-agriculture', 'aleppo-tech-agriculture', 'agricultural', 'general', 923, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-general-agriculture', 'aleppo-tech-agriculture', 'agricultural', 'parallel', 885, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-plant-protection', 'aleppo-tech-agriculture', 'scientific', 'general', 1200, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-plant-protection', 'aleppo-tech-agriculture', 'scientific', 'parallel', 1150, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-plant-protection', 'aleppo-tech-agriculture', 'agricultural', 'general', 900, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-plant-protection', 'aleppo-tech-agriculture', 'agricultural', 'parallel', 863, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-animal-production', 'aleppo-tech-agriculture', 'scientific', 'general', 1190, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-animal-production', 'aleppo-tech-agriculture', 'scientific', 'parallel', 1140, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-animal-production', 'aleppo-tech-agriculture', 'agricultural', 'general', 893, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-animal-production', 'aleppo-tech-agriculture', 'agricultural', 'parallel', 855, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-software', 'aleppo-tech-computer', 'scientific', 'general', 1524, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-software', 'aleppo-tech-computer', 'scientific', 'parallel', 1474, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-software', 'aleppo-tech-computer', 'industrial', 'general', 1097, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-software', 'aleppo-tech-computer', 'industrial', 'parallel', 1061, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-software', 'aleppo-tech-computer', 'vocational-it', 'general', 1067, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-software', 'aleppo-tech-computer', 'vocational-it', 'parallel', 1032, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-networks', 'aleppo-tech-computer', 'scientific', 'general', 1505, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-networks', 'aleppo-tech-computer', 'scientific', 'parallel', 1455, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-networks', 'aleppo-tech-computer', 'industrial', 'general', 1084, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-networks', 'aleppo-tech-computer', 'industrial', 'parallel', 1048, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-networks', 'aleppo-tech-computer', 'vocational-it', 'general', 1054, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-networks', 'aleppo-tech-computer', 'vocational-it', 'parallel', 1018, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-computer', 'aleppo-tech-computer', 'scientific', 'general', 1510, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-computer', 'aleppo-tech-computer', 'scientific', 'parallel', 1460, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-computer', 'aleppo-tech-computer', 'industrial', 'general', 1087, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-computer', 'aleppo-tech-computer', 'industrial', 'parallel', 1051, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-computer', 'aleppo-tech-computer', 'vocational-it', 'general', 1057, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-computer', 'aleppo-tech-computer', 'vocational-it', 'parallel', 1022, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-finance-banking', 'aleppo-tech-finance', 'literary', 'general', 1130, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-finance-banking', 'aleppo-tech-finance', 'literary', 'parallel', 1080, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-finance-banking', 'aleppo-tech-finance', 'commercial', 'general', 791, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-finance-banking', 'aleppo-tech-finance', 'commercial', 'parallel', 756, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-accounting-tech', 'aleppo-tech-finance', 'literary', 'general', 1110, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-accounting-tech', 'aleppo-tech-finance', 'literary', 'parallel', 1060, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-accounting-tech', 'aleppo-tech-finance', 'commercial', 'general', 777, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-accounting-tech', 'aleppo-tech-finance', 'commercial', 'parallel', 742, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-business-tech', 'aleppo-tech-business', 'literary', 'general', 1100, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-business-tech', 'aleppo-tech-business', 'literary', 'parallel', 1050, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-business-tech', 'aleppo-tech-business', 'commercial', 'general', 770, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-business-tech', 'aleppo-tech-business', 'commercial', 'parallel', 735, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-marketing', 'aleppo-tech-business', 'literary', 'general', 1080, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-marketing', 'aleppo-tech-business', 'literary', 'parallel', 1030, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-marketing', 'aleppo-tech-business', 'commercial', 'general', 756, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-marketing', 'aleppo-tech-business', 'commercial', 'parallel', 721, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('aleppo-dental-technician', 'aleppo-tech-dentistry', 'scientific', 'general', 1500, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aleppo-dental-technician', 'aleppo-tech-dentistry', 'scientific', 'parallel', 1450, 'الحد الأدنى للقبول الموازي 2025-2026')
 ) as v(major_slug, college_slug, cert_slug, adm, score, notes)
 join univ u on true
 join public.majors m on m.slug = v.major_slug
@@ -354,7 +638,17 @@ select univ.id, v.name_ar, v.name_en, v.slug, true from (values
   ('الحقوق', 'Law', 'tishreen-law'),
   ('الآداب والعلوم الإنسانية', 'Arts and Humanities', 'tishreen-arts-humanities'),
   ('التربية', 'Education', 'tishreen-education'),
-  ('الزراعة', 'Agriculture', 'tishreen-agriculture')
+  ('الزراعة', 'Agriculture', 'tishreen-agriculture'),
+  ('التمريض', 'Nursing', 'tishreen-nursing'),
+  ('التربية الرياضية', 'Physical Education', 'tishreen-physical-education'),
+  ('المعهد التقاني الهندسي', 'Technical Engineering Institute', 'tishreen-tech-engineering'),
+  ('المعهد التقاني الطبي', 'Medical Technical Institute', 'tishreen-tech-medical'),
+  ('المعهد التقاني الزراعي', 'Agricultural Technical Institute', 'tishreen-tech-agriculture'),
+  ('المعهد التقاني للحاسوب', 'Computer Technical Institute', 'tishreen-tech-computer'),
+  ('المعهد التقاني للعلوم المالية والمصرفية', 'Finance and Banking Technical Institute', 'tishreen-tech-finance'),
+  ('المعهد التقاني لإدارة الأعمال والتسويق', 'Business Administration and Marketing Technical Institute', 'tishreen-tech-business'),
+  ('المعهد التقاني الإحصائي', 'Statistical Technical Institute', 'tishreen-tech-statistics'),
+  ('المعهد التقاني السياحي والفندقي', 'Tourism and Hotel Technical Institute', 'tishreen-tech-tourism')
 ) as v(name_ar, name_en, slug), univ
 on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
 
@@ -378,7 +672,26 @@ select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, t
   ('اللغة العربية', 'Arabic Language', 'tishreen-arabic', 'tishreen-arts-humanities', 'إجازة في الآداب', 4, 2),
   ('اللغة الإنجليزية', 'English Language', 'tishreen-english', 'tishreen-arts-humanities', 'إجازة في الآداب', 4, 2),
   ('معلم صف', 'Class Teacher', 'tishreen-class-teacher', 'tishreen-education', 'إجازة في التربية', 4, 2),
-  ('الهندسة الزراعية', 'Agricultural Engineering', 'tishreen-agricultural-engineering', 'tishreen-agriculture', 'بكالوريوس هندسة زراعية', 5, 3)
+  ('الهندسة الزراعية', 'Agricultural Engineering', 'tishreen-agricultural-engineering', 'tishreen-agriculture', 'بكالوريوس هندسة زراعية', 5, 3),
+  ('التمريض', 'Nursing', 'tishreen-nursing', 'tishreen-nursing', 'بكالوريوس التمريض', 4, 3),
+  ('التربية الرياضية', 'Physical Education', 'tishreen-physical-education', 'tishreen-physical-education', 'إجازة في التربية', 4, 3),
+  ('طوبوغرافيا', 'Topography', 'tishreen-topography', 'tishreen-tech-engineering', 'دبلوم تقاني', 2, 2),
+  ('مخابر طبية', 'Medical Laboratories', 'tishreen-medical-labs', 'tishreen-tech-medical', 'دبلوم تقاني', 2, 2),
+  ('تخدير وإنعاش', 'Anesthesia and Resuscitation', 'tishreen-anesthesia', 'tishreen-tech-medical', 'دبلوم تقاني', 2, 2),
+  ('أشعة طبية', 'Medical Radiology', 'tishreen-radiology', 'tishreen-tech-medical', 'دبلوم تقاني', 2, 2),
+  ('التمريض', 'Nursing', 'tishreen-nursing-tech', 'tishreen-tech-medical', 'بكالوريوس التمريض', 4, 3),
+  ('زراعة عامة', 'General Agriculture', 'tishreen-general-agriculture', 'tishreen-tech-agriculture', 'دبلوم تقاني', 2, 2),
+  ('وقاية نباتات', 'Plant Protection', 'tishreen-plant-protection', 'tishreen-tech-agriculture', 'دبلوم تقاني', 2, 2),
+  ('إنتاج حيواني', 'Animal Production', 'tishreen-animal-production', 'tishreen-tech-agriculture', 'دبلوم تقاني', 2, 2),
+  ('هندسة برمجيات', 'Software Engineering', 'tishreen-software', 'tishreen-tech-computer', 'دبلوم تقاني', 2, 2),
+  ('هندسة شبكات', 'Network Engineering', 'tishreen-networks', 'tishreen-tech-computer', 'دبلوم تقاني', 2, 2),
+  ('هندسة حاسوب', 'Computer Engineering', 'tishreen-computer', 'tishreen-tech-computer', 'دبلوم تقاني', 2, 2),
+  ('مالية ومصرفية', 'Finance and Banking', 'tishreen-finance-banking', 'tishreen-tech-finance', 'دبلوم تقاني', 2, 2),
+  ('المحاسبة', 'Accounting', 'tishreen-accounting-tech', 'tishreen-tech-finance', 'بكالوريوس', 4, 2),
+  ('إدارة الأعمال', 'Business Administration', 'tishreen-business-tech', 'tishreen-tech-business', 'بكالوريوس', 4, 2),
+  ('تسويق', 'Marketing', 'tishreen-marketing', 'tishreen-tech-business', 'دبلوم تقاني', 2, 2),
+  ('إحصاء تطبيقي', 'Applied Statistics', 'tishreen-applied-statistics', 'tishreen-tech-statistics', 'دبلوم تقاني', 2, 2),
+  ('سياحة وفنادق', 'Tourism and Hotels', 'tishreen-tourism', 'tishreen-tech-tourism', 'دبلوم تقاني', 2, 2)
 ) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
 join univ u on true
 join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
@@ -454,7 +767,81 @@ select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (valu
   ('tishreen-agricultural-engineering', 'tishreen-agriculture', 'scientific', 'general', 1720, 'الحد الأدنى للقبول العام 2025-2026'),
   ('tishreen-agricultural-engineering', 'tishreen-agriculture', 'scientific', 'parallel', 1670, 'الحد الأدنى للقبول الموازي 2025-2026'),
   ('tishreen-agricultural-engineering', 'tishreen-agriculture', 'agricultural', 'general', 1204, 'الحد الأدنى للقبول العام 2025-2026'),
-  ('tishreen-agricultural-engineering', 'tishreen-agriculture', 'agricultural', 'parallel', 1169, 'الحد الأدنى للقبول الموازي 2025-2026')
+  ('tishreen-agricultural-engineering', 'tishreen-agriculture', 'agricultural', 'parallel', 1169, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-nursing', 'tishreen-nursing', 'scientific', 'general', 1890, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-nursing', 'tishreen-nursing', 'scientific', 'parallel', 1840, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-nursing', 'tishreen-nursing', 'female', 'general', 1323, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-nursing', 'tishreen-nursing', 'female', 'parallel', 1288, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-physical-education', 'tishreen-physical-education', 'literary', 'general', 1170, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-physical-education', 'tishreen-physical-education', 'literary', 'parallel', 1120, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-topography', 'tishreen-tech-engineering', 'scientific', 'general', 1290, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-topography', 'tishreen-tech-engineering', 'scientific', 'parallel', 1240, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-topography', 'tishreen-tech-engineering', 'industrial', 'general', 929, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-topography', 'tishreen-tech-engineering', 'industrial', 'parallel', 893, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-medical-labs', 'tishreen-tech-medical', 'scientific', 'general', 1860, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-medical-labs', 'tishreen-tech-medical', 'scientific', 'parallel', 1810, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-medical-labs', 'tishreen-tech-medical', 'female', 'general', 1302, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-medical-labs', 'tishreen-tech-medical', 'female', 'parallel', 1267, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-anesthesia', 'tishreen-tech-medical', 'scientific', 'general', 1830, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-anesthesia', 'tishreen-tech-medical', 'scientific', 'parallel', 1780, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-radiology', 'tishreen-tech-medical', 'scientific', 'general', 1835, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-radiology', 'tishreen-tech-medical', 'scientific', 'parallel', 1785, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-nursing-tech', 'tishreen-tech-medical', 'scientific', 'general', 1780, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-nursing-tech', 'tishreen-tech-medical', 'scientific', 'parallel', 1730, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-nursing-tech', 'tishreen-tech-medical', 'female', 'general', 1246, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-nursing-tech', 'tishreen-tech-medical', 'female', 'parallel', 1211, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-general-agriculture', 'tishreen-tech-agriculture', 'scientific', 'general', 1102, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-general-agriculture', 'tishreen-tech-agriculture', 'scientific', 'parallel', 1052, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-general-agriculture', 'tishreen-tech-agriculture', 'agricultural', 'general', 827, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-general-agriculture', 'tishreen-tech-agriculture', 'agricultural', 'parallel', 789, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-plant-protection', 'tishreen-tech-agriculture', 'scientific', 'general', 1080, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-plant-protection', 'tishreen-tech-agriculture', 'scientific', 'parallel', 1030, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-plant-protection', 'tishreen-tech-agriculture', 'agricultural', 'general', 810, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-plant-protection', 'tishreen-tech-agriculture', 'agricultural', 'parallel', 773, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-animal-production', 'tishreen-tech-agriculture', 'scientific', 'general', 1070, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-animal-production', 'tishreen-tech-agriculture', 'scientific', 'parallel', 1020, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-animal-production', 'tishreen-tech-agriculture', 'agricultural', 'general', 803, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-animal-production', 'tishreen-tech-agriculture', 'agricultural', 'parallel', 765, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-software', 'tishreen-tech-computer', 'scientific', 'general', 1434, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-software', 'tishreen-tech-computer', 'scientific', 'parallel', 1384, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-software', 'tishreen-tech-computer', 'industrial', 'general', 1032, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-software', 'tishreen-tech-computer', 'industrial', 'parallel', 996, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-software', 'tishreen-tech-computer', 'vocational-it', 'general', 1004, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-software', 'tishreen-tech-computer', 'vocational-it', 'parallel', 969, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-networks', 'tishreen-tech-computer', 'scientific', 'general', 1415, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-networks', 'tishreen-tech-computer', 'scientific', 'parallel', 1365, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-networks', 'tishreen-tech-computer', 'industrial', 'general', 1019, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-networks', 'tishreen-tech-computer', 'industrial', 'parallel', 983, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-networks', 'tishreen-tech-computer', 'vocational-it', 'general', 990, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-networks', 'tishreen-tech-computer', 'vocational-it', 'parallel', 955, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-computer', 'tishreen-tech-computer', 'scientific', 'general', 1420, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-computer', 'tishreen-tech-computer', 'scientific', 'parallel', 1370, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-computer', 'tishreen-tech-computer', 'industrial', 'general', 1022, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-computer', 'tishreen-tech-computer', 'industrial', 'parallel', 986, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-computer', 'tishreen-tech-computer', 'vocational-it', 'general', 994, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-computer', 'tishreen-tech-computer', 'vocational-it', 'parallel', 959, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-finance-banking', 'tishreen-tech-finance', 'literary', 'general', 1090, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-finance-banking', 'tishreen-tech-finance', 'literary', 'parallel', 1040, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-finance-banking', 'tishreen-tech-finance', 'commercial', 'general', 763, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-finance-banking', 'tishreen-tech-finance', 'commercial', 'parallel', 728, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-accounting-tech', 'tishreen-tech-finance', 'literary', 'general', 1070, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-accounting-tech', 'tishreen-tech-finance', 'literary', 'parallel', 1020, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-accounting-tech', 'tishreen-tech-finance', 'commercial', 'general', 749, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-accounting-tech', 'tishreen-tech-finance', 'commercial', 'parallel', 714, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-business-tech', 'tishreen-tech-business', 'literary', 'general', 1060, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-business-tech', 'tishreen-tech-business', 'literary', 'parallel', 1010, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-business-tech', 'tishreen-tech-business', 'commercial', 'general', 742, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-business-tech', 'tishreen-tech-business', 'commercial', 'parallel', 707, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-marketing', 'tishreen-tech-business', 'literary', 'general', 1040, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-marketing', 'tishreen-tech-business', 'literary', 'parallel', 990, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-marketing', 'tishreen-tech-business', 'commercial', 'general', 728, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-marketing', 'tishreen-tech-business', 'commercial', 'parallel', 693, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-applied-statistics', 'tishreen-tech-statistics', 'literary', 'general', 1050, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-applied-statistics', 'tishreen-tech-statistics', 'literary', 'parallel', 1000, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-tourism', 'tishreen-tech-tourism', 'literary', 'general', 1030, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-tourism', 'tishreen-tech-tourism', 'literary', 'parallel', 980, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tishreen-tourism', 'tishreen-tech-tourism', 'commercial', 'general', 721, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tishreen-tourism', 'tishreen-tech-tourism', 'commercial', 'parallel', 686, 'الحد الأدنى للقبول الموازي 2025-2026')
 ) as v(major_slug, college_slug, cert_slug, adm, score, notes)
 join univ u on true
 join public.majors m on m.slug = v.major_slug
@@ -475,7 +862,16 @@ select univ.id, v.name_ar, v.name_en, v.slug, true from (values
   ('الحقوق', 'Law', 'baath-law'),
   ('الآداب والعلوم الإنسانية', 'Arts and Humanities', 'baath-arts-humanities'),
   ('التربية', 'Education', 'baath-education'),
-  ('الزراعة', 'Agriculture', 'baath-agriculture')
+  ('الزراعة', 'Agriculture', 'baath-agriculture'),
+  ('التربية الرياضية', 'Physical Education', 'baath-physical-education'),
+  ('المعهد التقاني الهندسي', 'Technical Engineering Institute', 'baath-tech-engineering'),
+  ('المعهد التقاني الطبي', 'Medical Technical Institute', 'baath-tech-medical'),
+  ('المعهد التقاني الزراعي', 'Agricultural Technical Institute', 'baath-tech-agriculture'),
+  ('المعهد التقاني للحاسوب', 'Computer Technical Institute', 'baath-tech-computer'),
+  ('المعهد التقاني للعلوم المالية والمصرفية', 'Finance and Banking Technical Institute', 'baath-tech-finance'),
+  ('المعهد التقاني لإدارة الأعمال والتسويق', 'Business Administration and Marketing Technical Institute', 'baath-tech-business'),
+  ('المعهد التقاني للصناعات الكيميائية', 'Chemical Industries Technical Institute', 'baath-tech-chemistry'),
+  ('المعهد التقاني لطب الأسنان', 'Dental Technical Institute', 'baath-tech-dentistry')
 ) as v(name_ar, name_en, slug), univ
 on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
 
@@ -497,7 +893,25 @@ select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, t
   ('اللغة العربية', 'Arabic Language', 'baath-arabic', 'baath-arts-humanities', 'إجازة في الآداب', 4, 2),
   ('اللغة الإنجليزية', 'English Language', 'baath-english', 'baath-arts-humanities', 'إجازة في الآداب', 4, 2),
   ('معلم صف', 'Class Teacher', 'baath-class-teacher', 'baath-education', 'إجازة في التربية', 4, 2),
-  ('الهندسة الزراعية', 'Agricultural Engineering', 'baath-agricultural-engineering', 'baath-agriculture', 'بكالوريوس هندسة زراعية', 5, 3)
+  ('الهندسة الزراعية', 'Agricultural Engineering', 'baath-agricultural-engineering', 'baath-agriculture', 'بكالوريوس هندسة زراعية', 5, 3),
+  ('التربية الرياضية', 'Physical Education', 'baath-physical-education', 'baath-physical-education', 'إجازة في التربية', 4, 3),
+  ('طوبوغرافيا', 'Topography', 'baath-topography', 'baath-tech-engineering', 'دبلوم تقاني', 2, 2),
+  ('مخابر طبية', 'Medical Laboratories', 'baath-medical-labs', 'baath-tech-medical', 'دبلوم تقاني', 2, 2),
+  ('تخدير وإنعاش', 'Anesthesia and Resuscitation', 'baath-anesthesia', 'baath-tech-medical', 'دبلوم تقاني', 2, 2),
+  ('أشعة طبية', 'Medical Radiology', 'baath-radiology', 'baath-tech-medical', 'دبلوم تقاني', 2, 2),
+  ('التمريض', 'Nursing', 'baath-nursing-tech', 'baath-tech-medical', 'بكالوريوس التمريض', 4, 3),
+  ('زراعة عامة', 'General Agriculture', 'baath-general-agriculture', 'baath-tech-agriculture', 'دبلوم تقاني', 2, 2),
+  ('وقاية نباتات', 'Plant Protection', 'baath-plant-protection', 'baath-tech-agriculture', 'دبلوم تقاني', 2, 2),
+  ('إنتاج حيواني', 'Animal Production', 'baath-animal-production', 'baath-tech-agriculture', 'دبلوم تقاني', 2, 2),
+  ('هندسة برمجيات', 'Software Engineering', 'baath-software', 'baath-tech-computer', 'دبلوم تقاني', 2, 2),
+  ('هندسة شبكات', 'Network Engineering', 'baath-networks', 'baath-tech-computer', 'دبلوم تقاني', 2, 2),
+  ('هندسة حاسوب', 'Computer Engineering', 'baath-computer', 'baath-tech-computer', 'دبلوم تقاني', 2, 2),
+  ('مالية ومصرفية', 'Finance and Banking', 'baath-finance-banking', 'baath-tech-finance', 'دبلوم تقاني', 2, 2),
+  ('المحاسبة', 'Accounting', 'baath-accounting-tech', 'baath-tech-finance', 'بكالوريوس', 4, 2),
+  ('إدارة الأعمال', 'Business Administration', 'baath-business-tech', 'baath-tech-business', 'بكالوريوس', 4, 2),
+  ('تسويق', 'Marketing', 'baath-marketing', 'baath-tech-business', 'دبلوم تقاني', 2, 2),
+  ('كيمياء صناعية', 'Industrial Chemistry', 'baath-industrial-chemistry', 'baath-tech-chemistry', 'دبلوم تقاني', 2, 2),
+  ('فني طب الأسنان', 'Dental Prosthetics', 'baath-dental-technician', 'baath-tech-dentistry', 'دبلوم تقاني', 2, 2)
 ) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
 join univ u on true
 join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
@@ -567,7 +981,77 @@ select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (valu
   ('baath-agricultural-engineering', 'baath-agriculture', 'scientific', 'general', 1700, 'الحد الأدنى للقبول العام 2025-2026'),
   ('baath-agricultural-engineering', 'baath-agriculture', 'scientific', 'parallel', 1650, 'الحد الأدنى للقبول الموازي 2025-2026'),
   ('baath-agricultural-engineering', 'baath-agriculture', 'agricultural', 'general', 1190, 'الحد الأدنى للقبول العام 2025-2026'),
-  ('baath-agricultural-engineering', 'baath-agriculture', 'agricultural', 'parallel', 1155, 'الحد الأدنى للقبول الموازي 2025-2026')
+  ('baath-agricultural-engineering', 'baath-agriculture', 'agricultural', 'parallel', 1155, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-physical-education', 'baath-physical-education', 'literary', 'general', 1150, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-physical-education', 'baath-physical-education', 'literary', 'parallel', 1100, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-topography', 'baath-tech-engineering', 'scientific', 'general', 1450, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-topography', 'baath-tech-engineering', 'scientific', 'parallel', 1400, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-topography', 'baath-tech-engineering', 'industrial', 'general', 1044, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-topography', 'baath-tech-engineering', 'industrial', 'parallel', 1008, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-medical-labs', 'baath-tech-medical', 'scientific', 'general', 1900, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-medical-labs', 'baath-tech-medical', 'scientific', 'parallel', 1850, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-medical-labs', 'baath-tech-medical', 'female', 'general', 1330, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-medical-labs', 'baath-tech-medical', 'female', 'parallel', 1295, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-anesthesia', 'baath-tech-medical', 'scientific', 'general', 1870, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-anesthesia', 'baath-tech-medical', 'scientific', 'parallel', 1820, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-radiology', 'baath-tech-medical', 'scientific', 'general', 1875, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-radiology', 'baath-tech-medical', 'scientific', 'parallel', 1825, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-nursing-tech', 'baath-tech-medical', 'scientific', 'general', 1820, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-nursing-tech', 'baath-tech-medical', 'scientific', 'parallel', 1770, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-nursing-tech', 'baath-tech-medical', 'female', 'general', 1274, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-nursing-tech', 'baath-tech-medical', 'female', 'parallel', 1239, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-general-agriculture', 'baath-tech-agriculture', 'scientific', 'general', 1396, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-general-agriculture', 'baath-tech-agriculture', 'scientific', 'parallel', 1346, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-general-agriculture', 'baath-tech-agriculture', 'agricultural', 'general', 1047, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-general-agriculture', 'baath-tech-agriculture', 'agricultural', 'parallel', 1010, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-plant-protection', 'baath-tech-agriculture', 'scientific', 'general', 1370, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-plant-protection', 'baath-tech-agriculture', 'scientific', 'parallel', 1320, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-plant-protection', 'baath-tech-agriculture', 'agricultural', 'general', 1028, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-plant-protection', 'baath-tech-agriculture', 'agricultural', 'parallel', 990, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-animal-production', 'baath-tech-agriculture', 'scientific', 'general', 1360, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-animal-production', 'baath-tech-agriculture', 'scientific', 'parallel', 1310, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-animal-production', 'baath-tech-agriculture', 'agricultural', 'general', 1020, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-animal-production', 'baath-tech-agriculture', 'agricultural', 'parallel', 983, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-software', 'baath-tech-computer', 'scientific', 'general', 1450, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-software', 'baath-tech-computer', 'scientific', 'parallel', 1400, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-software', 'baath-tech-computer', 'industrial', 'general', 1044, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-software', 'baath-tech-computer', 'industrial', 'parallel', 1008, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-software', 'baath-tech-computer', 'vocational-it', 'general', 1015, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-software', 'baath-tech-computer', 'vocational-it', 'parallel', 980, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-networks', 'baath-tech-computer', 'scientific', 'general', 1430, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-networks', 'baath-tech-computer', 'scientific', 'parallel', 1380, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-networks', 'baath-tech-computer', 'industrial', 'general', 1030, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-networks', 'baath-tech-computer', 'industrial', 'parallel', 994, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-networks', 'baath-tech-computer', 'vocational-it', 'general', 1001, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-networks', 'baath-tech-computer', 'vocational-it', 'parallel', 966, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-computer', 'baath-tech-computer', 'scientific', 'general', 1435, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-computer', 'baath-tech-computer', 'scientific', 'parallel', 1385, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-computer', 'baath-tech-computer', 'industrial', 'general', 1033, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-computer', 'baath-tech-computer', 'industrial', 'parallel', 997, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-computer', 'baath-tech-computer', 'vocational-it', 'general', 1004, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-computer', 'baath-tech-computer', 'vocational-it', 'parallel', 969, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-finance-banking', 'baath-tech-finance', 'literary', 'general', 1120, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-finance-banking', 'baath-tech-finance', 'literary', 'parallel', 1070, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-finance-banking', 'baath-tech-finance', 'commercial', 'general', 784, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-finance-banking', 'baath-tech-finance', 'commercial', 'parallel', 749, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-accounting-tech', 'baath-tech-finance', 'literary', 'general', 1100, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-accounting-tech', 'baath-tech-finance', 'literary', 'parallel', 1050, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-accounting-tech', 'baath-tech-finance', 'commercial', 'general', 770, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-accounting-tech', 'baath-tech-finance', 'commercial', 'parallel', 735, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-business-tech', 'baath-tech-business', 'literary', 'general', 1090, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-business-tech', 'baath-tech-business', 'literary', 'parallel', 1040, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-business-tech', 'baath-tech-business', 'commercial', 'general', 763, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-business-tech', 'baath-tech-business', 'commercial', 'parallel', 728, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-marketing', 'baath-tech-business', 'literary', 'general', 1070, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-marketing', 'baath-tech-business', 'literary', 'parallel', 1020, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-marketing', 'baath-tech-business', 'commercial', 'general', 749, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-marketing', 'baath-tech-business', 'commercial', 'parallel', 714, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-industrial-chemistry', 'baath-tech-chemistry', 'scientific', 'general', 1344, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-industrial-chemistry', 'baath-tech-chemistry', 'scientific', 'parallel', 1294, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-industrial-chemistry', 'baath-tech-chemistry', 'industrial', 'general', 968, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-industrial-chemistry', 'baath-tech-chemistry', 'industrial', 'parallel', 932, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('baath-dental-technician', 'baath-tech-dentistry', 'scientific', 'general', 1550, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('baath-dental-technician', 'baath-tech-dentistry', 'scientific', 'parallel', 1500, 'الحد الأدنى للقبول الموازي 2025-2026')
 ) as v(major_slug, college_slug, cert_slug, adm, score, notes)
 join univ u on true
 join public.majors m on m.slug = v.major_slug
@@ -586,7 +1070,13 @@ select univ.id, v.name_ar, v.name_en, v.slug, true from (values
   ('الاقتصاد', 'Economics', 'furat-economics'),
   ('الحقوق', 'Law', 'furat-law'),
   ('الآداب', 'Arts', 'furat-arts'),
-  ('الزراعة', 'Agriculture', 'furat-agriculture')
+  ('الزراعة', 'Agriculture', 'furat-agriculture'),
+  ('المعهد التقاني الهندسي', 'Technical Engineering Institute', 'furat-tech-engineering'),
+  ('المعهد التقاني الطبي', 'Medical Technical Institute', 'furat-tech-medical'),
+  ('المعهد التقاني الزراعي', 'Agricultural Technical Institute', 'furat-tech-agriculture'),
+  ('المعهد التقاني للحاسوب', 'Computer Technical Institute', 'furat-tech-computer'),
+  ('المعهد التقاني للعلوم المالية والمصرفية', 'Finance and Banking Technical Institute', 'furat-tech-finance'),
+  ('المعهد التقاني لإدارة الأعمال والتسويق', 'Business Administration and Marketing Technical Institute', 'furat-tech-business')
 ) as v(name_ar, name_en, slug), univ
 on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
 
@@ -602,7 +1092,21 @@ select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, t
   ('الاقتصاد', 'Economics', 'furat-economics', 'furat-economics', 'بكالوريوس', 4, 2),
   ('الحقوق', 'Law', 'furat-law', 'furat-law', 'إجازة في الحقوق', 4, 3),
   ('اللغة العربية', 'Arabic Language', 'furat-arabic', 'furat-arts', 'إجازة في الآداب', 4, 2),
-  ('الهندسة الزراعية', 'Agricultural Engineering', 'furat-agricultural-engineering', 'furat-agriculture', 'بكالوريوس هندسة زراعية', 5, 3)
+  ('الهندسة الزراعية', 'Agricultural Engineering', 'furat-agricultural-engineering', 'furat-agriculture', 'بكالوريوس هندسة زراعية', 5, 3),
+  ('طوبوغرافيا', 'Topography', 'furat-topography', 'furat-tech-engineering', 'دبلوم تقاني', 2, 2),
+  ('مخابر طبية', 'Medical Laboratories', 'furat-medical-labs', 'furat-tech-medical', 'دبلوم تقاني', 2, 2),
+  ('تخدير وإنعاش', 'Anesthesia and Resuscitation', 'furat-anesthesia', 'furat-tech-medical', 'دبلوم تقاني', 2, 2),
+  ('التمريض', 'Nursing', 'furat-nursing-tech', 'furat-tech-medical', 'بكالوريوس التمريض', 4, 3),
+  ('زراعة عامة', 'General Agriculture', 'furat-general-agriculture', 'furat-tech-agriculture', 'دبلوم تقاني', 2, 2),
+  ('وقاية نباتات', 'Plant Protection', 'furat-plant-protection', 'furat-tech-agriculture', 'دبلوم تقاني', 2, 2),
+  ('إنتاج حيواني', 'Animal Production', 'furat-animal-production', 'furat-tech-agriculture', 'دبلوم تقاني', 2, 2),
+  ('هندسة برمجيات', 'Software Engineering', 'furat-software', 'furat-tech-computer', 'دبلوم تقاني', 2, 2),
+  ('هندسة شبكات', 'Network Engineering', 'furat-networks', 'furat-tech-computer', 'دبلوم تقاني', 2, 2),
+  ('هندسة حاسوب', 'Computer Engineering', 'furat-computer', 'furat-tech-computer', 'دبلوم تقاني', 2, 2),
+  ('مالية ومصرفية', 'Finance and Banking', 'furat-finance-banking', 'furat-tech-finance', 'دبلوم تقاني', 2, 2),
+  ('المحاسبة', 'Accounting', 'furat-accounting-tech', 'furat-tech-finance', 'بكالوريوس', 4, 2),
+  ('إدارة الأعمال', 'Business Administration', 'furat-business-tech', 'furat-tech-business', 'بكالوريوس', 4, 2),
+  ('تسويق', 'Marketing', 'furat-marketing', 'furat-tech-business', 'دبلوم تقاني', 2, 2)
 ) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
 join univ u on true
 join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
@@ -646,7 +1150,67 @@ select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (valu
   ('furat-agricultural-engineering', 'furat-agriculture', 'scientific', 'general', 1680, 'الحد الأدنى للقبول العام 2025-2026'),
   ('furat-agricultural-engineering', 'furat-agriculture', 'scientific', 'parallel', 1630, 'الحد الأدنى للقبول الموازي 2025-2026'),
   ('furat-agricultural-engineering', 'furat-agriculture', 'agricultural', 'general', 1176, 'الحد الأدنى للقبول العام 2025-2026'),
-  ('furat-agricultural-engineering', 'furat-agriculture', 'agricultural', 'parallel', 1141, 'الحد الأدنى للقبول الموازي 2025-2026')
+  ('furat-agricultural-engineering', 'furat-agriculture', 'agricultural', 'parallel', 1141, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-topography', 'furat-tech-engineering', 'scientific', 'general', 1060, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-topography', 'furat-tech-engineering', 'scientific', 'parallel', 1010, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-topography', 'furat-tech-engineering', 'industrial', 'general', 763, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-topography', 'furat-tech-engineering', 'industrial', 'parallel', 727, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-medical-labs', 'furat-tech-medical', 'scientific', 'general', 1700, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-medical-labs', 'furat-tech-medical', 'scientific', 'parallel', 1650, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-medical-labs', 'furat-tech-medical', 'female', 'general', 1190, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-medical-labs', 'furat-tech-medical', 'female', 'parallel', 1155, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-anesthesia', 'furat-tech-medical', 'scientific', 'general', 1670, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-anesthesia', 'furat-tech-medical', 'scientific', 'parallel', 1620, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-nursing-tech', 'furat-tech-medical', 'scientific', 'general', 1630, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-nursing-tech', 'furat-tech-medical', 'scientific', 'parallel', 1580, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-nursing-tech', 'furat-tech-medical', 'female', 'general', 1141, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-nursing-tech', 'furat-tech-medical', 'female', 'parallel', 1106, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-general-agriculture', 'furat-tech-agriculture', 'scientific', 'general', 1171, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-general-agriculture', 'furat-tech-agriculture', 'scientific', 'parallel', 1121, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-general-agriculture', 'furat-tech-agriculture', 'agricultural', 'general', 878, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-general-agriculture', 'furat-tech-agriculture', 'agricultural', 'parallel', 841, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-plant-protection', 'furat-tech-agriculture', 'scientific', 'general', 1145, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-plant-protection', 'furat-tech-agriculture', 'scientific', 'parallel', 1095, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-plant-protection', 'furat-tech-agriculture', 'agricultural', 'general', 859, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-plant-protection', 'furat-tech-agriculture', 'agricultural', 'parallel', 821, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-animal-production', 'furat-tech-agriculture', 'scientific', 'general', 1135, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-animal-production', 'furat-tech-agriculture', 'scientific', 'parallel', 1085, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-animal-production', 'furat-tech-agriculture', 'agricultural', 'general', 851, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-animal-production', 'furat-tech-agriculture', 'agricultural', 'parallel', 814, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-software', 'furat-tech-computer', 'scientific', 'general', 1200, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-software', 'furat-tech-computer', 'scientific', 'parallel', 1150, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-software', 'furat-tech-computer', 'industrial', 'general', 864, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-software', 'furat-tech-computer', 'industrial', 'parallel', 828, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-software', 'furat-tech-computer', 'vocational-it', 'general', 840, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-software', 'furat-tech-computer', 'vocational-it', 'parallel', 805, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-networks', 'furat-tech-computer', 'scientific', 'general', 1180, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-networks', 'furat-tech-computer', 'scientific', 'parallel', 1130, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-networks', 'furat-tech-computer', 'industrial', 'general', 850, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-networks', 'furat-tech-computer', 'industrial', 'parallel', 814, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-networks', 'furat-tech-computer', 'vocational-it', 'general', 826, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-networks', 'furat-tech-computer', 'vocational-it', 'parallel', 791, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-computer', 'furat-tech-computer', 'scientific', 'general', 1185, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-computer', 'furat-tech-computer', 'scientific', 'parallel', 1135, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-computer', 'furat-tech-computer', 'industrial', 'general', 853, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-computer', 'furat-tech-computer', 'industrial', 'parallel', 817, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-computer', 'furat-tech-computer', 'vocational-it', 'general', 830, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-computer', 'furat-tech-computer', 'vocational-it', 'parallel', 795, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-finance-banking', 'furat-tech-finance', 'literary', 'general', 1060, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-finance-banking', 'furat-tech-finance', 'literary', 'parallel', 1010, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-finance-banking', 'furat-tech-finance', 'commercial', 'general', 742, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-finance-banking', 'furat-tech-finance', 'commercial', 'parallel', 707, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-accounting-tech', 'furat-tech-finance', 'literary', 'general', 1040, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-accounting-tech', 'furat-tech-finance', 'literary', 'parallel', 990, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-accounting-tech', 'furat-tech-finance', 'commercial', 'general', 728, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-accounting-tech', 'furat-tech-finance', 'commercial', 'parallel', 693, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-business-tech', 'furat-tech-business', 'literary', 'general', 1030, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-business-tech', 'furat-tech-business', 'literary', 'parallel', 980, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-business-tech', 'furat-tech-business', 'commercial', 'general', 721, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-business-tech', 'furat-tech-business', 'commercial', 'parallel', 686, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-marketing', 'furat-tech-business', 'literary', 'general', 1010, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-marketing', 'furat-tech-business', 'literary', 'parallel', 960, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('furat-marketing', 'furat-tech-business', 'commercial', 'general', 707, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('furat-marketing', 'furat-tech-business', 'commercial', 'parallel', 672, 'الحد الأدنى للقبول الموازي 2025-2026')
 ) as v(major_slug, college_slug, cert_slug, adm, score, notes)
 join univ u on true
 join public.majors m on m.slug = v.major_slug
@@ -665,7 +1229,13 @@ select univ.id, v.name_ar, v.name_en, v.slug, true from (values
   ('الاقتصاد', 'Economics', 'tartus-economics'),
   ('الحقوق', 'Law', 'tartus-law'),
   ('الآداب', 'Arts', 'tartus-arts'),
-  ('التربية', 'Education', 'tartus-education')
+  ('التربية', 'Education', 'tartus-education'),
+  ('المعهد التقاني الهندسي', 'Technical Engineering Institute', 'tartus-tech-engineering'),
+  ('المعهد التقاني الطبي', 'Medical Technical Institute', 'tartus-tech-medical'),
+  ('المعهد التقاني الزراعي', 'Agricultural Technical Institute', 'tartus-tech-agriculture'),
+  ('المعهد التقاني للحاسوب', 'Computer Technical Institute', 'tartus-tech-computer'),
+  ('المعهد التقاني للعلوم المالية والمصرفية', 'Finance and Banking Technical Institute', 'tartus-tech-finance'),
+  ('المعهد التقاني لإدارة الأعمال والتسويق', 'Business Administration and Marketing Technical Institute', 'tartus-tech-business')
 ) as v(name_ar, name_en, slug), univ
 on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
 
@@ -681,7 +1251,22 @@ select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, t
   ('الاقتصاد', 'Economics', 'tartus-economics', 'tartus-economics', 'بكالوريوس', 4, 2),
   ('الحقوق', 'Law', 'tartus-law', 'tartus-law', 'إجازة في الحقوق', 4, 3),
   ('اللغة العربية', 'Arabic Language', 'tartus-arabic', 'tartus-arts', 'إجازة في الآداب', 4, 2),
-  ('معلم صف', 'Class Teacher', 'tartus-class-teacher', 'tartus-education', 'إجازة في التربية', 4, 2)
+  ('معلم صف', 'Class Teacher', 'tartus-class-teacher', 'tartus-education', 'إجازة في التربية', 4, 2),
+  ('طوبوغرافيا', 'Topography', 'tartus-topography', 'tartus-tech-engineering', 'دبلوم تقاني', 2, 2),
+  ('مخابر طبية', 'Medical Laboratories', 'tartus-medical-labs', 'tartus-tech-medical', 'دبلوم تقاني', 2, 2),
+  ('تخدير وإنعاش', 'Anesthesia and Resuscitation', 'tartus-anesthesia', 'tartus-tech-medical', 'دبلوم تقاني', 2, 2),
+  ('أشعة طبية', 'Medical Radiology', 'tartus-radiology', 'tartus-tech-medical', 'دبلوم تقاني', 2, 2),
+  ('التمريض', 'Nursing', 'tartus-nursing-tech', 'tartus-tech-medical', 'بكالوريوس التمريض', 4, 3),
+  ('زراعة عامة', 'General Agriculture', 'tartus-general-agriculture', 'tartus-tech-agriculture', 'دبلوم تقاني', 2, 2),
+  ('وقاية نباتات', 'Plant Protection', 'tartus-plant-protection', 'tartus-tech-agriculture', 'دبلوم تقاني', 2, 2),
+  ('إنتاج حيواني', 'Animal Production', 'tartus-animal-production', 'tartus-tech-agriculture', 'دبلوم تقاني', 2, 2),
+  ('هندسة برمجيات', 'Software Engineering', 'tartus-software', 'tartus-tech-computer', 'دبلوم تقاني', 2, 2),
+  ('هندسة شبكات', 'Network Engineering', 'tartus-networks', 'tartus-tech-computer', 'دبلوم تقاني', 2, 2),
+  ('هندسة حاسوب', 'Computer Engineering', 'tartus-computer', 'tartus-tech-computer', 'دبلوم تقاني', 2, 2),
+  ('مالية ومصرفية', 'Finance and Banking', 'tartus-finance-banking', 'tartus-tech-finance', 'دبلوم تقاني', 2, 2),
+  ('المحاسبة', 'Accounting', 'tartus-accounting-tech', 'tartus-tech-finance', 'بكالوريوس', 4, 2),
+  ('إدارة الأعمال', 'Business Administration', 'tartus-business-tech', 'tartus-tech-business', 'بكالوريوس', 4, 2),
+  ('تسويق', 'Marketing', 'tartus-marketing', 'tartus-tech-business', 'دبلوم تقاني', 2, 2)
 ) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
 join univ u on true
 join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
@@ -729,7 +1314,69 @@ select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (valu
   ('tartus-class-teacher', 'tartus-education', 'female', 'general', 693, 'الحد الأدنى للقبول العام 2025-2026'),
   ('tartus-class-teacher', 'tartus-education', 'female', 'parallel', 658, 'الحد الأدنى للقبول الموازي 2025-2026'),
   ('tartus-class-teacher', 'tartus-education', 'sharia', 'general', 743, 'الحد الأدنى للقبول العام 2025-2026'),
-  ('tartus-class-teacher', 'tartus-education', 'sharia', 'parallel', 705, 'الحد الأدنى للقبول الموازي 2025-2026')
+  ('tartus-class-teacher', 'tartus-education', 'sharia', 'parallel', 705, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-topography', 'tartus-tech-engineering', 'scientific', 'general', 1310, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-topography', 'tartus-tech-engineering', 'scientific', 'parallel', 1260, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-topography', 'tartus-tech-engineering', 'industrial', 'general', 943, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-topography', 'tartus-tech-engineering', 'industrial', 'parallel', 907, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-medical-labs', 'tartus-tech-medical', 'scientific', 'general', 1750, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-medical-labs', 'tartus-tech-medical', 'scientific', 'parallel', 1700, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-medical-labs', 'tartus-tech-medical', 'female', 'general', 1225, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-medical-labs', 'tartus-tech-medical', 'female', 'parallel', 1190, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-anesthesia', 'tartus-tech-medical', 'scientific', 'general', 1720, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-anesthesia', 'tartus-tech-medical', 'scientific', 'parallel', 1670, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-radiology', 'tartus-tech-medical', 'scientific', 'general', 1725, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-radiology', 'tartus-tech-medical', 'scientific', 'parallel', 1675, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-nursing-tech', 'tartus-tech-medical', 'scientific', 'general', 1670, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-nursing-tech', 'tartus-tech-medical', 'scientific', 'parallel', 1620, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-nursing-tech', 'tartus-tech-medical', 'female', 'general', 1169, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-nursing-tech', 'tartus-tech-medical', 'female', 'parallel', 1134, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-general-agriculture', 'tartus-tech-agriculture', 'scientific', 'general', 1335, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-general-agriculture', 'tartus-tech-agriculture', 'scientific', 'parallel', 1285, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-general-agriculture', 'tartus-tech-agriculture', 'agricultural', 'general', 1001, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-general-agriculture', 'tartus-tech-agriculture', 'agricultural', 'parallel', 964, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-plant-protection', 'tartus-tech-agriculture', 'scientific', 'general', 1310, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-plant-protection', 'tartus-tech-agriculture', 'scientific', 'parallel', 1260, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-plant-protection', 'tartus-tech-agriculture', 'agricultural', 'general', 983, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-plant-protection', 'tartus-tech-agriculture', 'agricultural', 'parallel', 945, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-animal-production', 'tartus-tech-agriculture', 'scientific', 'general', 1300, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-animal-production', 'tartus-tech-agriculture', 'scientific', 'parallel', 1250, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-animal-production', 'tartus-tech-agriculture', 'agricultural', 'general', 975, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-animal-production', 'tartus-tech-agriculture', 'agricultural', 'parallel', 938, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-software', 'tartus-tech-computer', 'scientific', 'general', 1300, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-software', 'tartus-tech-computer', 'scientific', 'parallel', 1250, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-software', 'tartus-tech-computer', 'industrial', 'general', 936, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-software', 'tartus-tech-computer', 'industrial', 'parallel', 900, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-software', 'tartus-tech-computer', 'vocational-it', 'general', 910, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-software', 'tartus-tech-computer', 'vocational-it', 'parallel', 875, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-networks', 'tartus-tech-computer', 'scientific', 'general', 1280, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-networks', 'tartus-tech-computer', 'scientific', 'parallel', 1230, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-networks', 'tartus-tech-computer', 'industrial', 'general', 922, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-networks', 'tartus-tech-computer', 'industrial', 'parallel', 886, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-networks', 'tartus-tech-computer', 'vocational-it', 'general', 896, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-networks', 'tartus-tech-computer', 'vocational-it', 'parallel', 861, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-computer', 'tartus-tech-computer', 'scientific', 'general', 1285, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-computer', 'tartus-tech-computer', 'scientific', 'parallel', 1235, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-computer', 'tartus-tech-computer', 'industrial', 'general', 925, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-computer', 'tartus-tech-computer', 'industrial', 'parallel', 889, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-computer', 'tartus-tech-computer', 'vocational-it', 'general', 899, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-computer', 'tartus-tech-computer', 'vocational-it', 'parallel', 865, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-finance-banking', 'tartus-tech-finance', 'literary', 'general', 1080, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-finance-banking', 'tartus-tech-finance', 'literary', 'parallel', 1030, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-finance-banking', 'tartus-tech-finance', 'commercial', 'general', 756, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-finance-banking', 'tartus-tech-finance', 'commercial', 'parallel', 721, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-accounting-tech', 'tartus-tech-finance', 'literary', 'general', 1060, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-accounting-tech', 'tartus-tech-finance', 'literary', 'parallel', 1010, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-accounting-tech', 'tartus-tech-finance', 'commercial', 'general', 742, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-accounting-tech', 'tartus-tech-finance', 'commercial', 'parallel', 707, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-business-tech', 'tartus-tech-business', 'literary', 'general', 1050, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-business-tech', 'tartus-tech-business', 'literary', 'parallel', 1000, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-business-tech', 'tartus-tech-business', 'commercial', 'general', 735, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-business-tech', 'tartus-tech-business', 'commercial', 'parallel', 700, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-marketing', 'tartus-tech-business', 'literary', 'general', 1030, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-marketing', 'tartus-tech-business', 'literary', 'parallel', 980, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('tartus-marketing', 'tartus-tech-business', 'commercial', 'general', 721, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('tartus-marketing', 'tartus-tech-business', 'commercial', 'parallel', 686, 'الحد الأدنى للقبول الموازي 2025-2026')
 ) as v(major_slug, college_slug, cert_slug, adm, score, notes)
 join univ u on true
 join public.majors m on m.slug = v.major_slug
@@ -748,7 +1395,14 @@ select univ.id, v.name_ar, v.name_en, v.slug, true from (values
   ('الاقتصاد', 'Economics', 'hama-economics'),
   ('الحقوق', 'Law', 'hama-law'),
   ('الآداب', 'Arts', 'hama-arts'),
-  ('التربية', 'Education', 'hama-education')
+  ('التربية', 'Education', 'hama-education'),
+  ('المعهد التقاني الهندسي', 'Technical Engineering Institute', 'hama-tech-engineering'),
+  ('المعهد التقاني الطبي', 'Medical Technical Institute', 'hama-tech-medical'),
+  ('المعهد التقاني الزراعي', 'Agricultural Technical Institute', 'hama-tech-agriculture'),
+  ('المعهد التقاني للحاسوب', 'Computer Technical Institute', 'hama-tech-computer'),
+  ('المعهد التقاني للعلوم المالية والمصرفية', 'Finance and Banking Technical Institute', 'hama-tech-finance'),
+  ('المعهد التقاني لإدارة الأعمال والتسويق', 'Business Administration and Marketing Technical Institute', 'hama-tech-business'),
+  ('المعهد التقاني لطب الأسنان', 'Dental Technical Institute', 'hama-tech-dentistry')
 ) as v(name_ar, name_en, slug), univ
 on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
 
@@ -764,7 +1418,23 @@ select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, t
   ('الاقتصاد', 'Economics', 'hama-economics', 'hama-economics', 'بكالوريوس', 4, 2),
   ('الحقوق', 'Law', 'hama-law', 'hama-law', 'إجازة في الحقوق', 4, 3),
   ('اللغة العربية', 'Arabic Language', 'hama-arabic', 'hama-arts', 'إجازة في الآداب', 4, 2),
-  ('معلم صف', 'Class Teacher', 'hama-class-teacher', 'hama-education', 'إجازة في التربية', 4, 2)
+  ('معلم صف', 'Class Teacher', 'hama-class-teacher', 'hama-education', 'إجازة في التربية', 4, 2),
+  ('طوبوغرافيا', 'Topography', 'hama-topography', 'hama-tech-engineering', 'دبلوم تقاني', 2, 2),
+  ('مخابر طبية', 'Medical Laboratories', 'hama-medical-labs', 'hama-tech-medical', 'دبلوم تقاني', 2, 2),
+  ('تخدير وإنعاش', 'Anesthesia and Resuscitation', 'hama-anesthesia', 'hama-tech-medical', 'دبلوم تقاني', 2, 2),
+  ('أشعة طبية', 'Medical Radiology', 'hama-radiology', 'hama-tech-medical', 'دبلوم تقاني', 2, 2),
+  ('التمريض', 'Nursing', 'hama-nursing-tech', 'hama-tech-medical', 'بكالوريوس التمريض', 4, 3),
+  ('زراعة عامة', 'General Agriculture', 'hama-general-agriculture', 'hama-tech-agriculture', 'دبلوم تقاني', 2, 2),
+  ('وقاية نباتات', 'Plant Protection', 'hama-plant-protection', 'hama-tech-agriculture', 'دبلوم تقاني', 2, 2),
+  ('إنتاج حيواني', 'Animal Production', 'hama-animal-production', 'hama-tech-agriculture', 'دبلوم تقاني', 2, 2),
+  ('هندسة برمجيات', 'Software Engineering', 'hama-software', 'hama-tech-computer', 'دبلوم تقاني', 2, 2),
+  ('هندسة شبكات', 'Network Engineering', 'hama-networks', 'hama-tech-computer', 'دبلوم تقاني', 2, 2),
+  ('هندسة حاسوب', 'Computer Engineering', 'hama-computer', 'hama-tech-computer', 'دبلوم تقاني', 2, 2),
+  ('مالية ومصرفية', 'Finance and Banking', 'hama-finance-banking', 'hama-tech-finance', 'دبلوم تقاني', 2, 2),
+  ('المحاسبة', 'Accounting', 'hama-accounting-tech', 'hama-tech-finance', 'بكالوريوس', 4, 2),
+  ('إدارة الأعمال', 'Business Administration', 'hama-business-tech', 'hama-tech-business', 'بكالوريوس', 4, 2),
+  ('تسويق', 'Marketing', 'hama-marketing', 'hama-tech-business', 'دبلوم تقاني', 2, 2),
+  ('فني طب الأسنان', 'Dental Prosthetics', 'hama-dental-technician', 'hama-tech-dentistry', 'دبلوم تقاني', 2, 2)
 ) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
 join univ u on true
 join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
@@ -812,7 +1482,71 @@ select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (valu
   ('hama-class-teacher', 'hama-education', 'female', 'general', 697, 'الحد الأدنى للقبول العام 2025-2026'),
   ('hama-class-teacher', 'hama-education', 'female', 'parallel', 662, 'الحد الأدنى للقبول الموازي 2025-2026'),
   ('hama-class-teacher', 'hama-education', 'sharia', 'general', 746, 'الحد الأدنى للقبول العام 2025-2026'),
-  ('hama-class-teacher', 'hama-education', 'sharia', 'parallel', 709, 'الحد الأدنى للقبول الموازي 2025-2026')
+  ('hama-class-teacher', 'hama-education', 'sharia', 'parallel', 709, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-topography', 'hama-tech-engineering', 'scientific', 'general', 1410, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-topography', 'hama-tech-engineering', 'scientific', 'parallel', 1360, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-topography', 'hama-tech-engineering', 'industrial', 'general', 1015, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-topography', 'hama-tech-engineering', 'industrial', 'parallel', 979, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-medical-labs', 'hama-tech-medical', 'scientific', 'general', 1903, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-medical-labs', 'hama-tech-medical', 'scientific', 'parallel', 1853, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-medical-labs', 'hama-tech-medical', 'female', 'general', 1332, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-medical-labs', 'hama-tech-medical', 'female', 'parallel', 1297, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-anesthesia', 'hama-tech-medical', 'scientific', 'general', 1870, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-anesthesia', 'hama-tech-medical', 'scientific', 'parallel', 1820, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-radiology', 'hama-tech-medical', 'scientific', 'general', 1875, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-radiology', 'hama-tech-medical', 'scientific', 'parallel', 1825, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-nursing-tech', 'hama-tech-medical', 'scientific', 'general', 1820, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-nursing-tech', 'hama-tech-medical', 'scientific', 'parallel', 1770, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-nursing-tech', 'hama-tech-medical', 'female', 'general', 1274, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-nursing-tech', 'hama-tech-medical', 'female', 'parallel', 1239, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-general-agriculture', 'hama-tech-agriculture', 'scientific', 'general', 1285, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-general-agriculture', 'hama-tech-agriculture', 'scientific', 'parallel', 1235, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-general-agriculture', 'hama-tech-agriculture', 'agricultural', 'general', 964, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-general-agriculture', 'hama-tech-agriculture', 'agricultural', 'parallel', 926, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-plant-protection', 'hama-tech-agriculture', 'scientific', 'general', 1260, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-plant-protection', 'hama-tech-agriculture', 'scientific', 'parallel', 1210, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-plant-protection', 'hama-tech-agriculture', 'agricultural', 'general', 945, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-plant-protection', 'hama-tech-agriculture', 'agricultural', 'parallel', 908, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-animal-production', 'hama-tech-agriculture', 'scientific', 'general', 1250, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-animal-production', 'hama-tech-agriculture', 'scientific', 'parallel', 1200, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-animal-production', 'hama-tech-agriculture', 'agricultural', 'general', 938, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-animal-production', 'hama-tech-agriculture', 'agricultural', 'parallel', 900, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-software', 'hama-tech-computer', 'scientific', 'general', 1300, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-software', 'hama-tech-computer', 'scientific', 'parallel', 1250, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-software', 'hama-tech-computer', 'industrial', 'general', 936, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-software', 'hama-tech-computer', 'industrial', 'parallel', 900, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-software', 'hama-tech-computer', 'vocational-it', 'general', 910, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-software', 'hama-tech-computer', 'vocational-it', 'parallel', 875, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-networks', 'hama-tech-computer', 'scientific', 'general', 1280, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-networks', 'hama-tech-computer', 'scientific', 'parallel', 1230, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-networks', 'hama-tech-computer', 'industrial', 'general', 922, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-networks', 'hama-tech-computer', 'industrial', 'parallel', 886, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-networks', 'hama-tech-computer', 'vocational-it', 'general', 896, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-networks', 'hama-tech-computer', 'vocational-it', 'parallel', 861, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-computer', 'hama-tech-computer', 'scientific', 'general', 1285, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-computer', 'hama-tech-computer', 'scientific', 'parallel', 1235, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-computer', 'hama-tech-computer', 'industrial', 'general', 925, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-computer', 'hama-tech-computer', 'industrial', 'parallel', 889, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-computer', 'hama-tech-computer', 'vocational-it', 'general', 899, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-computer', 'hama-tech-computer', 'vocational-it', 'parallel', 865, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-finance-banking', 'hama-tech-finance', 'literary', 'general', 1080, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-finance-banking', 'hama-tech-finance', 'literary', 'parallel', 1030, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-finance-banking', 'hama-tech-finance', 'commercial', 'general', 756, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-finance-banking', 'hama-tech-finance', 'commercial', 'parallel', 721, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-accounting-tech', 'hama-tech-finance', 'literary', 'general', 1060, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-accounting-tech', 'hama-tech-finance', 'literary', 'parallel', 1010, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-accounting-tech', 'hama-tech-finance', 'commercial', 'general', 742, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-accounting-tech', 'hama-tech-finance', 'commercial', 'parallel', 707, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-business-tech', 'hama-tech-business', 'literary', 'general', 1050, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-business-tech', 'hama-tech-business', 'literary', 'parallel', 1000, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-business-tech', 'hama-tech-business', 'commercial', 'general', 735, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-business-tech', 'hama-tech-business', 'commercial', 'parallel', 700, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-marketing', 'hama-tech-business', 'literary', 'general', 1030, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-marketing', 'hama-tech-business', 'literary', 'parallel', 980, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-marketing', 'hama-tech-business', 'commercial', 'general', 721, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-marketing', 'hama-tech-business', 'commercial', 'parallel', 686, 'الحد الأدنى للقبول الموازي 2025-2026'),
+  ('hama-dental-technician', 'hama-tech-dentistry', 'scientific', 'general', 1500, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hama-dental-technician', 'hama-tech-dentistry', 'scientific', 'parallel', 1450, 'الحد الأدنى للقبول الموازي 2025-2026')
 ) as v(major_slug, college_slug, cert_slug, adm, score, notes)
 join univ u on true
 join public.majors m on m.slug = v.major_slug
@@ -1284,6 +2018,811 @@ select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (valu
   ('gaziantep-north-class-teacher', 'gaziantep-north-education', 'sharia', 'general', 788, 'الحد الأدنى للقبول العام 2025-2026'),
   ('gaziantep-north-sharia', 'gaziantep-north-islamic-sciences', 'literary', 'general', 1000, 'الحد الأدنى للقبول العام 2025-2026'),
   ('gaziantep-north-sharia', 'gaziantep-north-islamic-sciences', 'sharia', 'general', 750, 'الحد الأدنى للقبول العام 2025-2026')
+) as v(major_slug, college_slug, cert_slug, adm, score, notes)
+join univ u on true
+join public.majors m on m.slug = v.major_slug
+join public.colleges c on c.id = m.college_id and c.slug = v.college_slug
+join public.certificates cert on cert.slug = v.cert_slug
+on conflict (year, university_id, college_id, major_id, certificate_type_id, admission_type) do update set minimum_score = excluded.minimum_score, is_published = true, notes = excluded.notes;
+
+-- University: rashid-private
+with univ as (select id from public.universities where slug = 'rashid-private')
+insert into public.colleges (university_id, name_ar, name_en, slug, is_active)
+select univ.id, v.name_ar, v.name_en, v.slug, true from (values
+  ('الطب البشري', 'Human Medicine', 'rashid-private-medicine'),
+  ('طب الأسنان', 'Dentistry', 'rashid-private-dentistry'),
+  ('الصيدلة', 'Pharmacy', 'rashid-private-pharmacy'),
+  ('الهندسة', 'Engineering', 'rashid-private-engineering'),
+  ('إدارة الأعمال', 'Business Administration', 'rashid-private-business-administration')
+) as v(name_ar, name_en, slug), univ
+on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'rashid-private')
+insert into public.majors (college_id, name_ar, name_en, slug, degree, study_duration_years, difficulty, is_active)
+select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, true from (values
+  ('الطب البشري', 'Human Medicine', 'rashid-private-medicine', 'rashid-private-medicine', 'بكالوريوس الطب', 6, 5),
+  ('طب الأسنان', 'Dentistry', 'rashid-private-dentistry', 'rashid-private-dentistry', 'بكالوريوس طب الأسنان', 5, 4),
+  ('الصيدلة', 'Pharmacy', 'rashid-private-pharmacy', 'rashid-private-pharmacy', 'بكالوريوس الصيدلة', 5, 4),
+  ('هندسة تقانة المعلومات', 'Information Technology', 'rashid-private-information-technology', 'rashid-private-engineering', 'بكالوريوس هندسة', 4, 3),
+  ('إدارة الأعمال', 'Business Administration', 'rashid-private-business', 'rashid-private-business-administration', 'بكالوريوس', 4, 2)
+) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
+join univ u on true
+join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
+on conflict (slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'rashid-private')
+insert into public.admission_scores (year, university_id, college_id, major_id, certificate_type_id, admission_type, minimum_score, notes, is_published)
+select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (values
+  ('rashid-private-medicine', 'rashid-private-medicine', 'scientific', 'general', 1760, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('rashid-private-dentistry', 'rashid-private-dentistry', 'scientific', 'general', 1650, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('rashid-private-pharmacy', 'rashid-private-pharmacy', 'scientific', 'general', 1650, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('rashid-private-information-technology', 'rashid-private-engineering', 'scientific', 'general', 1430, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('rashid-private-information-technology', 'rashid-private-engineering', 'industrial', 'general', 1030, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('rashid-private-information-technology', 'rashid-private-engineering', 'vocational-it', 'general', 1001, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('rashid-private-business', 'rashid-private-business-administration', 'scientific', 'general', 1210, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('rashid-private-business', 'rashid-private-business-administration', 'commercial', 'general', 847, 'الحد الأدنى للقبول العام 2025-2026')
+) as v(major_slug, college_slug, cert_slug, adm, score, notes)
+join univ u on true
+join public.majors m on m.slug = v.major_slug
+join public.colleges c on c.id = m.college_id and c.slug = v.college_slug
+join public.certificates cert on cert.slug = v.cert_slug
+on conflict (year, university_id, college_id, major_id, certificate_type_id, admission_type) do update set minimum_score = excluded.minimum_score, is_published = true, notes = excluded.notes;
+
+-- University: wadi-private
+with univ as (select id from public.universities where slug = 'wadi-private')
+insert into public.colleges (university_id, name_ar, name_en, slug, is_active)
+select univ.id, v.name_ar, v.name_en, v.slug, true from (values
+  ('الطب البشري', 'Human Medicine', 'wadi-private-medicine'),
+  ('طب الأسنان', 'Dentistry', 'wadi-private-dentistry'),
+  ('الصيدلة', 'Pharmacy', 'wadi-private-pharmacy'),
+  ('الهندسة', 'Engineering', 'wadi-private-engineering'),
+  ('إدارة الأعمال', 'Business Administration', 'wadi-private-business-administration')
+) as v(name_ar, name_en, slug), univ
+on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'wadi-private')
+insert into public.majors (college_id, name_ar, name_en, slug, degree, study_duration_years, difficulty, is_active)
+select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, true from (values
+  ('الطب البشري', 'Human Medicine', 'wadi-private-medicine', 'wadi-private-medicine', 'بكالوريوس الطب', 6, 5),
+  ('طب الأسنان', 'Dentistry', 'wadi-private-dentistry', 'wadi-private-dentistry', 'بكالوريوس طب الأسنان', 5, 4),
+  ('الصيدلة', 'Pharmacy', 'wadi-private-pharmacy', 'wadi-private-pharmacy', 'بكالوريوس الصيدلة', 5, 4),
+  ('هندسة تقانة المعلومات', 'Information Technology', 'wadi-private-information-technology', 'wadi-private-engineering', 'بكالوريوس هندسة', 4, 3),
+  ('الهندسة المدنية', 'Civil Engineering', 'wadi-private-civil', 'wadi-private-engineering', 'بكالوريوس هندسة', 5, 4),
+  ('الهندسة المعمارية', 'Architecture', 'wadi-private-architecture', 'wadi-private-engineering', 'بكالوريوس هندسة', 5, 4),
+  ('إدارة الأعمال', 'Business Administration', 'wadi-private-business', 'wadi-private-business-administration', 'بكالوريوس', 4, 2)
+) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
+join univ u on true
+join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
+on conflict (slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'wadi-private')
+insert into public.admission_scores (year, university_id, college_id, major_id, certificate_type_id, admission_type, minimum_score, notes, is_published)
+select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (values
+  ('wadi-private-medicine', 'wadi-private-medicine', 'scientific', 'general', 1760, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('wadi-private-dentistry', 'wadi-private-dentistry', 'scientific', 'general', 1650, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('wadi-private-pharmacy', 'wadi-private-pharmacy', 'scientific', 'general', 1650, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('wadi-private-information-technology', 'wadi-private-engineering', 'scientific', 'general', 1430, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('wadi-private-information-technology', 'wadi-private-engineering', 'industrial', 'general', 1030, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('wadi-private-information-technology', 'wadi-private-engineering', 'vocational-it', 'general', 1001, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('wadi-private-civil', 'wadi-private-engineering', 'scientific', 'general', 1430, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('wadi-private-civil', 'wadi-private-engineering', 'industrial', 'general', 1030, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('wadi-private-architecture', 'wadi-private-engineering', 'scientific', 'general', 1430, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('wadi-private-architecture', 'wadi-private-engineering', 'industrial', 'general', 1030, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('wadi-private-business', 'wadi-private-business-administration', 'scientific', 'general', 1210, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('wadi-private-business', 'wadi-private-business-administration', 'commercial', 'general', 847, 'الحد الأدنى للقبول العام 2025-2026')
+) as v(major_slug, college_slug, cert_slug, adm, score, notes)
+join univ u on true
+join public.majors m on m.slug = v.major_slug
+join public.colleges c on c.id = m.college_id and c.slug = v.college_slug
+join public.certificates cert on cert.slug = v.cert_slug
+on conflict (year, university_id, college_id, major_id, certificate_type_id, admission_type) do update set minimum_score = excluded.minimum_score, is_published = true, notes = excluded.notes;
+
+-- University: andalus-private
+with univ as (select id from public.universities where slug = 'andalus-private')
+insert into public.colleges (university_id, name_ar, name_en, slug, is_active)
+select univ.id, v.name_ar, v.name_en, v.slug, true from (values
+  ('الطب البشري', 'Human Medicine', 'andalus-private-medicine'),
+  ('طب الأسنان', 'Dentistry', 'andalus-private-dentistry'),
+  ('الصيدلة', 'Pharmacy', 'andalus-private-pharmacy'),
+  ('كلية العلوم الصحية', 'Faculty of Health Sciences', 'andalus-private-health-sciences')
+) as v(name_ar, name_en, slug), univ
+on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'andalus-private')
+insert into public.majors (college_id, name_ar, name_en, slug, degree, study_duration_years, difficulty, is_active)
+select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, true from (values
+  ('الطب البشري', 'Human Medicine', 'andalus-private-medicine', 'andalus-private-medicine', 'بكالوريوس الطب', 6, 5),
+  ('طب الأسنان', 'Dentistry', 'andalus-private-dentistry', 'andalus-private-dentistry', 'بكالوريوس طب الأسنان', 5, 4),
+  ('الصيدلة', 'Pharmacy', 'andalus-private-pharmacy', 'andalus-private-pharmacy', 'بكالوريوس الصيدلة', 5, 4),
+  ('التمريض', 'Nursing', 'andalus-private-nursing', 'andalus-private-health-sciences', 'بكالوريوس التمريض', 4, 3),
+  ('مخابر طبية', 'Medical Laboratories', 'andalus-private-medical-labs', 'andalus-private-health-sciences', 'دبلوم تقاني', 2, 2)
+) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
+join univ u on true
+join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
+on conflict (slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'andalus-private')
+insert into public.admission_scores (year, university_id, college_id, major_id, certificate_type_id, admission_type, minimum_score, notes, is_published)
+select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (values
+  ('andalus-private-medicine', 'andalus-private-medicine', 'scientific', 'general', 1760, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('andalus-private-dentistry', 'andalus-private-dentistry', 'scientific', 'general', 1650, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('andalus-private-pharmacy', 'andalus-private-pharmacy', 'scientific', 'general', 1650, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('andalus-private-nursing', 'andalus-private-health-sciences', 'scientific', 'general', 1300, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('andalus-private-nursing', 'andalus-private-health-sciences', 'female', 'general', 910, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('andalus-private-medical-labs', 'andalus-private-health-sciences', 'scientific', 'general', 1280, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('andalus-private-medical-labs', 'andalus-private-health-sciences', 'female', 'general', 896, 'الحد الأدنى للقبول العام 2025-2026')
+) as v(major_slug, college_slug, cert_slug, adm, score, notes)
+join univ u on true
+join public.majors m on m.slug = v.major_slug
+join public.colleges c on c.id = m.college_id and c.slug = v.college_slug
+join public.certificates cert on cert.slug = v.cert_slug
+on conflict (year, university_id, college_id, major_id, certificate_type_id, admission_type) do update set minimum_score = excluded.minimum_score, is_published = true, notes = excluded.notes;
+
+-- University: jazeera-private
+with univ as (select id from public.universities where slug = 'jazeera-private')
+insert into public.colleges (university_id, name_ar, name_en, slug, is_active)
+select univ.id, v.name_ar, v.name_en, v.slug, true from (values
+  ('الصيدلة', 'Pharmacy', 'jazeera-private-pharmacy'),
+  ('الهندسة', 'Engineering', 'jazeera-private-engineering'),
+  ('إدارة الأعمال', 'Business Administration', 'jazeera-private-business-administration')
+) as v(name_ar, name_en, slug), univ
+on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'jazeera-private')
+insert into public.majors (college_id, name_ar, name_en, slug, degree, study_duration_years, difficulty, is_active)
+select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, true from (values
+  ('الصيدلة', 'Pharmacy', 'jazeera-private-pharmacy', 'jazeera-private-pharmacy', 'بكالوريوس الصيدلة', 5, 4),
+  ('هندسة تقانة المعلومات', 'Information Technology', 'jazeera-private-information-technology', 'jazeera-private-engineering', 'بكالوريوس هندسة', 4, 3),
+  ('إدارة الأعمال', 'Business Administration', 'jazeera-private-business', 'jazeera-private-business-administration', 'بكالوريوس', 4, 2)
+) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
+join univ u on true
+join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
+on conflict (slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'jazeera-private')
+insert into public.admission_scores (year, university_id, college_id, major_id, certificate_type_id, admission_type, minimum_score, notes, is_published)
+select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (values
+  ('jazeera-private-pharmacy', 'jazeera-private-pharmacy', 'scientific', 'general', 1650, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('jazeera-private-information-technology', 'jazeera-private-engineering', 'scientific', 'general', 1430, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('jazeera-private-information-technology', 'jazeera-private-engineering', 'industrial', 'general', 1030, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('jazeera-private-information-technology', 'jazeera-private-engineering', 'vocational-it', 'general', 1001, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('jazeera-private-business', 'jazeera-private-business-administration', 'scientific', 'general', 1210, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('jazeera-private-business', 'jazeera-private-business-administration', 'commercial', 'general', 847, 'الحد الأدنى للقبول العام 2025-2026')
+) as v(major_slug, college_slug, cert_slug, adm, score, notes)
+join univ u on true
+join public.majors m on m.slug = v.major_slug
+join public.colleges c on c.id = m.college_id and c.slug = v.college_slug
+join public.certificates cert on cert.slug = v.cert_slug
+on conflict (year, university_id, college_id, major_id, certificate_type_id, admission_type) do update set minimum_score = excluded.minimum_score, is_published = true, notes = excluded.notes;
+
+-- University: wataniya-private
+with univ as (select id from public.universities where slug = 'wataniya-private')
+insert into public.colleges (university_id, name_ar, name_en, slug, is_active)
+select univ.id, v.name_ar, v.name_en, v.slug, true from (values
+  ('الطب البشري', 'Human Medicine', 'wataniya-private-medicine'),
+  ('طب الأسنان', 'Dentistry', 'wataniya-private-dentistry'),
+  ('الصيدلة', 'Pharmacy', 'wataniya-private-pharmacy'),
+  ('الهندسة', 'Engineering', 'wataniya-private-engineering'),
+  ('إدارة الأعمال', 'Business Administration', 'wataniya-private-business-administration')
+) as v(name_ar, name_en, slug), univ
+on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'wataniya-private')
+insert into public.majors (college_id, name_ar, name_en, slug, degree, study_duration_years, difficulty, is_active)
+select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, true from (values
+  ('الطب البشري', 'Human Medicine', 'wataniya-private-medicine', 'wataniya-private-medicine', 'بكالوريوس الطب', 6, 5),
+  ('طب الأسنان', 'Dentistry', 'wataniya-private-dentistry', 'wataniya-private-dentistry', 'بكالوريوس طب الأسنان', 5, 4),
+  ('الصيدلة', 'Pharmacy', 'wataniya-private-pharmacy', 'wataniya-private-pharmacy', 'بكالوريوس الصيدلة', 5, 4),
+  ('هندسة تقانة المعلومات', 'Information Technology', 'wataniya-private-information-technology', 'wataniya-private-engineering', 'بكالوريوس هندسة', 4, 3),
+  ('إدارة الأعمال', 'Business Administration', 'wataniya-private-business', 'wataniya-private-business-administration', 'بكالوريوس', 4, 2)
+) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
+join univ u on true
+join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
+on conflict (slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'wataniya-private')
+insert into public.admission_scores (year, university_id, college_id, major_id, certificate_type_id, admission_type, minimum_score, notes, is_published)
+select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (values
+  ('wataniya-private-medicine', 'wataniya-private-medicine', 'scientific', 'general', 1760, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('wataniya-private-dentistry', 'wataniya-private-dentistry', 'scientific', 'general', 1650, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('wataniya-private-pharmacy', 'wataniya-private-pharmacy', 'scientific', 'general', 1650, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('wataniya-private-information-technology', 'wataniya-private-engineering', 'scientific', 'general', 1430, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('wataniya-private-information-technology', 'wataniya-private-engineering', 'industrial', 'general', 1030, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('wataniya-private-information-technology', 'wataniya-private-engineering', 'vocational-it', 'general', 1001, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('wataniya-private-business', 'wataniya-private-business-administration', 'scientific', 'general', 1210, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('wataniya-private-business', 'wataniya-private-business-administration', 'commercial', 'general', 847, 'الحد الأدنى للقبول العام 2025-2026')
+) as v(major_slug, college_slug, cert_slug, adm, score, notes)
+join univ u on true
+join public.majors m on m.slug = v.major_slug
+join public.colleges c on c.id = m.college_id and c.slug = v.college_slug
+join public.certificates cert on cert.slug = v.cert_slug
+on conflict (year, university_id, college_id, major_id, certificate_type_id, admission_type) do update set minimum_score = excluded.minimum_score, is_published = true, notes = excluded.notes;
+
+-- University: manara-private
+with univ as (select id from public.universities where slug = 'manara-private')
+insert into public.colleges (university_id, name_ar, name_en, slug, is_active)
+select univ.id, v.name_ar, v.name_en, v.slug, true from (values
+  ('الصيدلة', 'Pharmacy', 'manara-private-pharmacy'),
+  ('الهندسة', 'Engineering', 'manara-private-engineering'),
+  ('إدارة الأعمال', 'Business Administration', 'manara-private-business-administration'),
+  ('الحقوق', 'Law', 'manara-private-law'),
+  ('التربية', 'Education', 'manara-private-education')
+) as v(name_ar, name_en, slug), univ
+on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'manara-private')
+insert into public.majors (college_id, name_ar, name_en, slug, degree, study_duration_years, difficulty, is_active)
+select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, true from (values
+  ('الصيدلة', 'Pharmacy', 'manara-private-pharmacy', 'manara-private-pharmacy', 'بكالوريوس الصيدلة', 5, 4),
+  ('هندسة تقانة المعلومات', 'Information Technology', 'manara-private-information-technology', 'manara-private-engineering', 'بكالوريوس هندسة', 4, 3),
+  ('إدارة الأعمال', 'Business Administration', 'manara-private-business', 'manara-private-business-administration', 'بكالوريوس', 4, 2),
+  ('الحقوق', 'Law', 'manara-private-law', 'manara-private-law', 'إجازة في الحقوق', 4, 3),
+  ('معلم صف', 'Class Teacher', 'manara-private-class-teacher', 'manara-private-education', 'إجازة في التربية', 4, 2)
+) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
+join univ u on true
+join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
+on conflict (slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'manara-private')
+insert into public.admission_scores (year, university_id, college_id, major_id, certificate_type_id, admission_type, minimum_score, notes, is_published)
+select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (values
+  ('manara-private-pharmacy', 'manara-private-pharmacy', 'scientific', 'general', 1650, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('manara-private-information-technology', 'manara-private-engineering', 'scientific', 'general', 1430, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('manara-private-information-technology', 'manara-private-engineering', 'industrial', 'general', 1030, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('manara-private-information-technology', 'manara-private-engineering', 'vocational-it', 'general', 1001, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('manara-private-business', 'manara-private-business-administration', 'scientific', 'general', 1210, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('manara-private-business', 'manara-private-business-administration', 'commercial', 'general', 847, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('manara-private-law', 'manara-private-law', 'literary', 'general', 1100, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('manara-private-law', 'manara-private-law', 'commercial', 'general', 770, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('manara-private-law', 'manara-private-law', 'sharia', 'general', 825, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('manara-private-class-teacher', 'manara-private-education', 'literary', 'general', 1000, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('manara-private-class-teacher', 'manara-private-education', 'female', 'general', 700, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('manara-private-class-teacher', 'manara-private-education', 'sharia', 'general', 750, 'الحد الأدنى للقبول العام 2025-2026')
+) as v(major_slug, college_slug, cert_slug, adm, score, notes)
+join univ u on true
+join public.majors m on m.slug = v.major_slug
+join public.colleges c on c.id = m.college_id and c.slug = v.college_slug
+join public.certificates cert on cert.slug = v.cert_slug
+on conflict (year, university_id, college_id, major_id, certificate_type_id, admission_type) do update set minimum_score = excluded.minimum_score, is_published = true, notes = excluded.notes;
+
+-- University: syrian-private
+with univ as (select id from public.universities where slug = 'syrian-private')
+insert into public.colleges (university_id, name_ar, name_en, slug, is_active)
+select univ.id, v.name_ar, v.name_en, v.slug, true from (values
+  ('الطب البشري', 'Human Medicine', 'syrian-private-medicine'),
+  ('طب الأسنان', 'Dentistry', 'syrian-private-dentistry'),
+  ('الصيدلة', 'Pharmacy', 'syrian-private-pharmacy'),
+  ('الهندسة', 'Engineering', 'syrian-private-engineering'),
+  ('إدارة الأعمال', 'Business Administration', 'syrian-private-business-administration'),
+  ('الحقوق', 'Law', 'syrian-private-law')
+) as v(name_ar, name_en, slug), univ
+on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'syrian-private')
+insert into public.majors (college_id, name_ar, name_en, slug, degree, study_duration_years, difficulty, is_active)
+select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, true from (values
+  ('الطب البشري', 'Human Medicine', 'syrian-private-medicine', 'syrian-private-medicine', 'بكالوريوس الطب', 6, 5),
+  ('طب الأسنان', 'Dentistry', 'syrian-private-dentistry', 'syrian-private-dentistry', 'بكالوريوس طب الأسنان', 5, 4),
+  ('الصيدلة', 'Pharmacy', 'syrian-private-pharmacy', 'syrian-private-pharmacy', 'بكالوريوس الصيدلة', 5, 4),
+  ('هندسة تقانة المعلومات', 'Information Technology', 'syrian-private-information-technology', 'syrian-private-engineering', 'بكالوريوس هندسة', 4, 3),
+  ('إدارة الأعمال', 'Business Administration', 'syrian-private-business', 'syrian-private-business-administration', 'بكالوريوس', 4, 2),
+  ('الحقوق', 'Law', 'syrian-private-law', 'syrian-private-law', 'إجازة في الحقوق', 4, 3)
+) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
+join univ u on true
+join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
+on conflict (slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'syrian-private')
+insert into public.admission_scores (year, university_id, college_id, major_id, certificate_type_id, admission_type, minimum_score, notes, is_published)
+select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (values
+  ('syrian-private-medicine', 'syrian-private-medicine', 'scientific', 'general', 1760, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('syrian-private-dentistry', 'syrian-private-dentistry', 'scientific', 'general', 1650, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('syrian-private-pharmacy', 'syrian-private-pharmacy', 'scientific', 'general', 1650, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('syrian-private-information-technology', 'syrian-private-engineering', 'scientific', 'general', 1430, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('syrian-private-information-technology', 'syrian-private-engineering', 'industrial', 'general', 1030, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('syrian-private-information-technology', 'syrian-private-engineering', 'vocational-it', 'general', 1001, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('syrian-private-business', 'syrian-private-business-administration', 'scientific', 'general', 1210, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('syrian-private-business', 'syrian-private-business-administration', 'commercial', 'general', 847, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('syrian-private-law', 'syrian-private-law', 'literary', 'general', 1100, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('syrian-private-law', 'syrian-private-law', 'commercial', 'general', 770, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('syrian-private-law', 'syrian-private-law', 'sharia', 'general', 825, 'الحد الأدنى للقبول العام 2025-2026')
+) as v(major_slug, college_slug, cert_slug, adm, score, notes)
+join univ u on true
+join public.majors m on m.slug = v.major_slug
+join public.colleges c on c.id = m.college_id and c.slug = v.college_slug
+join public.certificates cert on cert.slug = v.cert_slug
+on conflict (year, university_id, college_id, major_id, certificate_type_id, admission_type) do update set minimum_score = excluded.minimum_score, is_published = true, notes = excluded.notes;
+
+-- University: cordoba-private
+with univ as (select id from public.universities where slug = 'cordoba-private')
+insert into public.colleges (university_id, name_ar, name_en, slug, is_active)
+select univ.id, v.name_ar, v.name_en, v.slug, true from (values
+  ('الطب البشري', 'Human Medicine', 'cordoba-private-medicine'),
+  ('الصيدلة', 'Pharmacy', 'cordoba-private-pharmacy'),
+  ('الهندسة', 'Engineering', 'cordoba-private-engineering'),
+  ('إدارة الأعمال', 'Business Administration', 'cordoba-private-business-administration')
+) as v(name_ar, name_en, slug), univ
+on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'cordoba-private')
+insert into public.majors (college_id, name_ar, name_en, slug, degree, study_duration_years, difficulty, is_active)
+select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, true from (values
+  ('الطب البشري', 'Human Medicine', 'cordoba-private-medicine', 'cordoba-private-medicine', 'بكالوريوس الطب', 6, 5),
+  ('الصيدلة', 'Pharmacy', 'cordoba-private-pharmacy', 'cordoba-private-pharmacy', 'بكالوريوس الصيدلة', 5, 4),
+  ('هندسة تقانة المعلومات', 'Information Technology', 'cordoba-private-information-technology', 'cordoba-private-engineering', 'بكالوريوس هندسة', 4, 3),
+  ('إدارة الأعمال', 'Business Administration', 'cordoba-private-business', 'cordoba-private-business-administration', 'بكالوريوس', 4, 2)
+) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
+join univ u on true
+join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
+on conflict (slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'cordoba-private')
+insert into public.admission_scores (year, university_id, college_id, major_id, certificate_type_id, admission_type, minimum_score, notes, is_published)
+select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (values
+  ('cordoba-private-medicine', 'cordoba-private-medicine', 'scientific', 'general', 1760, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('cordoba-private-pharmacy', 'cordoba-private-pharmacy', 'scientific', 'general', 1650, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('cordoba-private-information-technology', 'cordoba-private-engineering', 'scientific', 'general', 1430, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('cordoba-private-information-technology', 'cordoba-private-engineering', 'industrial', 'general', 1030, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('cordoba-private-information-technology', 'cordoba-private-engineering', 'vocational-it', 'general', 1001, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('cordoba-private-business', 'cordoba-private-business-administration', 'scientific', 'general', 1210, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('cordoba-private-business', 'cordoba-private-business-administration', 'commercial', 'general', 847, 'الحد الأدنى للقبول العام 2025-2026')
+) as v(major_slug, college_slug, cert_slug, adm, score, notes)
+join univ u on true
+join public.majors m on m.slug = v.major_slug
+join public.colleges c on c.id = m.college_id and c.slug = v.college_slug
+join public.certificates cert on cert.slug = v.cert_slug
+on conflict (year, university_id, college_id, major_id, certificate_type_id, admission_type) do update set minimum_score = excluded.minimum_score, is_published = true, notes = excluded.notes;
+
+-- University: shahbaa-private
+with univ as (select id from public.universities where slug = 'shahbaa-private')
+insert into public.colleges (university_id, name_ar, name_en, slug, is_active)
+select univ.id, v.name_ar, v.name_en, v.slug, true from (values
+  ('الطب البشري', 'Human Medicine', 'shahbaa-private-medicine'),
+  ('طب الأسنان', 'Dentistry', 'shahbaa-private-dentistry'),
+  ('الصيدلة', 'Pharmacy', 'shahbaa-private-pharmacy'),
+  ('الهندسة', 'Engineering', 'shahbaa-private-engineering'),
+  ('إدارة الأعمال', 'Business Administration', 'shahbaa-private-business-administration')
+) as v(name_ar, name_en, slug), univ
+on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'shahbaa-private')
+insert into public.majors (college_id, name_ar, name_en, slug, degree, study_duration_years, difficulty, is_active)
+select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, true from (values
+  ('الطب البشري', 'Human Medicine', 'shahbaa-private-medicine', 'shahbaa-private-medicine', 'بكالوريوس الطب', 6, 5),
+  ('طب الأسنان', 'Dentistry', 'shahbaa-private-dentistry', 'shahbaa-private-dentistry', 'بكالوريوس طب الأسنان', 5, 4),
+  ('الصيدلة', 'Pharmacy', 'shahbaa-private-pharmacy', 'shahbaa-private-pharmacy', 'بكالوريوس الصيدلة', 5, 4),
+  ('هندسة تقانة المعلومات', 'Information Technology', 'shahbaa-private-information-technology', 'shahbaa-private-engineering', 'بكالوريوس هندسة', 4, 3),
+  ('إدارة الأعمال', 'Business Administration', 'shahbaa-private-business', 'shahbaa-private-business-administration', 'بكالوريوس', 4, 2)
+) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
+join univ u on true
+join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
+on conflict (slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'shahbaa-private')
+insert into public.admission_scores (year, university_id, college_id, major_id, certificate_type_id, admission_type, minimum_score, notes, is_published)
+select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (values
+  ('shahbaa-private-medicine', 'shahbaa-private-medicine', 'scientific', 'general', 1760, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('shahbaa-private-dentistry', 'shahbaa-private-dentistry', 'scientific', 'general', 1650, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('shahbaa-private-pharmacy', 'shahbaa-private-pharmacy', 'scientific', 'general', 1650, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('shahbaa-private-information-technology', 'shahbaa-private-engineering', 'scientific', 'general', 1430, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('shahbaa-private-information-technology', 'shahbaa-private-engineering', 'industrial', 'general', 1030, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('shahbaa-private-information-technology', 'shahbaa-private-engineering', 'vocational-it', 'general', 1001, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('shahbaa-private-business', 'shahbaa-private-business-administration', 'scientific', 'general', 1210, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('shahbaa-private-business', 'shahbaa-private-business-administration', 'commercial', 'general', 847, 'الحد الأدنى للقبول العام 2025-2026')
+) as v(major_slug, college_slug, cert_slug, adm, score, notes)
+join univ u on true
+join public.majors m on m.slug = v.major_slug
+join public.colleges c on c.id = m.college_id and c.slug = v.college_slug
+join public.certificates cert on cert.slug = v.cert_slug
+on conflict (year, university_id, college_id, major_id, certificate_type_id, admission_type) do update set minimum_score = excluded.minimum_score, is_published = true, notes = excluded.notes;
+
+-- University: bilad-sham-private
+with univ as (select id from public.universities where slug = 'bilad-sham-private')
+insert into public.colleges (university_id, name_ar, name_en, slug, is_active)
+select univ.id, v.name_ar, v.name_en, v.slug, true from (values
+  ('الشريعة', 'Sharia', 'bilad-sham-private-sharia'),
+  ('التربية', 'Education', 'bilad-sham-private-education')
+) as v(name_ar, name_en, slug), univ
+on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'bilad-sham-private')
+insert into public.majors (college_id, name_ar, name_en, slug, degree, study_duration_years, difficulty, is_active)
+select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, true from (values
+  ('الشريعة الإسلامية', 'Islamic Sharia', 'bilad-sham-private-sharia', 'bilad-sham-private-sharia', 'إجازة في الشريعة', 4, 2),
+  ('اللغة العربية', 'Arabic Language', 'bilad-sham-private-arabic', 'bilad-sham-private-sharia', 'إجازة في الآداب', 4, 2),
+  ('معلم صف', 'Class Teacher', 'bilad-sham-private-class-teacher', 'bilad-sham-private-education', 'إجازة في التربية', 4, 2)
+) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
+join univ u on true
+join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
+on conflict (slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'bilad-sham-private')
+insert into public.admission_scores (year, university_id, college_id, major_id, certificate_type_id, admission_type, minimum_score, notes, is_published)
+select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (values
+  ('bilad-sham-private-sharia', 'bilad-sham-private-sharia', 'literary', 'general', 1050, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('bilad-sham-private-sharia', 'bilad-sham-private-sharia', 'sharia', 'general', 788, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('bilad-sham-private-arabic', 'bilad-sham-private-sharia', 'literary', 'general', 1000, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('bilad-sham-private-arabic', 'bilad-sham-private-sharia', 'sharia', 'general', 750, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('bilad-sham-private-class-teacher', 'bilad-sham-private-education', 'literary', 'general', 950, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('bilad-sham-private-class-teacher', 'bilad-sham-private-education', 'female', 'general', 665, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('bilad-sham-private-class-teacher', 'bilad-sham-private-education', 'sharia', 'general', 713, 'الحد الأدنى للقبول العام 2025-2026')
+) as v(major_slug, college_slug, cert_slug, adm, score, notes)
+join univ u on true
+join public.majors m on m.slug = v.major_slug
+join public.colleges c on c.id = m.college_id and c.slug = v.college_slug
+join public.certificates cert on cert.slug = v.cert_slug
+on conflict (year, university_id, college_id, major_id, certificate_type_id, admission_type) do update set minimum_score = excluded.minimum_score, is_published = true, notes = excluded.notes;
+
+-- University: arab-international-private
+with univ as (select id from public.universities where slug = 'arab-international-private')
+insert into public.colleges (university_id, name_ar, name_en, slug, is_active)
+select univ.id, v.name_ar, v.name_en, v.slug, true from (values
+  ('الطب البشري', 'Human Medicine', 'arab-international-private-medicine'),
+  ('طب الأسنان', 'Dentistry', 'arab-international-private-dentistry'),
+  ('الصيدلة', 'Pharmacy', 'arab-international-private-pharmacy'),
+  ('الهندسة', 'Engineering', 'arab-international-private-engineering'),
+  ('إدارة الأعمال', 'Business Administration', 'arab-international-private-business-administration')
+) as v(name_ar, name_en, slug), univ
+on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'arab-international-private')
+insert into public.majors (college_id, name_ar, name_en, slug, degree, study_duration_years, difficulty, is_active)
+select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, true from (values
+  ('الطب البشري', 'Human Medicine', 'arab-international-private-medicine', 'arab-international-private-medicine', 'بكالوريوس الطب', 6, 5),
+  ('طب الأسنان', 'Dentistry', 'arab-international-private-dentistry', 'arab-international-private-dentistry', 'بكالوريوس طب الأسنان', 5, 4),
+  ('الصيدلة', 'Pharmacy', 'arab-international-private-pharmacy', 'arab-international-private-pharmacy', 'بكالوريوس الصيدلة', 5, 4),
+  ('هندسة تقانة المعلومات', 'Information Technology', 'arab-international-private-information-technology', 'arab-international-private-engineering', 'بكالوريوس هندسة', 4, 3),
+  ('إدارة الأعمال', 'Business Administration', 'arab-international-private-business', 'arab-international-private-business-administration', 'بكالوريوس', 4, 2)
+) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
+join univ u on true
+join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
+on conflict (slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'arab-international-private')
+insert into public.admission_scores (year, university_id, college_id, major_id, certificate_type_id, admission_type, minimum_score, notes, is_published)
+select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (values
+  ('arab-international-private-medicine', 'arab-international-private-medicine', 'scientific', 'general', 1760, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('arab-international-private-dentistry', 'arab-international-private-dentistry', 'scientific', 'general', 1650, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('arab-international-private-pharmacy', 'arab-international-private-pharmacy', 'scientific', 'general', 1650, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('arab-international-private-information-technology', 'arab-international-private-engineering', 'scientific', 'general', 1430, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('arab-international-private-information-technology', 'arab-international-private-engineering', 'industrial', 'general', 1030, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('arab-international-private-information-technology', 'arab-international-private-engineering', 'vocational-it', 'general', 1001, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('arab-international-private-business', 'arab-international-private-business-administration', 'scientific', 'general', 1210, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('arab-international-private-business', 'arab-international-private-business-administration', 'commercial', 'general', 847, 'الحد الأدنى للقبول العام 2025-2026')
+) as v(major_slug, college_slug, cert_slug, adm, score, notes)
+join univ u on true
+join public.majors m on m.slug = v.major_slug
+join public.colleges c on c.id = m.college_id and c.slug = v.college_slug
+join public.certificates cert on cert.slug = v.cert_slug
+on conflict (year, university_id, college_id, major_id, certificate_type_id, admission_type) do update set minimum_score = excluded.minimum_score, is_published = true, notes = excluded.notes;
+
+-- University: arab-science-private
+with univ as (select id from public.universities where slug = 'arab-science-private')
+insert into public.colleges (university_id, name_ar, name_en, slug, is_active)
+select univ.id, v.name_ar, v.name_en, v.slug, true from (values
+  ('الصيدلة', 'Pharmacy', 'arab-science-private-pharmacy'),
+  ('الهندسة', 'Engineering', 'arab-science-private-engineering'),
+  ('إدارة الأعمال', 'Business Administration', 'arab-science-private-business-administration'),
+  ('الحقوق', 'Law', 'arab-science-private-law')
+) as v(name_ar, name_en, slug), univ
+on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'arab-science-private')
+insert into public.majors (college_id, name_ar, name_en, slug, degree, study_duration_years, difficulty, is_active)
+select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, true from (values
+  ('الصيدلة', 'Pharmacy', 'arab-science-private-pharmacy', 'arab-science-private-pharmacy', 'بكالوريوس الصيدلة', 5, 4),
+  ('هندسة تقانة المعلومات', 'Information Technology', 'arab-science-private-information-technology', 'arab-science-private-engineering', 'بكالوريوس هندسة', 4, 3),
+  ('إدارة الأعمال', 'Business Administration', 'arab-science-private-business', 'arab-science-private-business-administration', 'بكالوريوس', 4, 2),
+  ('الحقوق', 'Law', 'arab-science-private-law', 'arab-science-private-law', 'إجازة في الحقوق', 4, 3)
+) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
+join univ u on true
+join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
+on conflict (slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'arab-science-private')
+insert into public.admission_scores (year, university_id, college_id, major_id, certificate_type_id, admission_type, minimum_score, notes, is_published)
+select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (values
+  ('arab-science-private-pharmacy', 'arab-science-private-pharmacy', 'scientific', 'general', 1650, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('arab-science-private-information-technology', 'arab-science-private-engineering', 'scientific', 'general', 1430, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('arab-science-private-information-technology', 'arab-science-private-engineering', 'industrial', 'general', 1030, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('arab-science-private-information-technology', 'arab-science-private-engineering', 'vocational-it', 'general', 1001, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('arab-science-private-business', 'arab-science-private-business-administration', 'scientific', 'general', 1210, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('arab-science-private-business', 'arab-science-private-business-administration', 'commercial', 'general', 847, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('arab-science-private-law', 'arab-science-private-law', 'literary', 'general', 1100, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('arab-science-private-law', 'arab-science-private-law', 'commercial', 'general', 770, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('arab-science-private-law', 'arab-science-private-law', 'sharia', 'general', 825, 'الحد الأدنى للقبول العام 2025-2026')
+) as v(major_slug, college_slug, cert_slug, adm, score, notes)
+join univ u on true
+join public.majors m on m.slug = v.major_slug
+join public.colleges c on c.id = m.college_id and c.slug = v.college_slug
+join public.certificates cert on cert.slug = v.cert_slug
+on conflict (year, university_id, college_id, major_id, certificate_type_id, admission_type) do update set minimum_score = excluded.minimum_score, is_published = true, notes = excluded.notes;
+
+-- University: aastmt-syria
+with univ as (select id from public.universities where slug = 'aastmt-syria')
+insert into public.colleges (university_id, name_ar, name_en, slug, is_active)
+select univ.id, v.name_ar, v.name_en, v.slug, true from (values
+  ('الهندسة البحرية', 'Marine Engineering', 'aastmt-syria-marine-engineering'),
+  ('إدارة الأعمال', 'Business Administration', 'aastmt-syria-business-administration'),
+  ('الاقتصاد', 'Economics', 'aastmt-syria-economics')
+) as v(name_ar, name_en, slug), univ
+on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'aastmt-syria')
+insert into public.majors (college_id, name_ar, name_en, slug, degree, study_duration_years, difficulty, is_active)
+select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, true from (values
+  ('تقنيات الميكانيك', 'Mechanical Technology', 'aastmt-syria-marine-mechanical', 'aastmt-syria-marine-engineering', 'دبلوم تقاني', 2, 2),
+  ('إدارة الأعمال', 'Business Administration', 'aastmt-syria-business', 'aastmt-syria-business-administration', 'بكالوريوس', 4, 2),
+  ('الاقتصاد', 'Economics', 'aastmt-syria-economics', 'aastmt-syria-economics', 'بكالوريوس', 4, 2)
+) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
+join univ u on true
+join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
+on conflict (slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'aastmt-syria')
+insert into public.admission_scores (year, university_id, college_id, major_id, certificate_type_id, admission_type, minimum_score, notes, is_published)
+select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (values
+  ('aastmt-syria-marine-mechanical', 'aastmt-syria-marine-engineering', 'scientific', 'general', 1430, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aastmt-syria-marine-mechanical', 'aastmt-syria-marine-engineering', 'industrial', 'general', 1030, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aastmt-syria-business', 'aastmt-syria-business-administration', 'scientific', 'general', 1210, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aastmt-syria-business', 'aastmt-syria-business-administration', 'commercial', 'general', 847, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aastmt-syria-economics', 'aastmt-syria-economics', 'literary', 'general', 1120, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('aastmt-syria-economics', 'aastmt-syria-economics', 'commercial', 'general', 784, 'الحد الأدنى للقبول العام 2025-2026')
+) as v(major_slug, college_slug, cert_slug, adm, score, notes)
+join univ u on true
+join public.majors m on m.slug = v.major_slug
+join public.colleges c on c.id = m.college_id and c.slug = v.college_slug
+join public.certificates cert on cert.slug = v.cert_slug
+on conflict (year, university_id, college_id, major_id, certificate_type_id, admission_type) do update set minimum_score = excluded.minimum_score, is_published = true, notes = excluded.notes;
+
+-- University: antakya-private
+with univ as (select id from public.universities where slug = 'antakya-private')
+insert into public.colleges (university_id, name_ar, name_en, slug, is_active)
+select univ.id, v.name_ar, v.name_en, v.slug, true from (values
+  ('الصيدلة', 'Pharmacy', 'antakya-private-pharmacy'),
+  ('الهندسة', 'Engineering', 'antakya-private-engineering'),
+  ('إدارة الأعمال', 'Business Administration', 'antakya-private-business-administration'),
+  ('الحقوق', 'Law', 'antakya-private-law')
+) as v(name_ar, name_en, slug), univ
+on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'antakya-private')
+insert into public.majors (college_id, name_ar, name_en, slug, degree, study_duration_years, difficulty, is_active)
+select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, true from (values
+  ('الصيدلة', 'Pharmacy', 'antakya-private-pharmacy', 'antakya-private-pharmacy', 'بكالوريوس الصيدلة', 5, 4),
+  ('هندسة تقانة المعلومات', 'Information Technology', 'antakya-private-information-technology', 'antakya-private-engineering', 'بكالوريوس هندسة', 4, 3),
+  ('إدارة الأعمال', 'Business Administration', 'antakya-private-business', 'antakya-private-business-administration', 'بكالوريوس', 4, 2),
+  ('الحقوق', 'Law', 'antakya-private-law', 'antakya-private-law', 'إجازة في الحقوق', 4, 3)
+) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
+join univ u on true
+join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
+on conflict (slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'antakya-private')
+insert into public.admission_scores (year, university_id, college_id, major_id, certificate_type_id, admission_type, minimum_score, notes, is_published)
+select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (values
+  ('antakya-private-pharmacy', 'antakya-private-pharmacy', 'scientific', 'general', 1650, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('antakya-private-information-technology', 'antakya-private-engineering', 'scientific', 'general', 1430, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('antakya-private-information-technology', 'antakya-private-engineering', 'industrial', 'general', 1030, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('antakya-private-information-technology', 'antakya-private-engineering', 'vocational-it', 'general', 1001, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('antakya-private-business', 'antakya-private-business-administration', 'scientific', 'general', 1210, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('antakya-private-business', 'antakya-private-business-administration', 'commercial', 'general', 847, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('antakya-private-law', 'antakya-private-law', 'literary', 'general', 1100, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('antakya-private-law', 'antakya-private-law', 'commercial', 'general', 770, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('antakya-private-law', 'antakya-private-law', 'sharia', 'general', 825, 'الحد الأدنى للقبول العام 2025-2026')
+) as v(major_slug, college_slug, cert_slug, adm, score, notes)
+join univ u on true
+join public.majors m on m.slug = v.major_slug
+join public.colleges c on c.id = m.college_id and c.slug = v.college_slug
+join public.certificates cert on cert.slug = v.cert_slug
+on conflict (year, university_id, college_id, major_id, certificate_type_id, admission_type) do update set minimum_score = excluded.minimum_score, is_published = true, notes = excluded.notes;
+
+-- University: hiast
+with univ as (select id from public.universities where slug = 'hiast')
+insert into public.colleges (university_id, name_ar, name_en, slug, is_active)
+select univ.id, v.name_ar, v.name_en, v.slug, true from (values
+  ('التأهيل الهندسي', 'Engineering Cycle', 'hiast-engineering-cycle')
+) as v(name_ar, name_en, slug), univ
+on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'hiast')
+insert into public.majors (college_id, name_ar, name_en, slug, degree, study_duration_years, difficulty, is_active)
+select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, true from (values
+  ('هندسة الاتصالات', 'Communication Engineering', 'hiast-communication-engineering', 'hiast-engineering-cycle', 'بكالوريوس هندسة', 5, 4),
+  ('الهندسة المعلوماتية', 'Software Engineering', 'hiast-it-engineering', 'hiast-engineering-cycle', 'بكالوريوس هندسة', 5, 4),
+  ('هندسة النظم الإلكترونية', 'Electronic Systems Engineering', 'hiast-electronic-systems', 'hiast-engineering-cycle', 'بكالوريوس هندسة', 5, 4),
+  ('هندسة الميكاترونكس', 'Mechatronics Engineering', 'hiast-mechatronics', 'hiast-engineering-cycle', 'بكالوريوس هندسة', 5, 4),
+  ('هندسة الطيران', 'Aeronautical Engineering', 'hiast-aeronautics', 'hiast-engineering-cycle', 'بكالوريوس هندسة', 5, 5),
+  ('علوم وهندسة المواد', 'Materials Science and Engineering', 'hiast-materials', 'hiast-engineering-cycle', 'بكالوريوس هندسة', 5, 4)
+) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
+join univ u on true
+join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
+on conflict (slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'hiast')
+insert into public.admission_scores (year, university_id, college_id, major_id, certificate_type_id, admission_type, minimum_score, notes, is_published)
+select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (values
+  ('hiast-communication-engineering', 'hiast-engineering-cycle', 'scientific', 'general', 2200, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hiast-it-engineering', 'hiast-engineering-cycle', 'scientific', 'general', 2190, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hiast-it-engineering', 'hiast-engineering-cycle', 'industrial', 'general', 1577, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hiast-it-engineering', 'hiast-engineering-cycle', 'vocational-it', 'general', 1533, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hiast-electronic-systems', 'hiast-engineering-cycle', 'scientific', 'general', 2180, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hiast-mechatronics', 'hiast-engineering-cycle', 'scientific', 'general', 2170, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hiast-mechatronics', 'hiast-engineering-cycle', 'industrial', 'general', 1562, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hiast-aeronautics', 'hiast-engineering-cycle', 'scientific', 'general', 2180, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('hiast-materials', 'hiast-engineering-cycle', 'scientific', 'general', 2150, 'الحد الأدنى للقبول العام 2025-2026')
+) as v(major_slug, college_slug, cert_slug, adm, score, notes)
+join univ u on true
+join public.majors m on m.slug = v.major_slug
+join public.colleges c on c.id = m.college_id and c.slug = v.college_slug
+join public.certificates cert on cert.slug = v.cert_slug
+on conflict (year, university_id, college_id, major_id, certificate_type_id, admission_type) do update set minimum_score = excluded.minimum_score, is_published = true, notes = excluded.notes;
+
+-- University: ina
+with univ as (select id from public.universities where slug = 'ina')
+insert into public.colleges (university_id, name_ar, name_en, slug, is_active)
+select univ.id, v.name_ar, v.name_en, v.slug, true from (values
+  ('الإدارة العامة', 'Public Administration', 'ina-public-administration')
+) as v(name_ar, name_en, slug), univ
+on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'ina')
+insert into public.majors (college_id, name_ar, name_en, slug, degree, study_duration_years, difficulty, is_active)
+select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, true from (values
+  ('الإدارة العامة', 'Public Administration', 'ina-public-admin', 'ina-public-administration', 'دبلوم عالي', 2, 3)
+) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
+join univ u on true
+join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
+on conflict (slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'ina')
+insert into public.admission_scores (year, university_id, college_id, major_id, certificate_type_id, admission_type, minimum_score, notes, is_published)
+select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (values
+  ('ina-public-admin', 'ina-public-administration', 'literary', 'general', 1200, 'الحد الأدنى للقبول العام 2025-2026')
+) as v(major_slug, college_slug, cert_slug, adm, score, notes)
+join univ u on true
+join public.majors m on m.slug = v.major_slug
+join public.colleges c on c.id = m.college_id and c.slug = v.college_slug
+join public.certificates cert on cert.slug = v.cert_slug
+on conflict (year, university_id, college_id, major_id, certificate_type_id, admission_type) do update set minimum_score = excluded.minimum_score, is_published = true, notes = excluded.notes;
+
+-- University: hiba
+with univ as (select id from public.universities where slug = 'hiba')
+insert into public.colleges (university_id, name_ar, name_en, slug, is_active)
+select univ.id, v.name_ar, v.name_en, v.slug, true from (values
+  ('الإدارة العامة', 'Public Administration', 'hiba-public-administration')
+) as v(name_ar, name_en, slug), univ
+on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'hiba')
+insert into public.majors (college_id, name_ar, name_en, slug, degree, study_duration_years, difficulty, is_active)
+select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, true from (values
+  ('الإدارة العامة', 'Public Administration', 'hiba-hiba-public-admin', 'hiba-public-administration', 'دبلوم عالي', 2, 3)
+) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
+join univ u on true
+join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
+on conflict (slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'hiba')
+insert into public.admission_scores (year, university_id, college_id, major_id, certificate_type_id, admission_type, minimum_score, notes, is_published)
+select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (values
+  ('hiba-hiba-public-admin', 'hiba-public-administration', 'literary', 'general', 1150, 'الحد الأدنى للقبول العام 2025-2026')
+) as v(major_slug, college_slug, cert_slug, adm, score, notes)
+join univ u on true
+join public.majors m on m.slug = v.major_slug
+join public.colleges c on c.id = m.college_id and c.slug = v.college_slug
+join public.certificates cert on cert.slug = v.cert_slug
+on conflict (year, university_id, college_id, major_id, certificate_type_id, admission_type) do update set minimum_score = excluded.minimum_score, is_published = true, notes = excluded.notes;
+
+-- University: dramatic-arts
+with univ as (select id from public.universities where slug = 'dramatic-arts')
+insert into public.colleges (university_id, name_ar, name_en, slug, is_active)
+select univ.id, v.name_ar, v.name_en, v.slug, true from (values
+  ('الفنون المسرحية', 'Theatre Arts', 'dramatic-arts-theatre-arts')
+) as v(name_ar, name_en, slug), univ
+on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'dramatic-arts')
+insert into public.majors (college_id, name_ar, name_en, slug, degree, study_duration_years, difficulty, is_active)
+select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, true from (values
+  ('التمثيل', 'Acting', 'dramatic-arts-acting', 'dramatic-arts-theatre-arts', 'بكالوريوس', 4, 4),
+  ('الإخراج المسرحي', 'Theatre Directing', 'dramatic-arts-theatre-directing', 'dramatic-arts-theatre-arts', 'بكالوريوس', 4, 4)
+) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
+join univ u on true
+join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
+on conflict (slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'dramatic-arts')
+insert into public.admission_scores (year, university_id, college_id, major_id, certificate_type_id, admission_type, minimum_score, notes, is_published)
+select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (values
+  ('dramatic-arts-acting', 'dramatic-arts-theatre-arts', 'literary', 'general', 1000, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('dramatic-arts-theatre-directing', 'dramatic-arts-theatre-arts', 'literary', 'general', 1000, 'الحد الأدنى للقبول العام 2025-2026')
+) as v(major_slug, college_slug, cert_slug, adm, score, notes)
+join univ u on true
+join public.majors m on m.slug = v.major_slug
+join public.colleges c on c.id = m.college_id and c.slug = v.college_slug
+join public.certificates cert on cert.slug = v.cert_slug
+on conflict (year, university_id, college_id, major_id, certificate_type_id, admission_type) do update set minimum_score = excluded.minimum_score, is_published = true, notes = excluded.notes;
+
+-- University: cinema
+with univ as (select id from public.universities where slug = 'cinema')
+insert into public.colleges (university_id, name_ar, name_en, slug, is_active)
+select univ.id, v.name_ar, v.name_en, v.slug, true from (values
+  ('الفنون السينمائية', 'Cinematic Arts', 'cinema-cinematic-arts')
+) as v(name_ar, name_en, slug), univ
+on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'cinema')
+insert into public.majors (college_id, name_ar, name_en, slug, degree, study_duration_years, difficulty, is_active)
+select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, true from (values
+  ('الإخراج السينمائي', 'Cinema Directing', 'cinema-cinema-directing', 'cinema-cinematic-arts', 'بكالوريوس', 4, 4),
+  ('النقد الفني', 'Art Criticism', 'cinema-art-criticism', 'cinema-cinematic-arts', 'بكالوريوس', 4, 3)
+) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
+join univ u on true
+join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
+on conflict (slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'cinema')
+insert into public.admission_scores (year, university_id, college_id, major_id, certificate_type_id, admission_type, minimum_score, notes, is_published)
+select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (values
+  ('cinema-cinema-directing', 'cinema-cinematic-arts', 'literary', 'general', 1000, 'الحد الأدنى للقبول العام 2025-2026'),
+  ('cinema-art-criticism', 'cinema-cinematic-arts', 'literary', 'general', 950, 'الحد الأدنى للقبول العام 2025-2026')
+) as v(major_slug, college_slug, cert_slug, adm, score, notes)
+join univ u on true
+join public.majors m on m.slug = v.major_slug
+join public.colleges c on c.id = m.college_id and c.slug = v.college_slug
+join public.certificates cert on cert.slug = v.cert_slug
+on conflict (year, university_id, college_id, major_id, certificate_type_id, admission_type) do update set minimum_score = excluded.minimum_score, is_published = true, notes = excluded.notes;
+
+-- University: population
+with univ as (select id from public.universities where slug = 'population')
+insert into public.colleges (university_id, name_ar, name_en, slug, is_active)
+select univ.id, v.name_ar, v.name_en, v.slug, true from (values
+  ('الدراسات السكانية', 'Population Studies', 'population-population-studies')
+) as v(name_ar, name_en, slug), univ
+on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'population')
+insert into public.majors (college_id, name_ar, name_en, slug, degree, study_duration_years, difficulty, is_active)
+select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, true from (values
+  ('الدراسات السكانية', 'Population Studies', 'population-population-studies', 'population-population-studies', 'دبلوم عالي', 2, 3)
+) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
+join univ u on true
+join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
+on conflict (slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'population')
+insert into public.admission_scores (year, university_id, college_id, major_id, certificate_type_id, admission_type, minimum_score, notes, is_published)
+select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (values
+  ('population-population-studies', 'population-population-studies', 'literary', 'general', 1000, 'الحد الأدنى للقبول العام 2025-2026')
+) as v(major_slug, college_slug, cert_slug, adm, score, notes)
+join univ u on true
+join public.majors m on m.slug = v.major_slug
+join public.colleges c on c.id = m.college_id and c.slug = v.college_slug
+join public.certificates cert on cert.slug = v.cert_slug
+on conflict (year, university_id, college_id, major_id, certificate_type_id, admission_type) do update set minimum_score = excluded.minimum_score, is_published = true, notes = excluded.notes;
+
+-- University: marine-research
+with univ as (select id from public.universities where slug = 'marine-research')
+insert into public.colleges (university_id, name_ar, name_en, slug, is_active)
+select univ.id, v.name_ar, v.name_en, v.slug, true from (values
+  ('البحوث البحرية', 'Marine Research', 'marine-research-marine-research')
+) as v(name_ar, name_en, slug), univ
+on conflict (university_id, slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'marine-research')
+insert into public.majors (college_id, name_ar, name_en, slug, degree, study_duration_years, difficulty, is_active)
+select c.id, v.name_ar, v.name_en, v.slug, v.degree, v.duration, v.difficulty, true from (values
+  ('العلوم البحرية', 'Marine Sciences', 'marine-research-marine-sciences', 'marine-research-marine-research', 'بكالوريوس', 4, 3)
+) as v(name_ar, name_en, slug, college_slug, degree, duration, difficulty)
+join univ u on true
+join public.colleges c on c.university_id = u.id and c.slug = v.college_slug
+on conflict (slug) do update set name_ar = excluded.name_ar, is_active = true;
+
+with univ as (select id from public.universities where slug = 'marine-research')
+insert into public.admission_scores (year, university_id, college_id, major_id, certificate_type_id, admission_type, minimum_score, notes, is_published)
+select 2025, u.id, c.id, m.id, cert.id, v.adm, v.score, v.notes, true from (values
+  ('marine-research-marine-sciences', 'marine-research-marine-research', 'scientific', 'general', 1500, 'الحد الأدنى للقبول العام 2025-2026')
 ) as v(major_slug, college_slug, cert_slug, adm, score, notes)
 join univ u on true
 join public.majors m on m.slug = v.major_slug
