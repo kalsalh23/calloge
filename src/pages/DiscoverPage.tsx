@@ -32,9 +32,6 @@ const CERT_MAX_SCORE: Record<string, number> = {
   'vocational-it': 1600,
 }
 
-// Certificates that currently have published admission-score data.
-const CERTS_WITH_DATA = ['scientific', 'literary']
-
 export default function DiscoverPage() {
   const { data: certificates } = useCertificates()
   const { data: governorates } = useGovernorates()
@@ -91,7 +88,6 @@ export default function DiscoverPage() {
   )
 
   const maxScore = selectedCertificate ? (CERT_MAX_SCORE[selectedCertificate.slug] ?? 2200) : 2200
-  const certHasData = selectedCertificate ? CERTS_WITH_DATA.includes(selectedCertificate.slug) : true
 
   // Clamp the score when switching to a certificate with a smaller maximum.
   useEffect(() => {
@@ -314,13 +310,9 @@ export default function DiscoverPage() {
                     <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-accent-burgundy/10 text-3xl text-accent-burgundy">
                       <FaUniversity />
                     </span>
-                    <h3 className="mt-5 text-xl font-extrabold text-ink-dark">
-                      {certHasData ? 'لا توجد نتائج مطابقة' : 'لا توجد بيانات لهذه الشهادة بعد'}
-                    </h3>
+                    <h3 className="mt-5 text-xl font-extrabold text-ink-dark">لا توجد نتائج مطابقة</h3>
                     <p className="mt-2 text-sm leading-relaxed text-text-muted">
-                      {certHasData
-                        ? 'لم نجد تخصصات تناسب معدلك لهذه الشهادة في هذه السنة. جرّب تغيير نوع الجامعة أو الاطلاع على مفاضلات أخرى.'
-                        : 'بيانات المفاضلة المتوفرة حالياً تغطي الفرعين العلمي والأدبي فقط. ستُضاف باقي أنواع الشهادات عند نشر الحدود الدنيا الرسمية.'}
+                      لم نجد تخصصات تناسب معدلك لهذه الشهادة في هذه السنة. جرّب تغيير نوع الجامعة أو الاطلاع على مفاضلات أخرى.
                     </p>
                     <Button
                       variant="ghost"

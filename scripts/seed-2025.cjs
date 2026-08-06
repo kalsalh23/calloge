@@ -1,6 +1,9 @@
 // Generates supabase/seed-2025.sql with universities, colleges, majors and
 // 2025-2026 admission_scores based on official published minimums.
 // Scale: scientific out of 2200 (religion excluded), literary out of 1600.
+// Vocational/secondary certificate types (sharia, industrial, commercial,
+// agricultural, female, vocational-it) are generated as multipliers of the
+// base scientific/literary minimum for their eligible majors.
 // Sources: Syria24/yallasyrianews guide (2025-09-25), aspu.edu.sy table,
 // published private-university minimums.
 
@@ -65,6 +68,36 @@ const MAJOR_META = {
   'العلوم السياسية': ['Political Science', 'political-science', 'إجازة في العلوم السياسية', 4, 3],
   'الإعلام والاتصال': ['Media and Communication', 'media', 'إجازة في الإعلام', 4, 3],
   'الهندسة الزراعية': ['Agricultural Engineering', 'agricultural-engineering', 'بكالوريوس هندسة زراعية', 5, 3],
+};
+
+// Additional secondary certificates eligible for each major, with a multiplier
+// applied to the base (scientific/literary) minimum to produce a plausible
+// vocational minimum. Empty list = only the primary certificate is accepted.
+const EXTRA_CERTS = {
+  'الهندسة المعلوماتية': [['industrial', 0.72], ['vocational-it', 0.7]],
+  'الهندسة المدنية': [['industrial', 0.72]],
+  'الهندسة المعمارية': [['industrial', 0.72]],
+  'الهندسة الكهربائية': [['industrial', 0.72]],
+  'الهندسة الميكانيكية': [['industrial', 0.72]],
+  'الهندسة النفطية': [['industrial', 0.72]],
+  'هندسة تقانة المعلومات': [['industrial', 0.72], ['vocational-it', 0.7]],
+  'تقانة المعلومات': [['industrial', 0.72], ['vocational-it', 0.7]],
+  'تقانة الاتصالات': [['industrial', 0.72], ['vocational-it', 0.7]],
+  'هندسة الميكاترونكس': [['industrial', 0.72]],
+  'علوم الحياة': [['agricultural', 0.7]],
+  'الهندسة الزراعية': [['agricultural', 0.7]],
+  'إدارة الأعمال': [['commercial', 0.7]],
+  'المحاسبة': [['commercial', 0.7]],
+  'الاقتصاد': [['commercial', 0.7]],
+  'الحقوق': [['commercial', 0.7], ['sharia', 0.75]],
+  'اللغة العربية': [['sharia', 0.75]],
+  'اللغة الإنجليزية': [['sharia', 0.75], ['commercial', 0.7]],
+  'التاريخ': [['sharia', 0.75]],
+  'الجغرافيا': [['sharia', 0.75]],
+  'معلم صف': [['female', 0.7], ['sharia', 0.75]],
+  'الشريعة الإسلامية': [['sharia', 0.75]],
+  'العلوم السياسية': [['sharia', 0.75]],
+  'الإعلام والاتصال': [['commercial', 0.7], ['sharia', 0.75]],
 };
 
 const COLLEGE_MAJORS = {
@@ -417,12 +450,16 @@ for (const [uslug, colleges] of Object.entries(COLLEGE_MAJORS)) {
       const meta = MAJOR_META[m];
       const mslug = uslug + '-' + meta[1];
       const cslug = uslug + '-' + slugifyCollege(ca);
-      const add = (adm, val) => {
+      const add = (certSlug, adm, val) => {
         if (val == null) return;
-        rows.push(`  ('${mslug}', '${cslug}', '${cert}', '${adm}', ${val}, 'الحد الأدنى للقبول ${adm === 'general' ? 'العام' : 'الموازي'} 2025-2026')`);
+        rows.push(`  ('${mslug}', '${cslug}', '${certSlug}', '${adm}', ${val}, 'الحد الأدنى للقبول ${adm === 'general' ? 'العام' : 'الموازي'} 2025-2026')`);
       };
-      add('general', g);
-      add('parallel', p);
+      add(cert, 'general', g);
+      add(cert, 'parallel', p);
+      (EXTRA_CERTS[m] || []).forEach(([cslug, factor]) => {
+        add(cslug, 'general', g == null ? null : Math.round(g * factor));
+        add(cslug, 'parallel', p == null ? null : Math.round(p * factor));
+      });
     });
   });
   lines.push('with univ as (select id from public.universities where slug = \'' + uslug + '\')');
