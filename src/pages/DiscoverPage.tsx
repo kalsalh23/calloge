@@ -39,20 +39,30 @@ export default function DiscoverPage() {
     return new Date().getFullYear()
   }, [years])
 
+  const defaultCertificateId = useMemo(() => {
+    if (certificates && certificates.length > 0) return certificates[0].id
+    return 1
+  }, [certificates])
+
+  const formValues = useMemo<DiscoverForm>(
+    () => ({
+      certificateId: defaultCertificateId,
+      score: 1900,
+      year: defaultYear,
+      governorateId: null,
+      universityType: 'all',
+      admissionType: 'all',
+    }),
+    [defaultCertificateId, defaultYear]
+  )
+
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm<DiscoverForm>({
-    defaultValues: {
-      certificateId: 1,
-      score: 1900,
-      year: defaultYear,
-      governorateId: null,
-      universityType: 'all',
-      admissionType: 'all',
-    },
+    values: formValues,
   })
 
   const watchCertificate = watch('certificateId')

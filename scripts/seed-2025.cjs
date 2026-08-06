@@ -349,6 +349,7 @@ lines.push(`insert into public.certificates (name_ar, name_en, slug, description
 lines.push(`  ('الثانوية العامة - الفرع العلمي', 'General Secondary - Scientific', 'scientific', 'شهادة الثانوية العامة - الفرع العلمي (المنهاج السوري)', 1, true),`);
 lines.push(`  ('الثانوية العامة - الفرع الأدبي', 'General Secondary - Literary', 'literary', 'شهادة الثانوية العامة - الفرع الأدبي (المنهاج السوري)', 2, true)`);
 lines.push(`on conflict (slug) do update set name_ar = excluded.name_ar, is_active = true;`);
+lines.push(`update public.certificates set is_active = false where slug not in ('scientific', 'literary');`);
 lines.push('');
 
 lines.push('insert into public.universities (name_ar, name_en, slug, type, governorate_id, founding_year, website, housing_available, is_active)');

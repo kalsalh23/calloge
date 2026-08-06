@@ -7,6 +7,7 @@ insert into public.certificates (name_ar, name_en, slug, description, sort_order
   ('الثانوية العامة - الفرع العلمي', 'General Secondary - Scientific', 'scientific', 'شهادة الثانوية العامة - الفرع العلمي (المنهاج السوري)', 1, true),
   ('الثانوية العامة - الفرع الأدبي', 'General Secondary - Literary', 'literary', 'شهادة الثانوية العامة - الفرع الأدبي (المنهاج السوري)', 2, true)
 on conflict (slug) do update set name_ar = excluded.name_ar, is_active = true;
+update public.certificates set is_active = false where slug not in ('scientific', 'literary');
 
 insert into public.universities (name_ar, name_en, slug, type, governorate_id, founding_year, website, housing_available, is_active)
 select v.name_ar, v.name_en, v.slug, v.type, g.id, v.founding_year, v.website, v.housing, true from (values

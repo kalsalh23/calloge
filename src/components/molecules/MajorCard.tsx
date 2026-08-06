@@ -92,7 +92,7 @@ export function MajorCard({
               </div>
               <div>
                 <p className="text-[11px] font-medium text-text-muted">الفرق</p>
-                <p className={`text-sm font-bold ${eligible ? 'text-emerald-600' : 'text-red-600'}`}>
+                <p className={`text-sm font-bold ${eligible ? 'text-emerald-400' : 'text-red-400'}`}>
                   {diff !== null && diff >= 0 ? `+${formatNumber(diff, 2)}` : formatNumber(diff, 2)}
                 </p>
               </div>
