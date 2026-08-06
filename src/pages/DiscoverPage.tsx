@@ -20,16 +20,16 @@ interface DiscoverForm {
   admissionType: AdmissionType | 'all'
 }
 
-// Maximum total score per secondary certificate (2025 scale).
+// Maximum total score per secondary certificate (official 2025-2026 scale).
 const CERT_MAX_SCORE: Record<string, number> = {
-  scientific: 2200,
-  literary: 1600,
-  sharia: 1600,
-  industrial: 1600,
-  commercial: 1600,
-  agricultural: 1600,
-  female: 1600,
-  'vocational-it': 1600,
+  scientific: 2400,
+  literary: 2200,
+  sharia: 4400,
+  industrial: 4300,
+  commercial: 4400,
+  agricultural: 4300,
+  female: 4300,
+  'vocational-it': 4300,
 }
 
 export default function DiscoverPage() {
@@ -87,7 +87,7 @@ export default function DiscoverPage() {
     [certificates, watchCertificate]
   )
 
-  const maxScore = selectedCertificate ? (CERT_MAX_SCORE[selectedCertificate.slug] ?? 2200) : 2200
+  const maxScore = selectedCertificate ? (CERT_MAX_SCORE[selectedCertificate.slug] ?? 2400) : 2400
 
   // Clamp the score when switching to a certificate with a smaller maximum.
   useEffect(() => {

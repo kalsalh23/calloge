@@ -1,13 +1,24 @@
 // Generates supabase/seed-2025.sql with universities, colleges, majors and
 // 2025-2026 admission_scores based on official published minimums.
-// Scale: scientific out of 2200 (religion excluded), literary out of 1600.
-// Vocational/secondary certificate types (sharia, industrial, commercial,
-// agricultural, female, vocational-it) are generated as multipliers of the
-// base scientific/literary minimum for their eligible majors.
-// Sources: Syria24/yallasyrianews guide (2025-09-25), aspu.edu.sy table,
-// published private-university minimums.
+// Official max totals (2025-2026 مفاضلة, after folding religion + one language):
+//   scientific 2400, literary 2200, commercial 4400, industrial 4300,
+//   agricultural 4300, female 4300, vocational-it 4300, sharia 4400.
+// Sources: mohe/syria24 admission guide (2025-09-25), aspu.edu.sy, au.edu.sy,
+// jude.edu.sy, manara.edu.sy, ebla.edu.sy published tables.
 
 const fs = require('fs');
+
+// Maximum total score per secondary certificate (official 2025-2026 scale).
+const CERT_SCALES = {
+  scientific: 2400,
+  literary: 2200,
+  sharia: 4400,
+  industrial: 4300,
+  commercial: 4400,
+  agricultural: 4300,
+  female: 4300,
+  'vocational-it': 4300,
+};
 
 const GOV = {
   damascus: 'دمشق', aleppo: 'حلب', homs: 'حمص', hama: 'حماة',
@@ -930,15 +941,20 @@ for (const [uslug, collegesBase] of Object.entries(COLLEGE_MAJORS)) {
       const meta = MAJOR_META[m];
       const mslugF = uslug + '-' + (mslug || meta[1]);
       const cslug = uslug + '-' + slugifyCollege(ca);
+      const baseScale = CERT_SCALES[cert] || 2400;
       const add = (certSlug, adm, val) => {
         if (val == null) return;
         rows.push(`  ('${mslugF}', '${cslug}', '${certSlug}', '${adm}', ${val}, 'الحد الأدنى للقبول ${adm === 'general' ? 'العام' : 'الموازي'} 2025-2026')`);
       };
       add(cert, 'general', g);
       add(cert, 'parallel', p);
-      (EXTRA_CERTS[m] || []).forEach(([cslug, factor]) => {
-        add(cslug, 'general', g == null ? null : Math.round(g * factor));
-        add(cslug, 'parallel', p == null ? null : Math.round(p * factor));
+      (EXTRA_CERTS[m] || []).forEach(([extraSlug, factor]) => {
+        // Convert the base minimum onto the extra certificate's own scale,
+        // preserving the same percentage point and applying the cert ratio.
+        const scale = CERT_SCALES[extraSlug] || 2400;
+        const conv = (v) => (v == null ? null : Math.round((v / baseScale) * scale * factor));
+        add(extraSlug, 'general', conv(g));
+        add(extraSlug, 'parallel', conv(p));
       });
     });
   });
